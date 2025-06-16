@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from "./components/Home";
 import Location from "./components/Location";
+import Articles from "./components/Articles";
 import { ApiRequests } from './core/ApiRequests'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -27,6 +28,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/location" element={<Location />} />
+      <Route path="/articles" element={<Articles />} />
     </Routes>
     )
 }
