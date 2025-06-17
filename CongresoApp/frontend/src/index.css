@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
-:root {
+/* se Aplica a toda la pantalla, Fuera de los componentes React */
+
+html, body {
+  @apply bg-gray-300;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -68,3 +77,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+ */
