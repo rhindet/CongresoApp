@@ -1,9 +1,10 @@
 // import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { ApiRequests } from './core/ApiRequests'
 import Home from "./components/Home";
 import Location from "./components/Location";
 import Articles from "./components/Articles";
-import { ApiRequests } from './core/ApiRequests'
+import Login from "./components/Login";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -24,6 +25,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/location" element={<Location />} />
       <Route path="/articles" element={<Articles />} />
     </Routes>
