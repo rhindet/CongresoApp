@@ -1,31 +1,15 @@
 // import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { ApiRequests } from './core/ApiRequests'
+import Inicio from "./components/Inicio";
 import Home from "./components/Home";
 import Location from "./components/Location";
 import Articles from "./components/Articles";
-import Login from "./components/Login";
 
-function App() {
-  // const [count, setCount] = useState(0)
-  // const [loginResult, setLoginResult] = useState(null)  // estado para resultado login
-  // const api = new ApiRequests() // instancia de ApiRequests
-
-  // // Función para llamar login y guardar resultado
-  // const handleLogin = async () => {
-  //   try {
-  //     const result = await api.login('usuario123')
-  //     setLoginResult(result)
-  //   } catch (error) {
-  //     setLoginResult({ error: error.message })
-  //   }
-  // }
-
-        
+function App() {      
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Inicio />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/location" element={<Location />} />
       <Route path="/articles" element={<Articles />} />
     </Routes>
