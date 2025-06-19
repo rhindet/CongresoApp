@@ -17,13 +17,14 @@ function Inicio() {
       <div className='w-full md:w-1/2 flex flex-col items-center text-center space-y-4'>
         <p className='text-xl md:text-3xl font-bold mt-1 text-[#014480]'>
           9-10 de
-          <span className="text-yellow-500 ml-1.5">Octubre</span>
+          <span className="text-yellow-500 ml-1.5 mr-1.5">Octubre</span>
+          2025
         </p>
       </div>
 
       {/* Imagen central */}
       <div className="md:hidden mb-4">
-        <img src={confevents} alt="Conferences Icon" className="w-full max-w-[200px] mx-auto md:w-50" />
+        <img src={confevents} alt="Conferences Icon" className="w-full max-w-[300px] mx-auto md:w-50" />
       </div>
 
       {/* Botones */}

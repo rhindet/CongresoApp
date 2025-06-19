@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
-import { BellIcon, CalendarDaysIcon, RectangleGroupIcon,  } from '@heroicons/react/24/solid'
+import { BellIcon, CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon} from '@heroicons/react/24/solid'
 import logo from '../assets/logo.png'
 import img1 from '../assets/img1-carrusel.jpg'
 import img2 from '../assets/img2-carrusel.jpg'
@@ -62,21 +62,21 @@ export default function Home() {
 
                 {/* Grid */}
                 <div className="grid grid-cols-2 gap-4 w-full max-w-s md:max-w-2xl text-center mt-6">
-                    <button className="bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-5 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                    <button className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
                         <CalendarDaysIcon className='w-20' />
                         Horarios
                     </button>
-                    <button className="bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-5 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                    <button className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
                         <RectangleGroupIcon className='w-20' />
                         Categorías
                     </button>
-                    <button className="bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-5 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
-                        <CalendarDaysIcon className='w-20' />
+                    <button className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                        <MapIcon className='w-20' />
                         Mapa
                     </button>
-                    <button className="bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-5 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
-                        <CalendarDaysIcon className='w-20' />
-                        Info
+                    <button className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                        <InformationCircleIcon className='w-20' />
+                        Horarios
                     </button>
                 </div>
 
