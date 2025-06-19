@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { BellIcon } from '@heroicons/react/24/solid'
 
@@ -56,7 +56,7 @@ const scheduleData = [
   {
     titulo: 'Conferencia Final',
     hora: '11:00',
-    doctor: 'Dr. Chespín',
+    doctor: 'Dr. Daniela Barajas',
     fecha: '9',
   },
   {
@@ -70,6 +70,7 @@ const scheduleData = [
 export default function Schedule() {
   //Estado para la pestaña (9 o 10 octubre)
   const [day, setDay] = useState('9');
+  const navigate = useNavigate();
 
   //Filtra las platicas del día seleccionado
   const talksToday = scheduleData.filter((t) => t.fecha === day);
@@ -92,7 +93,6 @@ export default function Schedule() {
       {/* CONTENIDO */}
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
 
-        {/* Botones selector de día */}
         <div className="flex justify-center gap-4 mt-1">
           {['9', '10'].map((d) => (
             <button
@@ -107,29 +107,37 @@ export default function Schedule() {
           ))}
         </div>
 
-        {/* Lista de conferencias */}
         {talksToday.map((talk, index) => (
-          <Link to=""
+          <div
             key={index}
-            className="bg-[#B1B1B4] rounded-xl px-4 py-3 w-full max-w-sm shadow-md flex items-center gap-3 mt-4">
-            {/* Hora */}
+            onClick={() =>
+              navigate('/talk-detail', {
+                state: {
+                  ...talk,
+                  descripcion: 'Esta conferencia abordará los últimos avances en cardiología moderna...',
+                  salon: 'Salón A1',
+                }
+              })
+            }
+            className="cursor-pointer bg-[#B1B1B4] rounded-xl px-4 py-3 w-full max-w-sm shadow-md flex items-center gap-3 mt-4">
             <div className="w-15 text-right pr-1 ">
               <span className="text-[#014480] font-extrabold text-2xl">{talk.hora}</span>
             </div>
 
-            {/* Separador vertical */}
             <div className="w-1 h-12 bg-[#F2B705] rounded-sm" />
 
-            {/* Contenido: título y doctor */}
             <div className="flex-1 flex flex-col justify-center pl-2">
               <span className="text-white font-semibold text-base leading-tight">
                 {talk.titulo}
               </span>
+              
               <span className="text-[#977b27] text-sm font-medium">
                 {talk.doctor}
               </span>
+
             </div>
-          </Link>
+          </div>
+
         ))}
       </main>
     </div>
