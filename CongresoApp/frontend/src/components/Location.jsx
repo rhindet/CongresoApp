@@ -1,5 +1,6 @@
 // import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import HeaderMobile from '../modules/HeaderMobile';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { BellIcon } from '@heroicons/react/24/solid'
@@ -11,17 +12,7 @@ export default function Location() {
   return (
     <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
       {/* Header */}
-      <header className="bg-white shadow-md md:hidden fixed top-0 left-0 w-full z-50">
-        <nav className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link to="/home" className="text-gray-700 hover:text-indigo-600 font-bold">
-            <ChevronLeftIcon className='w-8 text-black hover:text-indigo-600'></ChevronLeftIcon>
-          </Link>
-          <h1 className="text-xl font-bold text-[#014480]">Mapa</h1>
-          <Link to="#" className="text-black hover:text-indigo-600 font-bold">
-            <BellIcon className='w-8 text-black hover:text-indigo-600'></BellIcon>
-          </Link>
-        </nav>
-      </header>
+      <HeaderMobile backLink="/home" title="Mapa" />
 
       <main className='min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5'>
         <div className="bg-white p-4 rounded-xl shadow-xl max-w-6xl w-full">
