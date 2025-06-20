@@ -28,7 +28,15 @@ function Location() {
     <div className="min-h-screen bg-gray-300 w-full flex flex-col relative overflow-hidden">
       {isPortrait && (
         <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col justify-center items-center text-white text-center px-6">
-          <p className="text-xl mb-4 font-semibold">
+          {/* Botón de regreso */}
+          <Link
+            to="/home"
+            className="absolute top-4 left-4 text-white text-2xl"
+          >
+            <FaArrowLeft />
+          </Link>
+
+          <p className="text-xl mb-4 font-semibold mt-16">
             Para ver mejor el mapa, gira tu celular
           </p>
           <div className="animate-bounce">
@@ -49,6 +57,7 @@ function Location() {
           </div>
         </div>
       )}
+
 
       {/* NAVBAR */}
       <div className="fixed top-0 left-0 right-0 z-10 bg-gray-300">
