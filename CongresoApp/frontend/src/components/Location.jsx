@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import HeaderMobile from '../modules/HeaderMobile';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { FaArrowLeft, FaSearchPlus, FaSearchMinus, FaUndo } from 'react-icons/fa';
 import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg';

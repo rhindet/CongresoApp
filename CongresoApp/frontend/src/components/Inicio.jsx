@@ -15,9 +15,9 @@ function Inicio() {
 
       {/* Texto fechas del congreso */}
       <div className='w-full md:w-1/2 flex flex-col items-center text-center space-y-4'>
-        <p className='text-xl md:text-3xl font-bold mt-1 text-[#014480]'>
+        <p className='text-xl md:text-3xl font-bold mt-1 text-[#29568E]'>
           9-10 de
-          <span className="text-yellow-500 ml-1.5 mr-1.5">Octubre</span>
+          <span className="text-yellow-400 ml-1.5 mr-1.5">Octubre</span>
           2025
         </p>
       </div>
@@ -32,7 +32,7 @@ function Inicio() {
         <div className="flex flex-row gap-4 mt-3">
           <Link
             to="/home"
-            className="bg-yellow-400 text-white px-5 py-2 rounded-full font-medium w-40 text-center hover:bg-[#014480] cursor-pointer"
+            className="bg-yellow-400 text-white px-5 py-2 rounded-full font-medium w-40 text-center hover:bg-[#29568E] cursor-pointer"
           >
             Bienvenido
           </Link>

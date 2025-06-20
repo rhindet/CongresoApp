@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import HeaderMobile from '../modules/HeaderMobile';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { BellIcon, CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import logo from '../assets/logo.png'
@@ -26,17 +27,7 @@ export default function Home() {
     return (
         <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
             {/* Header */}
-            <header className="bg-white shadow-md md:hidden fixed top-0 left-0 w-full z-50">
-                <nav className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                    <Link to="/" className="text-gray-700 hover:text-indigo-600 font-bold">
-                        <ChevronLeftIcon className='w-8 text-black hover:text-indigo-600'></ChevronLeftIcon>
-                    </Link>
-                    <h1 className="text-xl font-bold text-[#014480]">Home</h1>
-                    <Link to="#" className="text-black hover:text-indigo-600 font-bold">
-                        <BellIcon className='w-8 text-black hover:text-indigo-600'></BellIcon>
-                    </Link>
-                </nav>
-            </header>
+            <HeaderMobile backLink="/home" title="Home" />
 
             <main className="min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5">
                 <div className='w-full flex flex-col items-center gap-1 md:flex-row'>
@@ -63,20 +54,22 @@ export default function Home() {
                 {/* Grid */}
                 <div className="grid grid-cols-2 gap-4 w-full max-w-s md:max-w-2xl text-center mt-6">
                     <Link to="/schedule"
-                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
                         <CalendarDaysIcon className='w-20' />
                         Horarios
                     </Link>
-                    <Link className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                    <Link
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
                         <RectangleGroupIcon className='w-20' />
                         Categorías
                     </Link>
                     <Link to="/location"
-                    className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
                         <MapIcon className='w-20' />
                         Mapa
                     </Link>
-                    <Link className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#014480] transition-all">
+                    <Link
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
                         <InformationCircleIcon className='w-20' />
                         Info
                     </Link>
@@ -85,7 +78,7 @@ export default function Home() {
                 {/* Footer */}
                 <footer className="text-xs md:text-sm text-center text-[#014480] mt-8">
                     Todos los derechos reservados <br />
-                    <span className="text-[#014480] font-semibold">Subdirección de Investigación e Innovación</span>
+                    <span className="text-[#29568E] font-bold">Subdirección de Investigación e Innovación</span>
                 </footer>
 
             </main>
