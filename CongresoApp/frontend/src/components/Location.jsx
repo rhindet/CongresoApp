@@ -8,6 +8,7 @@ import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).j
 import logo from '../assets/logo.png'
 import logoCintermex from '../assets/LogoCintermex.png'
 
+
 export default function Location() {
   return (
     <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
