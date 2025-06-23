@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop'
 
@@ -56,7 +56,7 @@ const scheduleData = [
   {
     titulo: 'Conferencia Final',
     hora: '11:00',
-    doctor: 'Dr. Chespín',
+    doctor: 'Dr. Daniela Barajas',
     fecha: '9',
   },
   {
@@ -70,6 +70,7 @@ const scheduleData = [
 export default function Schedule() {
   //Estado para la pestaña (9 o 10 octubre)
   const [day, setDay] = useState('9');
+  const navigate = useNavigate();
 
   //Filtra las platicas del día seleccionado
   const talksToday = scheduleData.filter((t) => t.fecha === day);
@@ -88,7 +89,7 @@ export default function Schedule() {
 
       {/* CONTENIDO */}
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
-        {/* Botones selector de día */}
+
         <div className="flex justify-center gap-4 mt-1">
           {['9', '10'].map((d) => (
             <button
@@ -103,7 +104,6 @@ export default function Schedule() {
           ))}
         </div>
 
-        {/* Lista de conferencias */}
         {talksToday.map((talk, index) => (
           <div key={index}
             onClick={() =>
@@ -118,13 +118,13 @@ export default function Schedule() {
             className="cursor-pointer bg-[#B1B1B4] rounded-xl px-5 py-4 w-full max-w-full shadow-md flex items-center gap-4 mt-4">
             {/* Hora */}
             <div className="w-16 text-right pr-1">
+
               <span className="text-[#29568E] font-extrabold text-2xl">{talk.hora}</span>
             </div>
 
             {/* Separador vertical */}
             <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
 
-            {/* Contenido: título y doctor */}
             <div className="flex-1 flex flex-col justify-center pl-2">
               <span className="text-white font-bold text-xl leading-tight">
                 {talk.titulo}
@@ -133,6 +133,7 @@ export default function Schedule() {
               <span className="text-gray-600 text-sm font-medium">
                 {talk.doctor}
               </span>
+
             </div>
           </div>
         ))}

@@ -106,6 +106,29 @@ export default function Home() {
                     {gridItems.map((item, idx) => (
                         <GridButton key={idx} item={item} isDesktop={true} />
                     ))}
+
+                {/* Grid */}
+                <div className="grid grid-cols-2 gap-4 w-full max-w-s md:max-w-2xl text-center mt-6">
+                    <Link to="/schedule"
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
+                        <CalendarDaysIcon className='w-20' />
+                        Horarios
+                    </Link>
+                    <Link
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
+                        <RectangleGroupIcon className='w-20' />
+                        Categorías
+                    </Link>
+                    <Link to="/location"
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
+                        <MapIcon className='w-20' />
+                        Mapa
+                    </Link>
+                    <Link to="/information"
+                        className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
+                        <InformationCircleIcon className='w-20' />
+                        Info
+                    </Link>
                 </div>
 
                 {/* Footer */}
