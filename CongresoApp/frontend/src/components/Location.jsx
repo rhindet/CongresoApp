@@ -75,7 +75,7 @@ function Location() {
       >
         <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto w-full">
           <Link
-            to="/"
+            to="/home"
             className="text-gray-700 text-2xl hover:text-indigo-600 transition"
           >
             <FaArrowLeft />

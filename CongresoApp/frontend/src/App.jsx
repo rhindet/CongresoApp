@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Location from "./components/Location";
 import Schedule from "./components/Schedule";
 import TalkDetails from './components/TalkDetails';
+import Information from './components/Information';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/location" element={<Location />} />
       <Route path="/talk-detail" element={<TalkDetails />} />
+      <Route path="/information" element={<Information />} />
     </Routes>
     )
 }

@@ -68,7 +68,7 @@ export default function Home() {
                         <MapIcon className='w-20' />
                         Mapa
                     </Link>
-                    <Link
+                    <Link to="/information"
                         className="flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all">
                         <InformationCircleIcon className='w-20' />
                         Info
