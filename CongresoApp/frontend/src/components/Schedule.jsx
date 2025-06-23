@@ -75,9 +75,6 @@ export default function Schedule() {
   //Filtra las platicas del día seleccionado
   const talksToday = scheduleData.filter((t) => t.fecha === day);
 
-  //Para pasar al detalle de la platica
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
       {/* Header */}
