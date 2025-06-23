@@ -115,7 +115,6 @@ export default function Schedule() {
               <span className="text-[#29568E] font-extrabold text-2xl">{talk.hora}</span>
             </div>
 
-            <div className="w-1 h-12 bg-[#F2B705] rounded-sm" />
             {/* Separador vertical */}
             <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
 
