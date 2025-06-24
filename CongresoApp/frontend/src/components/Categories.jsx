@@ -1,31 +1,25 @@
 import { Link } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
-import ImageCarousel from '../modules/ImageCarousel'
-import { CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
+import { PresentationChartBarIcon, ChatBubbleLeftRightIcon, UserGroupIcon } from '@heroicons/react/24/solid'
 import logo from '../assets/logo.png'
 
-// Lista de opciones del grid
+//Lista de opciones del grid
 const gridItems = [
     {
-        text: 'Horarios',
-        icon: <CalendarDaysIcon className="w-16 md:w-20" />,
-        to: '/schedule',
+        text: 'Simposios',
+        icon: <PresentationChartBarIcon className="w-16 md:w-20" />,
+        to: '/',
     },
     {
-        text: 'Categorías',
-        icon: <RectangleGroupIcon className="w-16 md:w-20" />,
-        to: '/categories',
+        text: 'Platicas Magistrales',
+        icon: <ChatBubbleLeftRightIcon className="w-16 md:w-20" />,
+        to: '/',
     },
     {
-        text: 'Mapa',
-        icon: <MapIcon className="w-16 md:w-20" />,
-        to: '/location',
-    },
-    {
-        text: 'Info',
-        icon: <InformationCircleIcon className="w-16 md:w-20" />,
-        to: '/info',
+        text: 'Presentaciones Orales',
+        icon: <UserGroupIcon className="w-16 md:w-20" />,
+        to: '/',
     },
 ];
 
@@ -33,9 +27,9 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-yellow-400 
+        className={`flex flex-col items-center justify-center bg-[#29568E] 
       rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold 
-      text-lg md:text-2xl hover:bg-[#29568E] transition-all
+      text-lg md:text-2xl hover:bg-yellow-400 transition-all
       ${isDesktop
                 ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[250px] max-w-[300px]'
                 : 'w-full'}`}
@@ -45,7 +39,7 @@ const GridButton = ({ item, isDesktop }) => (
     </Link>
 );
 
-export default function Home() {
+export default function Categories() {
     return (
         <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
             {/* Header Mobile*/}
@@ -56,19 +50,12 @@ export default function Home() {
             </div>
 
             <main className="min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5">
-                <div className='w-full flex flex-col items-center gap-6 md:flex-row '>
-                    {/* Logo del congreso */}
-                    <div className='w-full md:w-1/2 flex flex-col items-center  text-center '>
-                        <img
-                            src={logo}
-                            alt="Logo Congreso"
-                            className='w-full max-w-lg md:max-w-5xl'
-                        />
-                    </div>
-
-                    {/* Carrusel de imagenes */}
-                    <ImageCarousel
-                        className="w-full md:w-1/2 h-40 md:h-96"
+                {/* Logo del congreso */}
+                <div className='w-full md:w-1/2 flex flex-col items-center  text-center '>
+                    <img
+                        src={logo}
+                        alt="Logo Congreso"
+                        className='w-full max-w-lg md:max-w-5xl'
                     />
                 </div>
 
