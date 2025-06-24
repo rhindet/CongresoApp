@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile';
-import { ChevronLeftIcon } from '@heroicons/react/24/outline'
-import { BellIcon } from '@heroicons/react/24/solid'
+import HeaderDesktop from '../modules/HeaderDesktop'
 
 {/* ---------- Datos ---------- */ }
 const scheduleData = [
@@ -71,25 +70,31 @@ const scheduleData = [
 export default function Schedule() {
   //Estado para la pestaña (9 o 10 octubre)
   const [day, setDay] = useState('9');
-  const navigate = useNavigate();
 
   //Filtra las platicas del día seleccionado
   const talksToday = scheduleData.filter((t) => t.fecha === day);
 
+  //Para pasar al detalle de la platica
+  const navigate = useNavigate();
+
   return (
-    <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
+    <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
       {/* Header */}
       <HeaderMobile backLink="/home" title="Horarios" />
+      {/* Heacer Desktop */}
+      <div className="hidden md:block">
+        <HeaderDesktop backLink="/home" />
+      </div>
 
       {/* CONTENIDO */}
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
-
+        {/* Botones selector de día */}
         <div className="flex justify-center gap-4 mt-1">
           {['9', '10'].map((d) => (
             <button
               key={d}
               onClick={() => setDay(d)}
-              className={`px-10 py-3 rounded-full font-semibold text-white transition
+              className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30
               ${day === d ? 'bg-yellow-400 text-white' : 'bg-gray-300 text-gray-600'}
             `}
             >
@@ -98,9 +103,9 @@ export default function Schedule() {
           ))}
         </div>
 
+        {/* Lista de conferencias */}
         {talksToday.map((talk, index) => (
-          <div
-            key={index}
+          <div key={index}
             onClick={() =>
               navigate('/talk-detail', {
                 state: {
@@ -110,14 +115,16 @@ export default function Schedule() {
                 }
               })
             }
-            className="cursor-pointer bg-[#B1B1B4] rounded-xl px-4 py-3 w-full max-w-sm shadow-md flex items-center gap-3 mt-4">
-            <div className="w-15 text-right pr-1 ">
+            className="cursor-pointer bg-[#B1B1B4] rounded-xl px-5 py-4 w-full max-w-full shadow-md flex items-center gap-4 mt-4">
+            {/* Hora */}
+            <div className="w-16 text-right pr-1">
               <span className="text-[#29568E] font-extrabold text-2xl">{talk.hora}</span>
             </div>
 
             {/* Separador vertical */}
             <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
 
+            {/* Contenido: título y doctor */}
             <div className="flex-1 flex flex-col justify-center pl-2">
               <span className="text-white font-bold text-xl leading-tight">
                 {talk.titulo}
@@ -126,10 +133,8 @@ export default function Schedule() {
               <span className="text-gray-600 text-sm font-medium">
                 {talk.doctor}
               </span>
-
             </div>
           </div>
-
         ))}
       </main>
     </div>
