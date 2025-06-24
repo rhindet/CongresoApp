@@ -86,6 +86,7 @@ function Location() {
           </h1>
         </div>
       </div>
+      
 
       {/* CONTENIDO */}
       <main className="pt-24 pb-10 px-4 flex-grow flex flex-col items-center w-full">
