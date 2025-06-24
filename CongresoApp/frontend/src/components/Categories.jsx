@@ -53,7 +53,7 @@ export default function Categories() {
                     <img
                         src={logo}
                         alt="Logo Congreso"
-                        className='w-full max-w-lg md:max-w-3xl'
+                        className='w-full max-w-lg md:max-w-3xl mt-6'
                     />
                 </div>
 

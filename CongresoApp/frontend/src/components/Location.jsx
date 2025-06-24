@@ -9,7 +9,7 @@ import logoCintermex from '../assets/LogoCintermex.png'
 export default function Location() {
   const [isPortrait, setIsPortrait] = useState(false);
 
-  // DETECTAR ORIENTACION Y SI ES MOVIL
+  //DETECTAR ORIENTACION Y SI ES MOVIL
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
@@ -55,7 +55,9 @@ export default function Location() {
 
       <main className='min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5'>
         {/* Heacer Desktop */}
-        <div className="hidden md:block">
+        <div className="hidden md:block className={`fixed top-0 left-0 right-0 z-10 bg-gray-300 transition-transform duration-300 ${
+          showNavbar ? 'translate-y-0' : '-translate-y-full'
+        }`}">
           <HeaderDesktop backLink="/home" />
         </div>
 

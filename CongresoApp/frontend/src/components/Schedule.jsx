@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import HeaderMobile from '../modules/HeaderMobile';
+import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 
 {/* ---------- Datos ---------- */ }
@@ -107,7 +107,7 @@ export default function Schedule() {
         {talksToday.map((talk, index) => (
           <div key={index}
             onClick={() =>
-              navigate('/talk-detail', {
+              navigate('/talk-details', {
                 state: {
                   ...talk,
                   descripcion: 'Esta conferencia abordará los últimos avances en cardiología moderna...',
