@@ -107,7 +107,7 @@ export default function Schedule() {
         {talksToday.map((talk, index) => (
           <div key={index}
             onClick={() =>
-              navigate('/talk-detail', {
+              navigate('/talk-details', {
                 state: {
                   ...talk,
                   descripcion: 'Esta conferencia abordará los últimos avances en cardiología moderna...',
