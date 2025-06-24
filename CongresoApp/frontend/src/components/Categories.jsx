@@ -27,11 +27,9 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-[#29568E] 
-      rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold 
-      text-lg md:text-2xl hover:bg-yellow-400 transition-all
+        className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl py-5 md:py-3 text-white font-semibold text-lg md:text-2xl hover:bg-yellow-400 transition-all
       ${isDesktop
-                ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[250px] max-w-[300px]'
+                ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[240px] max-w-[350px]'
                 : 'w-full'}`}
     >
         {item.icon}
@@ -41,27 +39,27 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Categories() {
     return (
-        <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
             {/* Header Mobile*/}
-            <HeaderMobile backLink="/" title="Home" />
+            <HeaderMobile backLink="/home" title="Categorías" />
             {/* Heacer Desktop */}
             <div className="hidden md:block">
-                <HeaderDesktop backLink="/" />
+                <HeaderDesktop backLink="/home" />
             </div>
 
-            <main className="min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5">
+            <main className="min-h-dvh p-4 flex flex-col items-center justify-center">
                 {/* Logo del congreso */}
-                <div className='w-full md:w-1/2 flex flex-col items-center  text-center '>
+                <div className='w-full md:w-1/2 flex flex-col items-center text-center'>
                     <img
                         src={logo}
                         alt="Logo Congreso"
-                        className='w-full max-w-lg md:max-w-5xl'
+                        className='w-full max-w-lg md:max-w-3xl'
                     />
                 </div>
 
                 {/* Vista Mobile*/}
                 <div
-                    className={`grid gap-4 w-full max-w-sm text-center mt-6 md:hidden ${gridItems.length === 1 ? 'grid-cols-1' : 'grid-cols-2'
+                    className={`grid gap-4 w-full max-w-sm text-center mt-10 md:hidden ${gridItems.length === 1 ? 'grid-cols-1' : 'grid-cols-2'
                         }`}
                 >
                     {gridItems.map((item, idx) => {
@@ -80,14 +78,14 @@ export default function Categories() {
                 </div>
 
                 {/* Vista Desktop: Fila horizontal */}
-                <div className="hidden w-full md:flex md:flex-wrap justify-center gap-4 mt-6">
+                <div className="hidden w-full md:flex md:flex-wrap justify-center gap-4">
                     {gridItems.map((item, idx) => (
                         <GridButton key={idx} item={item} isDesktop={true} />
                     ))}
                 </div>
 
                 {/* Footer */}
-                <footer className="text-xs md:text-sm text-center text-[#014480] mt-8">
+                <footer className="text-xs md:text-sm text-center text-[#014480] mt-10">
                     Todos los derechos reservados <br />
                     <span className="text-[#29568E] font-bold">Subdirección de Investigación e Innovación</span>
                 </footer>

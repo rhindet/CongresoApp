@@ -24,7 +24,7 @@ export default function ImageCarousel({ className = '' }) {
             <img
                 src={images[current]}
                 alt={`Slide ${current}`}
-                className="w-full h-full object-cover transition duration-700 ease-in-out"
+                className="w-full h-full object-cover object-center transition duration-700 ease-in-out"
             />
         </div>
     );

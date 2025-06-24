@@ -37,7 +37,7 @@ const GridButton = ({ item, isDesktop }) => (
       rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold 
       text-lg md:text-2xl hover:bg-[#29568E] transition-all
       ${isDesktop
-                ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[250px] max-w-[300px]'
+                ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[170px] max-w-[200px]'
                 : 'w-full'}`}
     >
         {item.icon}
@@ -47,7 +47,7 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Home() {
     return (
-        <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
             {/* Header Mobile*/}
             <HeaderMobile backLink="/" title="Home" />
             {/* Heacer Desktop */}
@@ -56,9 +56,9 @@ export default function Home() {
             </div>
 
             <main className="min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5">
-                <div className='w-full flex flex-col items-center gap-6 md:flex-row '>
+                <div className='w-full flex flex-col items-center gap-1 md:flex-row '>
                     {/* Logo del congreso */}
-                    <div className='w-full md:w-1/2 flex flex-col items-center  text-center '>
+                    <div className='w-full md:w-1/2 flex flex-col items-center text-center '>
                         <img
                             src={logo}
                             alt="Logo Congreso"
@@ -68,7 +68,7 @@ export default function Home() {
 
                     {/* Carrusel de imagenes */}
                     <ImageCarousel
-                        className="w-full md:w-1/2 h-40 md:h-96"
+                        className="w-full md:w-1/2 h-32 md:h-80"
                     />
                 </div>
 
@@ -100,7 +100,7 @@ export default function Home() {
                 </div>
 
                 {/* Footer */}
-                <footer className="text-xs md:text-sm text-center text-[#014480] mt-8">
+                <footer className="text-xs md:text-sm text-center text-[#014480] mt-10">
                     Todos los derechos reservados <br />
                     <span className="text-[#29568E] font-bold">Subdirección de Investigación e Innovación</span>
                 </footer>

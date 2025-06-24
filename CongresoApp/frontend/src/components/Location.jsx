@@ -24,7 +24,7 @@ export default function Location() {
   }, []);
 
   return (
-    <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+    <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
 
       {/* Aviso de Giro de Pantalla */}
       {isPortrait && (
