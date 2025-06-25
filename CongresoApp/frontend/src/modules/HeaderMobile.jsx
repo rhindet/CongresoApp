@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import { BellIcon } from '@heroicons/react/24/solid';
+import { MegaphoneIcon } from '@heroicons/react/24/solid';
 
 export default function HeaderMobile({ backLink, title}) {
   return (
@@ -11,7 +11,7 @@ export default function HeaderMobile({ backLink, title}) {
         </Link>
         <h1 className="text-xl font-bold text-[#29568E]">{title}</h1>
         <Link to="#" className="font-bold">
-          <BellIcon className="w-8 text-[#29568E] hover:text-[#78aff3]" />
+          <MegaphoneIcon className="w-8 text-[#29568E] hover:text-[#78aff3]" />
         </Link>
       </nav>
     </header>

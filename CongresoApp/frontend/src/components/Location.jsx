@@ -13,13 +13,15 @@ function Location() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Detectar orientación
+  //DETECTAR ORIENTACION Y SI ES MOVIL
+
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
     };
     checkOrientation();
     window.addEventListener('resize', checkOrientation);
+
     return () => window.removeEventListener('resize', checkOrientation);
   }, []);
 
@@ -35,31 +37,12 @@ function Location() {
   }, [lastScrollY]);
 
   return (
-    <div className="min-h-dvh overflow-hidden bg-[#DCDCDE] relative">
-      {/* Navbar fija que aparece/desaparece con scroll */}
-      <div
-        className={`fixed top-0 left-0 right-0 z-10 bg-gray-300 transition-transform duration-300 ${
-          showNavbar ? 'translate-y-0' : '-translate-y-full'
-        }`}
-      >
-        <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto w-full">
-          <Link
-            to="/home"
-            className="text-gray-700 text-2xl hover:text-indigo-600 transition"
-          >
-            <FaArrowLeft />
-          </Link>
-          <h1 className="text-2xl md:text-3xl font-bold text-blue-900 text-center flex-1 mr-8">
-            Mapa del Congreso
-          </h1>
-        </div>
-      </div>
-
-      {/* Vista en vertical: advertencia para girar */}
+    <div className="min-h-screen bg-gray-300 w-full flex flex-col relative overflow-hidden">
       {isPortrait && (
         <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col justify-center items-center text-white text-center px-6">
-          <HeaderDesktop backLink="/home" />
-         
+          <Link to="/home" className="absolute top-4 left-4 text-white text-2xl">
+            <FaArrowLeft />
+          </Link>
           <p className="text-xl mb-4 font-semibold mt-16">
             Para ver mejor el mapa, gira tu celular
           </p>
@@ -82,7 +65,27 @@ function Location() {
         </div>
       )}
 
-      {/* Contenido principal */}
+      {/* NAVBAR con animación */}
+      <div
+        className={`fixed top-0 left-0 right-0 z-10 bg-gray-300 transition-transform duration-300 ${
+          showNavbar ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto w-full">
+          <Link
+            to="/home"
+            className="text-gray-700 text-2xl hover:text-indigo-600 transition"
+          >
+            <FaArrowLeft />
+          </Link>
+          <h1 className="text-3xl font-bold text-blue-900 text-center flex-1 mr-8">
+            Mapa del Congreso
+          </h1>
+        </div>
+      </div>
+      
+
+      {/* CONTENIDO */}
       <main className="pt-24 pb-10 px-4 flex-grow flex flex-col items-center w-full">
         <div className="bg-white p-4 rounded-xl shadow-xl max-w-6xl w-full">
           <TransformWrapper initialScale={1} minScale={0.5} maxScale={4} wheel={{ step: 0.1 }}>
@@ -97,17 +100,18 @@ function Location() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-300 bg-[#DCDCDE]">
+      {/* FOOTER */}
+      <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-300">
         <img
           src={logoPrincipal}
           alt="Logo Principal"
-          className="w-28 object-contain"
+          className="h-12 object-contain"
+
         />
         <img
           src={logoCintermex}
           alt="Logo Cintermex"
-          className="w-20 object-contain"
+          className="h-12 object-contain"
         />
       </footer>
     </div>

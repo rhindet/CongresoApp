@@ -19,7 +19,7 @@ export default function TalkDetail() {
     const { titulo, hora, doctor, descripcion, salon } = state;
 
     return (
-        <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
+        <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
             {/* HEADER */}
             <HeaderMobile backLink="/schedule" title="Detalle" />
             {/* Heacer Desktop */}
