@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
+import HeaderDesktop from '../modules/HeaderDesktop';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import { FaArrowLeft } from 'react-icons/fa';
 import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg';
@@ -13,6 +14,7 @@ function Location() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   //DETECTAR ORIENTACION Y SI ES MOVIL
+
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
@@ -23,18 +25,13 @@ function Location() {
     return () => window.removeEventListener('resize', checkOrientation);
   }, []);
 
-  // Detectar scroll para ocultar navbar
+  // Ocultar navbar al hacer scroll hacia abajo
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY) {
-        setShowNavbar(false); 
-      } else {
-        setShowNavbar(true); 
-      }
+      setShowNavbar(currentScrollY <= lastScrollY);
       setLastScrollY(currentScrollY);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
@@ -91,12 +88,12 @@ function Location() {
       {/* CONTENIDO */}
       <main className="pt-24 pb-10 px-4 flex-grow flex flex-col items-center w-full">
         <div className="bg-white p-4 rounded-xl shadow-xl max-w-6xl w-full">
-          <TransformWrapper initialScale={1} minScale={0.5} maxScale={4}>
+          <TransformWrapper initialScale={1} minScale={0.5} maxScale={4} wheel={{ step: 0.1 }}>
             <TransformComponent>
               <img
                 src={planoMapa}
                 alt="Mapa del Congreso"
-                className="w-screen h-screen object-contain"
+                className="w-full h-auto object-contain"
               />
             </TransformComponent>
           </TransformWrapper>
@@ -109,6 +106,7 @@ function Location() {
           src={logoPrincipal}
           alt="Logo Principal"
           className="h-12 object-contain"
+
         />
         <img
           src={logoCintermex}
