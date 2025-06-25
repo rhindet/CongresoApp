@@ -37,11 +37,11 @@ const GridButton = ({ item, isDesktop }) => (
     </Link>
 );
 
-export default function Categories() {
+export default function Events() {
     return (
         <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
             {/* Header Mobile*/}
-            <HeaderMobile backLink="/home" title="Categorías" />
+            <HeaderMobile backLink="/home" title="Eventos" />
             {/* Heacer Desktop */}
             <div className="hidden md:block">
                 <HeaderDesktop backLink="/home" />
@@ -53,7 +53,7 @@ export default function Categories() {
                     <img
                         src={logo}
                         alt="Logo Congreso"
-                        className='w-full max-w-lg md:max-w-3xl'
+                        className='w-full max-w-lg md:max-w-3xl mt-6'
                     />
                 </div>
 

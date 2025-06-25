@@ -12,13 +12,14 @@ function Location() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Detectar orientación del dispositivo
+  //DETECTAR ORIENTACION Y SI ES MOVIL
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
     };
     checkOrientation();
     window.addEventListener('resize', checkOrientation);
+
     return () => window.removeEventListener('resize', checkOrientation);
   }, []);
 
@@ -66,7 +67,6 @@ function Location() {
           </div>
         </div>
       )}
-
 
       {/* NAVBAR con animación */}
       <div
