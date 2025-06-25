@@ -25,7 +25,7 @@ const gridItems = [
     {
         text: 'Info',
         icon: <InformationCircleIcon className="w-16 md:w-20" />,
-        to: '/information',
+        to: '/info',
     },
 ];
 

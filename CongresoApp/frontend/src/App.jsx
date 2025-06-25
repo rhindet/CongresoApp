@@ -6,7 +6,7 @@ import Location from "./components/Location";
 import Schedule from "./components/Schedule";
 import TalkDetails from './components/TalkDetails';
 import Categories from './components/Events';
-import Info from './components/Info';
+import Info from './components/Information';
 
 function App() {
   return (
