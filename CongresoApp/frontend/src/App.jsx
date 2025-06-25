@@ -18,6 +18,7 @@ function App() {
       <Route path="/talk-details" element={<TalkDetails />} />
       <Route path="/events" element={<Categories />} />
       <Route path='/info' element={<Info />} />
+
     </Routes>
   )
 }

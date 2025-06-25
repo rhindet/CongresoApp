@@ -25,7 +25,7 @@ const gridItems = [
     {
         text: 'Info',
         icon: <InformationCircleIcon className="w-16 md:w-20" />,
-        to: '/info',
+        to: '/information',
     },
 ];
 
@@ -47,7 +47,8 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Home() {
     return (
-        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
+        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden"
+        >
             {/* Header Mobile*/}
             <HeaderMobile backLink="/" title="Home" />
             {/* Heacer Desktop */}
