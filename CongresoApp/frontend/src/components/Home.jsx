@@ -13,9 +13,9 @@ const gridItems = [
         to: '/schedule',
     },
     {
-        text: 'Categorías',
+        text: 'Eventos',
         icon: <RectangleGroupIcon className="w-16 md:w-20" />,
-        to: '/categories',
+        to: '/events',
     },
     {
         text: 'Mapa',

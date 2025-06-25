@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
-import confevents from '../assets/conf-events.png'
 
 function Inicio() {
   return (
@@ -12,7 +11,7 @@ function Inicio() {
 
       {/* Texto fechas del congreso */}
       <div className='w-full md:w-1/2 flex flex-col items-center text-center space-y-4'>
-        <p className='text-xl md:text-3xl font-bold mt-1 text-[#29568E]'>
+        <p className='text-2xl md:text-3xl font-bold mt-1 text-[#29568E]'>
           9-10 de
           <span className="text-yellow-400 mx-2">Octubre</span>
           2025
@@ -21,7 +20,6 @@ function Inicio() {
 
       {/* Imagen central */}
       <div className='w-full md:w-1/2 flex flex-col items-center gap-6'>
-        <img src={confevents} alt="Conferences Icon" className="w-full max-w-[300px] mx-auto md:w-full " />
 
       {/* Boton */}
         <div className="flex flex-row gap-4 mt-3 md:mx-auto md:w-full">

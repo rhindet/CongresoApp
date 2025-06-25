@@ -17,7 +17,6 @@ export default function Location() {
 
     checkOrientation();
     window.addEventListener('resize', checkOrientation);
-
     return () => {
       window.removeEventListener('resize', checkOrientation);
     };
