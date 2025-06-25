@@ -17,7 +17,7 @@ function App() {
       <Route path="/location" element={<Location />} />
       <Route path="/talk-details" element={<TalkDetails />} />
       <Route path="/events" element={<Categories />} />
-      <Route path='/info' element={<Info />} />
+      <Route path='/information' element={<Info />} />
 
     </Routes>
   )
