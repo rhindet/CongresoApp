@@ -16,7 +16,7 @@ function App() {
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/location" element={<Location />} />
       <Route path="/talk-details" element={<TalkDetails />} />
-      <Route path="/events" element={<Categories />} />
+      <Route path="/events" element={<Events />} />
       <Route path='/info' element={<Info />} />
 
     </Routes>

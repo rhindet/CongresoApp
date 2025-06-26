@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
-import { PresentationChartBarIcon, ChatBubbleLeftRightIcon, UserGroupIcon } from '@heroicons/react/24/solid'
+import { PresentationChartBarIcon, ChatBubbleLeftRightIcon, UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid'
 import logo from '../assets/logo.png'
 
 //Lista de opciones del grid
@@ -9,17 +9,22 @@ const gridItems = [
     {
         text: 'Simposios',
         icon: <PresentationChartBarIcon className="w-16 md:w-20" />,
-        to: '/',
+        to: '',
     },
     {
         text: 'Platicas Magistrales',
         icon: <ChatBubbleLeftRightIcon className="w-16 md:w-20" />,
-        to: '/',
+        to: '',
     },
     {
         text: 'Presentaciones Orales',
         icon: <UserGroupIcon className="w-16 md:w-20" />,
-        to: '/',
+        to: '',
+    },
+    {
+        text: 'Talleres',
+        icon: <ClipboardDocumentListIcon className="w-16 md:w-20" />,
+        to: '',
     },
 ];
 
@@ -27,7 +32,7 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl py-5 md:py-3 text-white font-semibold text-lg md:text-2xl hover:bg-yellow-400 transition-all
+        className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl px-1 py-7 md:py-3 md:px-2 text-white font-semibold text-base md:text-2xl hover:bg-yellow-400 transition-all
       ${isDesktop
                 ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[240px] max-w-[350px]'
                 : 'w-full'}`}

@@ -18,6 +18,11 @@ const gridItems = [
         to: '/events',
     },
     {
+        text: 'Mensaje Director',
+        icon: <InformationCircleIcon className="w-16 md:w-20" />,
+        to: '/info',
+    },
+    {
         text: 'Mapa',
         icon: <MapIcon className="w-16 md:w-20" />,
         to: '/location',
@@ -33,9 +38,7 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-yellow-400 
-      rounded-2xl md:rounded-3xl py-5 md:py-6 text-white font-semibold 
-      text-lg md:text-2xl hover:bg-[#29568E] transition-all
+        className={`flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 px-1 md:px-1 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all
       ${isDesktop
                 ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[170px] max-w-[200px]'
                 : 'w-full'}`}

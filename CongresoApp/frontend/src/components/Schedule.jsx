@@ -3,19 +3,99 @@ import { Link, useNavigate } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 
+// ---------- Datos ----------
 const scheduleData = [
-  { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela  Barajas', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
-  { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela  Barajas', fecha: '10', Tipo: 'Car', tp: 'Simposios' },
-  { titulo: 'Avances de Cardiología', hora: '6:30', doctor: 'Dr. Martell Hinojosa', fecha: '9', Tipo: 'His', tp: 'Platicas magistrales' },
-  { titulo: 'Investigación de Cáncer', hora: '7:00', doctor: 'Dr. Chester Bennington', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
-  { titulo: 'Enfermedades Autoinmunes', hora: '7:00', doctor: 'Dr. Edgar Francisco Sandoval', fecha: '9', Tipo: 'Car', tp: 'Simposios' },
-  { titulo: 'Conferencia Final', hora: '9:00', doctor: 'Dr. Chespín', fecha: '9', Tipo: 'His', tp: 'Platicas magistrales' },
-  { titulo: 'Investigación de Cáncer', hora: '10:00', doctor: 'Dr. Chester Bennington', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
-  { titulo: 'Enfermedades Autoinmunes', hora: '10:15', doctor: 'Dr. Edgar Francisco Sandoval', fecha: '9', Tipo: 'Car', tp: 'Platicas magistrales' },
-  { titulo: 'Conferencia Final', hora: '11:00', doctor: 'Dr. Daniela Barajas', fecha: '9', Tipo: 'His', tp: 'Simposios' },
-  { titulo: 'Nuevos Horizontes en Oncología', hora: '12:00', doctor: 'Dra. Grey', fecha: '10', Tipo: 'His', tp: 'Platicas magistrales' },
-  { titulo: 'Cuidado de la piel', hora: '13:00', doctor: 'Dr. Enrique Segobiano', fecha: '10', Tipo: 'Car', tp: 'Presentaciones orales' },
+  {
+    titulo: 'Conferencia de Apertura',
+    hora: '06:00',
+    doctor: 'Dr. Daniela Cantú Barajas',
+    fecha: '9',
+    Tipo: 'His',
+    tp: 'Presentaciones orales',
+    videoUrl: 'https://www.youtube.com/embed/Le6-1ZaLN10'
+  },
+  {
+    titulo: 'Conferencia de Apertura',
+    hora: '06:00',
+    doctor: 'Dr. Daniela Cantú Barajas',
+    fecha: '10',
+    Tipo: 'Car',
+    tp: 'Simposios',
+  },
+  {
+    titulo: 'Avances de Cardiología',
+    hora: '6:30',
+    doctor: 'Dr. Martell Hinojosa',
+    fecha: '9',
+    Tipo: 'His',
+    tp: 'Platicas magistrales',
+  },
+  {
+    titulo: 'Investigación de Cáncer',
+    hora: '7:00',
+    doctor: 'Dr. Chester Bennington',
+    fecha: '9',
+    Tipo: 'His',
+    tp: 'Presentaciones orales',
+  },
+  {
+    titulo: 'Enfermedades Autoinmunes',
+    hora: '7:00',
+    doctor: 'Dr. Edgar Francisco Sandoval',
+    fecha: '9',
+    Tipo: 'Car',
+    tp: 'Simposios',
+  },
+  {
+    titulo: 'Conferencia Final',
+    hora: '9:00',
+    doctor: 'Dr. Chespín',
+    fecha: '9',
+    Tipo: 'His',
+    tp: 'Platicas magistrales',
+  },
+  {
+    titulo: 'Investigación de Cáncer',
+    hora: '10:00',
+    doctor: 'Dr. Chester Bennington',
+    fecha: '9',
+    Tipo: 'His',
+    tp: 'Presentaciones orales',
+  },
+  {
+    titulo: 'Enfermedades Autoinmunes',
+    hora: '10:15',
+    doctor: 'Dr. Edgar Francisco Sandoval',
+    fecha: '9',
+    Tipo: 'Car',
+    tp: 'Platicas magistrales',
+  },
+  {
+    titulo: 'Conferencia Final',
+    hora: '11:00',
+    doctor: 'Dr. Daniela Barajas',
+    fecha: '9',
+    Tipo: 'His',
+    tp: 'Simposios',
+  },
+  {
+    titulo: 'Nuevos Horizontes en Oncología',
+    hora: '12:00',
+    doctor: 'Dra. Grey',
+    fecha: '10',
+    Tipo: 'His',
+    tp: 'Platicas magistrales'
+  },
+  {
+    titulo: 'Cuidado de la piel',
+    hora: '13:00',
+    doctor: 'Dr. Enrique Segobiano',
+    fecha: '10',
+    Tipo: 'Car',
+    tp: 'Presentaciones orales'
+  }
 ];
+
 
 const tipoLabels = {
   Car: 'Cardiología',
@@ -41,6 +121,17 @@ export default function Schedule() {
   const [day, setDay] = useState('9');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const navigate = useNavigate();
+
+
+  const categoryOptions = [
+    { label: 'Todos', value: 'Todos' },
+    { label: 'Cardiología', value: 'Car' },
+    { label: 'Histología', value: 'His' },
+  ];
+
+  const filteredTalks = scheduleData.filter((talk) =>
+    talk.fecha === day && (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
+  );
 
   const categoryOptions = [
     { label: 'Todos', value: 'Todos' },
@@ -76,8 +167,10 @@ export default function Schedule() {
         </div>
 
         {/* Filtro de categoría */}
-        <div className="mb-5 relative w-72">
-          <label className="block mb-2 text-[#29568E] font-bold text-lg text-center">
+        <div className="mb-3 relative w-72">
+          <label className="block my-3 text-[#29568E] font-bold text-lg text-center">
+
+
             Filtrar por categoría
           </label>
           <div className="relative">
@@ -106,14 +199,16 @@ export default function Schedule() {
         </div>
 
         {/* Título categoría */}
-        <h2 className="text-2xl font-bold text-blue-900 mb-4 text-center">
+        <h2 className="text-2xl font-bold text-blue-900 mb-1 text-center">
+
           {selectedCategory === 'Todos'
             ? 'Todas las categorías'
             : tipoLabels[selectedCategory]}
         </h2>
 
         {/* Lista de conferencias */}
-        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4">
+
           {filteredTalks.map((talk, index) => {
             const tpKey = talk.tp.toLowerCase();
             const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
