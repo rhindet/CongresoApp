@@ -27,6 +27,11 @@ const gridItems = [
         icon: <MapIcon className="w-16 md:w-20" />,
         to: '/location',
     },
+    {
+        text: 'Info',
+        icon: <InformationCircleIcon className="w-16 md:w-20" />,
+        to: '/information',
+    },
 ];
 
 // Componente Botón Reutilizable
@@ -45,7 +50,8 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Home() {
     return (
-        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
+        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden"
+        >
             {/* Header Mobile*/}
             <HeaderMobile backLink="/" title="Home" />
             {/* Heacer Desktop */}

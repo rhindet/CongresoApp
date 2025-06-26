@@ -1,35 +1,48 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
-import HeaderDesktop from '../modules/HeaderDesktop'
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'
-import logo from '../assets/logo.png'
-import logoCintermex from '../assets/LogoCintermex.png'
+import { Link } from 'react-router-dom';
+import HeaderMobile from '../modules/HeaderMobile';
+import HeaderDesktop from '../modules/HeaderDesktop';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+import { FaArrowLeft } from 'react-icons/fa';
+import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg';
+import logoPrincipal from '../assets/logo.png';
+import logoCintermex from '../assets/LogoCintermex.png';
 
-export default function Location() {
+function Location() {
   const [isPortrait, setIsPortrait] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   //DETECTAR ORIENTACION Y SI ES MOVIL
+
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
     };
-
     checkOrientation();
     window.addEventListener('resize', checkOrientation);
-    return () => {
-      window.removeEventListener('resize', checkOrientation);
-    };
+
+    return () => window.removeEventListener('resize', checkOrientation);
   }, []);
 
-  return (
-    <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
+  // Ocultar navbar al hacer scroll hacia abajo
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowNavbar(currentScrollY <= lastScrollY);
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
-      {/* Aviso de Giro de Pantalla */}
+  return (
+    <div className="min-h-screen bg-gray-300 w-full flex flex-col relative overflow-hidden">
       {isPortrait && (
         <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col justify-center items-center text-white text-center px-6">
-          {/* Botón de regreso */}
-          <HeaderDesktop backLink="/home" />
+          <Link to="/home" className="absolute top-4 left-4 text-white text-2xl">
+            <FaArrowLeft />
+          </Link>
           <p className="text-xl mb-4 font-semibold mt-16">
             Para ver mejor el mapa, gira tu celular
           </p>
@@ -52,50 +65,57 @@ export default function Location() {
         </div>
       )}
 
-      <main className='min-h-dvh pt-20 p-4 flex flex-col items-center justify-center md:p-5'>
-        {/* Heacer Desktop */}
-        <div className="hidden md:block className={`fixed top-0 left-0 right-0 z-10 bg-gray-300 transition-transform duration-300 ${
+      {/* NAVBAR con animación */}
+      <div
+        className={`fixed top-0 left-0 right-0 z-10 bg-gray-300 transition-transform duration-300 ${
           showNavbar ? 'translate-y-0' : '-translate-y-full'
-        }`}">
-          <HeaderDesktop backLink="/home" />
-        </div>
-
-        {/* Mapa */}
-        <div className="bg-white p-4 rounded-xl shadow-xl max-w-6xl w-full">
-          <TransformWrapper
-            initialScale={1}
-            minScale={0.5}
-            maxScale={4}
-            wheel={{ step: 0.1 }}
+        }`}
+      >
+        <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto w-full">
+          <Link
+            to="/home"
+            className="text-gray-700 text-2xl hover:text-indigo-600 transition"
           >
-            <>
-              <div className="overflow-auto border-2 border-gray-400 rounded-lg max-h-[80vh]">
-                <TransformComponent>
-                  <img
-                    src={planoMapa}
-                    alt="Mapa"
-                    className="w-full max-w-none"
-                  />
-                </TransformComponent>
-              </div>
-            </>
+            <FaArrowLeft />
+          </Link>
+          <h1 className="text-3xl font-bold text-blue-900 text-center flex-1 mr-8">
+            Mapa del Congreso
+          </h1>
+        </div>
+      </div>
+      
+
+      {/* CONTENIDO */}
+      <main className="pt-24 pb-10 px-4 flex-grow flex flex-col items-center w-full">
+        <div className="bg-white p-4 rounded-xl shadow-xl max-w-6xl w-full">
+          <TransformWrapper initialScale={1} minScale={0.5} maxScale={4} wheel={{ step: 0.1 }}>
+            <TransformComponent>
+              <img
+                src={planoMapa}
+                alt="Mapa del Congreso"
+                className="w-full h-auto object-contain"
+              />
+            </TransformComponent>
           </TransformWrapper>
         </div>
-
-        {/* Footer */}
-        <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-300">
-          <img
-            src={logo}
-            alt="Logo Principal"
-            className="w-35 object-contain"
-          />
-          <img
-            src={logoCintermex}
-            alt="Logo Cintermex"
-            className="w-15 object-contain"
-          />
-        </footer>
       </main>
+
+      {/* FOOTER */}
+      <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-300">
+        <img
+          src={logoPrincipal}
+          alt="Logo Principal"
+          className="h-12 object-contain"
+
+        />
+        <img
+          src={logoCintermex}
+          alt="Logo Cintermex"
+          className="h-12 object-contain"
+        />
+      </footer>
     </div>
-  )
+  );
 }
+
+export default Location;

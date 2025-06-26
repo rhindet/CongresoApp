@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
-import HeaderMobile from '../modules/HeaderMobile'
-import HeaderDesktop from '../modules/HeaderDesktop'
+import { Link, useNavigate } from 'react-router-dom';
+import HeaderMobile from '../modules/HeaderMobile';
+import HeaderDesktop from '../modules/HeaderDesktop';
 
 // ---------- Datos ----------
 const scheduleData = [
@@ -96,6 +96,7 @@ const scheduleData = [
   }
 ];
 
+
 const tipoLabels = {
   Car: 'Cardiología',
   His: 'Histología',
@@ -117,13 +118,20 @@ const tpColorStyles = {
 };
 
 export default function Schedule() {
-  //Estado para la pestaña (9 o 10 octubre)
   const [day, setDay] = useState('9');
-
   const [selectedCategory, setSelectedCategory] = useState('Todos');
-
-  //Para pasar al detalle de la platica
   const navigate = useNavigate();
+
+
+  const categoryOptions = [
+    { label: 'Todos', value: 'Todos' },
+    { label: 'Cardiología', value: 'Car' },
+    { label: 'Histología', value: 'His' },
+  ];
+
+  const filteredTalks = scheduleData.filter((talk) =>
+    talk.fecha === day && (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
+  );
 
   const categoryOptions = [
     { label: 'Todos', value: 'Todos' },
@@ -137,24 +145,21 @@ export default function Schedule() {
 
   return (
     <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
-      {/* Header */}
       <HeaderMobile backLink="/home" title="Horarios" />
-      {/* Heacer Desktop */}
+
       <div className="hidden md:block">
         <HeaderDesktop backLink="/home" />
       </div>
 
-      {/* CONTENIDO */}
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
-        {/* Botones selector de día */}
-        <div className="flex justify-center gap-4 mt-1">
+        {/* Selector de día */}
+        <div className="flex justify-center gap-4 mb-4">
           {['9', '10'].map((d) => (
             <button
               key={d}
               onClick={() => setDay(d)}
               className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30
-              ${day === d ? 'bg-yellow-400 text-white' : 'bg-gray-300 text-gray-600'}
-            `}
+              ${day === d ? 'bg-yellow-400 text-white' : 'bg-gray-300 text-gray-600'}`}
             >
               {d} Octubre
             </button>
@@ -164,6 +169,8 @@ export default function Schedule() {
         {/* Filtro de categoría */}
         <div className="mb-3 relative w-72">
           <label className="block my-3 text-[#29568E] font-bold text-lg text-center">
+
+
             Filtrar por categoría
           </label>
           <div className="relative">
@@ -193,6 +200,7 @@ export default function Schedule() {
 
         {/* Título categoría */}
         <h2 className="text-2xl font-bold text-blue-900 mb-1 text-center">
+
           {selectedCategory === 'Todos'
             ? 'Todas las categorías'
             : tipoLabels[selectedCategory]}
@@ -200,6 +208,7 @@ export default function Schedule() {
 
         {/* Lista de conferencias */}
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4">
+
           {filteredTalks.map((talk, index) => {
             const tpKey = talk.tp.toLowerCase();
             const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
