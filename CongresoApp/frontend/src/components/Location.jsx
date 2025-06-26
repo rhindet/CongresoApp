@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import { FaArrowLeft } from 'react-icons/fa';
 import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg';
 import logoPrincipal from '../assets/logo.png';
 import logoCintermex from '../assets/LogoCintermex.png';
@@ -40,9 +37,7 @@ function Location() {
     <div className="min-h-screen bg-gray-300 w-full flex flex-col relative overflow-hidden">
       {isPortrait && (
         <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col justify-center items-center text-white text-center px-6">
-          <Link to="/home" className="absolute top-4 left-4 text-white text-2xl">
-            <FaArrowLeft />
-          </Link>
+          <HeaderDesktop backLink="/home" />
           <p className="text-xl mb-4 font-semibold mt-16">
             Para ver mejor el mapa, gira tu celular
           </p>
@@ -71,13 +66,8 @@ function Location() {
           showNavbar ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto w-full">
-          <Link
-            to="/home"
-            className="text-gray-700 text-2xl hover:text-indigo-600 transition"
-          >
-            <FaArrowLeft />
-          </Link>
+        <div className="flex items-center justify-between px-4 py-6 max-w-7xl mx-auto w-full">
+          <HeaderDesktop backLink="/home" />
           <h1 className="text-3xl font-bold text-blue-900 text-center flex-1 mr-8">
             Mapa del Congreso
           </h1>

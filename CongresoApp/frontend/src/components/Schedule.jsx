@@ -9,7 +9,7 @@ const scheduleData = [
     titulo: 'Conferencia de Apertura',
     hora: '06:00',
     doctor: 'Dr. Daniela Cantú Barajas',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Presentaciones orales',
     videoUrl: 'https://www.youtube.com/embed/Le6-1ZaLN10'
@@ -18,7 +18,7 @@ const scheduleData = [
     titulo: 'Conferencia de Apertura',
     hora: '06:00',
     doctor: 'Dr. Daniela Cantú Barajas',
-    fecha: '10',
+    fecha: '2025-10-10',
     Tipo: 'Car',
     tp: 'Simposios',
   },
@@ -26,7 +26,7 @@ const scheduleData = [
     titulo: 'Avances de Cardiología',
     hora: '6:30',
     doctor: 'Dr. Martell Hinojosa',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Platicas magistrales',
   },
@@ -34,7 +34,7 @@ const scheduleData = [
     titulo: 'Investigación de Cáncer',
     hora: '7:00',
     doctor: 'Dr. Chester Bennington',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Presentaciones orales',
   },
@@ -42,7 +42,7 @@ const scheduleData = [
     titulo: 'Enfermedades Autoinmunes',
     hora: '7:00',
     doctor: 'Dr. Edgar Francisco Sandoval',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'Car',
     tp: 'Simposios',
   },
@@ -50,7 +50,7 @@ const scheduleData = [
     titulo: 'Conferencia Final',
     hora: '9:00',
     doctor: 'Dr. Chespín',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Platicas magistrales',
   },
@@ -58,7 +58,7 @@ const scheduleData = [
     titulo: 'Investigación de Cáncer',
     hora: '10:00',
     doctor: 'Dr. Chester Bennington',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Presentaciones orales',
   },
@@ -66,7 +66,7 @@ const scheduleData = [
     titulo: 'Enfermedades Autoinmunes',
     hora: '10:15',
     doctor: 'Dr. Edgar Francisco Sandoval',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'Car',
     tp: 'Platicas magistrales',
   },
@@ -74,7 +74,7 @@ const scheduleData = [
     titulo: 'Conferencia Final',
     hora: '11:00',
     doctor: 'Dr. Daniela Barajas',
-    fecha: '9',
+    fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Simposios',
   },
@@ -82,7 +82,7 @@ const scheduleData = [
     titulo: 'Nuevos Horizontes en Oncología',
     hora: '12:00',
     doctor: 'Dra. Grey',
-    fecha: '10',
+    fecha: '2025-10-10',
     Tipo: 'His',
     tp: 'Platicas magistrales'
   },
@@ -90,7 +90,7 @@ const scheduleData = [
     titulo: 'Cuidado de la piel',
     hora: '13:00',
     doctor: 'Dr. Enrique Segobiano',
-    fecha: '10',
+    fecha: '2025-10-10',
     Tipo: 'Car',
     tp: 'Presentaciones orales'
   }
@@ -130,7 +130,8 @@ export default function Schedule() {
   ];
 
   const filteredTalks = scheduleData.filter((talk) =>
-    talk.fecha === day && (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
+    talk.fecha.endsWith(`-${day.padStart(2, '0')}`) &&
+    (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
   );
 
 

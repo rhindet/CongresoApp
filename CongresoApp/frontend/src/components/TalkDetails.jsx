@@ -4,6 +4,50 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
 import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'
+import { CalendarIcon } from '@heroicons/react/24/solid';
+
+//Función para descargar el .ICS
+function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 60 }) {
+    const start = new Date(`${fecha}T${hora.padStart(5, '0')}:00`);
+    const end = new Date(start.getTime() + duracionMin * 60000);
+
+    const formatDate = (date) =>
+        date
+            .toISOString()
+            .replace(/[-:]/g, '')
+            .split('.')[0] + 'Z'; // formato UTC
+
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CongresoMedico//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTART:${formatDate(start)}
+DTEND:${formatDate(end)}
+SUMMARY:${titulo}
+DESCRIPTION:${descripcion ? descripcion : ''} - Ponente: ${doctor}
+LOCATION:Centro de Convenciones
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:Recordatorio
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.download = `${titulo.replace(/\s+/g, '_')}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 
 export default function TalkDetail() {
     const { state } = useLocation();
@@ -17,7 +61,7 @@ export default function TalkDetail() {
 
     if (!state) return null;
 
-    const { titulo, hora, doctor, descripcion, salon, videoUrl } = state;
+    const { titulo, hora, fecha, doctor, descripcion, salon, videoUrl } = state;
 
     return (
         <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
@@ -28,7 +72,20 @@ export default function TalkDetail() {
                 <HeaderDesktop backLink="/schedule" />
             </div>
 
-            <main className="pt-20 px-4 pb-10 flex justify-center">
+            <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
+                {/* BOTON DE AGREGAR AL CALENDARIO */}
+                <div className="mt-1 mb-6 justify-center">
+                    <button
+                        onClick={() =>
+                            downloadICS({ titulo, doctor, descripcion, fecha, hora })
+                        }
+                        className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
+                    >
+                    <CalendarIcon className='w-8'/>
+                        Agendar en calendario
+                    </button>
+                </div>
+
                 <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{titulo}</h2>
                     <p className="text-sm md:text-base text-gray-600 mt-2">{hora} - {doctor}</p>
@@ -39,6 +96,7 @@ export default function TalkDetail() {
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Salón</h3>
                     <p className="text-sm md:text-base text-gray-700">{salon || 'Auditorio Principal'}</p>
 
+                    {/* MAPA */}
                     <div className="mt-6">
                         <img
                             src={planoMapa}
@@ -46,6 +104,9 @@ export default function TalkDetail() {
                             className="w-full max-h-[500px] object-contain rounded-lg border"
                         />
                     </div>
+
+
+
 
                     {/* Video de YouTube embevido*/}
                     <div className="mt-5 flex items-center gap-2">
@@ -55,7 +116,7 @@ export default function TalkDetail() {
                         ></span>
                         <h3 className="text-lg md:text-xl font-semibold text-[#977b27]">EN VIVO</h3>
                     </div>
-                    
+
                     {videoUrl ? (
                         <YTLive url={videoUrl} />
                     ) : (
