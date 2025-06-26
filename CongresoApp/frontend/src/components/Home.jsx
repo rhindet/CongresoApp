@@ -27,11 +27,7 @@ const gridItems = [
         icon: <MapIcon className="w-16 md:w-20" />,
         to: '/location',
     },
-    {
-        text: 'Info',
-        icon: <InformationCircleIcon className="w-16 md:w-20" />,
-        to: '/information',
-    },
+
 ];
 
 // Componente Botón Reutilizable

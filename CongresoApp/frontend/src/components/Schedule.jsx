@@ -133,15 +133,6 @@ export default function Schedule() {
     talk.fecha === day && (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
   );
 
-  const categoryOptions = [
-    { label: 'Todos', value: 'Todos' },
-    { label: 'Cardiología', value: 'Car' },
-    { label: 'Histología', value: 'His' },
-  ];
-
-  const filteredTalks = scheduleData.filter((talk) =>
-    talk.fecha === day && (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
-  );
 
   return (
     <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">

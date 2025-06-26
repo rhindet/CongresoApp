@@ -5,7 +5,7 @@ import logoPrincipal from '../assets/logo.png';
 import logoCintermex from '../assets/LogoCintermex.png';
 import backgroundPage from '../assets/Fondo.png'; 
 
-function Info() {
+function Information() {
   return (
     <div
       className="min-h-screen flex flex-col text-blue-900"
@@ -89,4 +89,4 @@ function Info() {
 }
 
 
-export default Info;
+export default Information;

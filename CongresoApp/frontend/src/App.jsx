@@ -5,8 +5,8 @@ import Home from "./components/Home";
 import Location from "./components/Location";
 import Schedule from "./components/Schedule";
 import TalkDetails from './components/TalkDetails';
-import Categories from './components/Events';
-import Info from './components/Information';
+import Events from './components/Events';
+import Information from './components/Information';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       <Route path="/location" element={<Location />} />
       <Route path="/talk-details" element={<TalkDetails />} />
       <Route path="/events" element={<Events />} />
-      <Route path='/info' element={<Info />} />
+      <Route path='/info' element={<Information />} />
 
     </Routes>
   )
