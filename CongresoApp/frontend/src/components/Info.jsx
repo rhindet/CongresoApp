@@ -8,10 +8,10 @@ export default function Info() {
     return (
         <div className='min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden'>
             {/* Header Mobile*/}
-            <HeaderMobile backLink="/" title="CONVOCATORIA 2025" />
+            <HeaderMobile backLink="/home" title="CONVOCATORIA 2025" />
             {/* Heacer Desktop */}
             <div className="hidden md:block">
-                <HeaderDesktop backLink="/" />
+                <HeaderDesktop backLink="/home" />
             </div>
 
             {/* CONTENIDO */}
