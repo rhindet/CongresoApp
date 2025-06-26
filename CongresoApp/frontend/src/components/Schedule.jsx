@@ -1,17 +1,31 @@
 import { useState } from 'react';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 
 const scheduleData = [
   { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela Cantú Barajas', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
   { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela Cantú Barajas', fecha: '10', Tipo: 'Car', tp: 'Simposios' },
+=======
+import { Link, useNavigate } from 'react-router-dom';
+import HeaderMobile from '../modules/HeaderMobile';
+import HeaderDesktop from '../modules/HeaderDesktop';
+
+const scheduleData = [
+  { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela  Barajas', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
+  { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela  Barajas', fecha: '10', Tipo: 'Car', tp: 'Simposios' },
+>>>>>>> 78ef72d (Prueba)
   { titulo: 'Avances de Cardiología', hora: '6:30', doctor: 'Dr. Martell Hinojosa', fecha: '9', Tipo: 'His', tp: 'Platicas magistrales' },
   { titulo: 'Investigación de Cáncer', hora: '7:00', doctor: 'Dr. Chester Bennington', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
   { titulo: 'Enfermedades Autoinmunes', hora: '7:00', doctor: 'Dr. Edgar Francisco Sandoval', fecha: '9', Tipo: 'Car', tp: 'Simposios' },
   { titulo: 'Conferencia Final', hora: '9:00', doctor: 'Dr. Chespín', fecha: '9', Tipo: 'His', tp: 'Platicas magistrales' },
   { titulo: 'Investigación de Cáncer', hora: '10:00', doctor: 'Dr. Chester Bennington', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
   { titulo: 'Enfermedades Autoinmunes', hora: '10:15', doctor: 'Dr. Edgar Francisco Sandoval', fecha: '9', Tipo: 'Car', tp: 'Platicas magistrales' },
+<<<<<<< HEAD
   { titulo: 'Conferencia Final', hora: '11:00', doctor: 'Dr. Chespín', fecha: '9', Tipo: 'His', tp: 'Simposios' },
+=======
+  { titulo: 'Conferencia Final', hora: '11:00', doctor: 'Dr. Daniela Barajas', fecha: '9', Tipo: 'His', tp: 'Simposios' },
+>>>>>>> 78ef72d (Prueba)
   { titulo: 'Nuevos Horizontes en Oncología', hora: '12:00', doctor: 'Dra. Grey', fecha: '10', Tipo: 'His', tp: 'Platicas magistrales' },
   { titulo: 'Cuidado de la piel', hora: '13:00', doctor: 'Dr. Enrique Segobiano', fecha: '10', Tipo: 'Car', tp: 'Presentaciones orales' },
 ];
@@ -21,6 +35,7 @@ const tipoLabels = {
   His: 'Histología',
 };
 
+<<<<<<< HEAD
 // 🎨 Colores personalizados para los tags "tp"
 const tpColorStyles = {
   'presentaciones orales': {
@@ -33,10 +48,24 @@ const tpColorStyles = {
   },
   'simposios': {
     bg: '#B6A6CA', // Morado
+=======
+const tpColorStyles = {
+  'presentaciones orales': {
+    bg: '#5F8575',
+    text: '#0b5345',
+  },
+  'platicas magistrales': {
+    bg: '#E0B7B1',
+    text: '#a93226',
+  },
+  'simposios': {
+    bg: '#B6A6CA',
+>>>>>>> 78ef72d (Prueba)
     text: '#5b2c6f',
   },
 };
 
+<<<<<<< HEAD
 function renderTalkCard(talk, index) {
   const tpKey = talk.tp.toLowerCase();
   const colors = tpColorStyles[tpKey] || {
@@ -73,6 +102,12 @@ function renderTalkCard(talk, index) {
 export default function Schedule() {
   const [day, setDay] = useState('9');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+=======
+export default function Schedule() {
+  const [day, setDay] = useState('9');
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const navigate = useNavigate();
+>>>>>>> 78ef72d (Prueba)
 
   const categoryOptions = [
     { label: 'Todos', value: 'Todos' },
@@ -80,6 +115,7 @@ export default function Schedule() {
     { label: 'Histología', value: 'His' },
   ];
 
+<<<<<<< HEAD
   const groupedTalks = scheduleData
     .filter((talk) => talk.fecha === day)
     .reduce((groups, talk) => {
@@ -103,20 +139,45 @@ export default function Schedule() {
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
         {/* Botones de día */}
+=======
+  const filteredTalks = scheduleData.filter((talk) =>
+    talk.fecha === day && (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
+  );
+
+  return (
+    <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+      <HeaderMobile backLink="/home" title="Horarios" />
+
+      <div className="hidden md:block">
+        <HeaderDesktop backLink="/home" />
+      </div>
+
+      <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
+        {/* Selector de día */}
+>>>>>>> 78ef72d (Prueba)
         <div className="flex justify-center gap-4 mb-4">
           {['9', '10'].map((d) => (
             <button
               key={d}
               onClick={() => setDay(d)}
+<<<<<<< HEAD
               className={`px-10 py-3 rounded-full font-semibold text-white transition ${day === d ? 'bg-yellow-400 text-white' : 'bg-gray-300 text-gray-600'
                 }`}
+=======
+              className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30
+              ${day === d ? 'bg-yellow-400 text-white' : 'bg-gray-300 text-gray-600'}`}
+>>>>>>> 78ef72d (Prueba)
             >
               {d} Octubre
             </button>
           ))}
         </div>
 
+<<<<<<< HEAD
         {/* Select de categoría */}
+=======
+        {/* Filtro de categoría */}
+>>>>>>> 78ef72d (Prueba)
         <div className="mb-5 relative w-72">
           <label className="block mb-2 text-[#29568E] font-bold text-lg text-center">
             Filtrar por categoría
@@ -126,7 +187,11 @@ export default function Schedule() {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="appearance-none w-full bg-white border border-[#B1B1B4] text-[#29568E] py-3 px-4 pr-10 rounded-xl shadow-md 
+<<<<<<< HEAD
                  focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 font-medium text-base"
+=======
+                focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 font-medium text-base"
+>>>>>>> 78ef72d (Prueba)
             >
               {categoryOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -146,16 +211,75 @@ export default function Schedule() {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Título de categoría seleccionada */}
+=======
+        {/* Título categoría */}
+>>>>>>> 78ef72d (Prueba)
         <h2 className="text-2xl font-bold text-blue-900 mb-4 text-center">
           {selectedCategory === 'Todos'
             ? 'Todas las categorías'
             : tipoLabels[selectedCategory]}
         </h2>
 
+<<<<<<< HEAD
         {/* Renderizar conferencias */}
         <div className="w-full max-w-md">
           {filteredTalks.map((talk, index) => renderTalkCard(talk, index))}
+=======
+        {/* Lista de conferencias */}
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+          {filteredTalks.map((talk, index) => {
+            const tpKey = talk.tp.toLowerCase();
+            const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
+
+            return (
+              <div
+                key={index}
+                onClick={() =>
+                  navigate('/talk-details', {
+                    state: {
+                      ...talk,
+                      descripcion: 'Esta conferencia abordará los últimos avances...',
+                      salon: 'Salón A1',
+                    },
+                  })
+                }
+                className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
+                style={{ backgroundColor: '#E6E6E6' }}
+              >
+                {/* Hora */}
+                <div className="w-16 text-right pr-1">
+                  <span className="text-[#29568E] font-extrabold text-2xl">{talk.hora}</span>
+                </div>
+
+                {/* Línea vertical */}
+                <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
+
+                {/* Info */}
+                <div className="flex-1 flex flex-col justify-center pl-2">
+                  <span className="text-[#29568E] font-bold text-xl leading-tight">
+                    {talk.titulo}
+                  </span>
+                  <span className="text-gray-700 text-sm font-medium">
+                    {talk.doctor}
+                  </span>
+
+                  {/* Etiqueta tipo de charla */}
+                  <span
+                    className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
+                    style={{
+                      backgroundColor: colors.bg,
+                      color: colors.text,
+                    }}
+                  >
+                    {talk.tp}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+>>>>>>> 78ef72d (Prueba)
         </div>
       </main>
     </div>
