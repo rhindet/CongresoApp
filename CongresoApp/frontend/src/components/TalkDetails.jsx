@@ -105,9 +105,6 @@ export default function TalkDetail() {
                         />
                     </div>
 
-
-
-
                     {/* Video de YouTube embevido*/}
                     <div className="mt-5 flex items-center gap-2">
                         <span
