@@ -18,24 +18,24 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
             .split('.')[0] + 'Z'; // formato UTC
 
     const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//CongresoMedico//EN
-CALSCALE:GREGORIAN
-BEGIN:VEVENT
-DTSTART:${formatDate(start)}
-DTEND:${formatDate(end)}
-SUMMARY:${titulo}
-DESCRIPTION:${descripcion ? descripcion : ''} - Ponente: ${doctor}
-LOCATION:Centro de Convenciones
-STATUS:CONFIRMED
-SEQUENCE:0
-BEGIN:VALARM
-TRIGGER:-PT15M
-ACTION:DISPLAY
-DESCRIPTION:Recordatorio
-END:VALARM
-END:VEVENT
-END:VCALENDAR`;
+        VERSION:2.0
+        PRODID:-//CongresoMedico//EN
+        CALSCALE:GREGORIAN
+        BEGIN:VEVENT
+        DTSTART:${formatDate(start)}
+        DTEND:${formatDate(end)}
+        SUMMARY:${titulo}
+        DESCRIPTION:${descripcion ? descripcion : ''} - Ponente: ${doctor}
+        LOCATION:Centro de Convenciones
+        STATUS:CONFIRMED
+        SEQUENCE:0
+        BEGIN:VALARM
+        TRIGGER:-PT15M
+        ACTION:DISPLAY
+        DESCRIPTION:Recordatorio
+        END:VALARM
+        END:VEVENT
+        END:VCALENDAR`;
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
