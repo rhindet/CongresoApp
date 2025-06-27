@@ -161,8 +161,6 @@ export default function Schedule() {
         {/* Filtro de categoría */}
         <div className="mb-3 relative w-72">
           <label className="block my-3 text-[#29568E] font-bold text-lg text-center">
-
-
             Filtrar por categoría
           </label>
           <div className="relative">

@@ -15,38 +15,41 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
         date
             .toISOString()
             .replace(/[-:]/g, '')
-            .split('.')[0] + 'Z'; // formato UTC
+            .split('.')[0] + 'Z';
 
-    const icsContent = `BEGIN:VCALENDAR
-        VERSION:2.0
-        PRODID:-//CongresoMedico//EN
-        CALSCALE:GREGORIAN
-        BEGIN:VEVENT
-        DTSTART:${formatDate(start)}
-        DTEND:${formatDate(end)}
-        SUMMARY:${titulo}
-        DESCRIPTION:${descripcion ? descripcion : ''} - Ponente: ${doctor}
-        LOCATION:Centro de Convenciones
-        STATUS:CONFIRMED
-        SEQUENCE:0
-        BEGIN:VALARM
-        TRIGGER:-PT15M
-        ACTION:DISPLAY
-        DESCRIPTION:Recordatorio
-        END:VALARM
-        END:VEVENT
-        END:VCALENDAR`;
+    const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//CongresoMedico//EN',
+        'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT',
+        `DTSTART:${formatDate(start)}`,
+        `DTEND:${formatDate(end)}`,
+        `SUMMARY:${titulo}`,
+        `DESCRIPTION:${descripcion || ''} \r\n Ponente: ${doctor}`,
+        'LOCATION:Centro de Convenciones Cintermex',
+        'STATUS:CONFIRMED',
+        'SEQUENCE:0',
+        'BEGIN:VALARM',
+        'TRIGGER:-PT15M',
+        'ACTION:DISPLAY',
+        'DESCRIPTION:Recordatorio',
+        'END:VALARM',
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\r\n');
 
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
+    const encoded = encodeURIComponent(icsContent);
+    const dataURI = `data:text/calendar;charset=utf-8,${encoded}`;
+
     const link = document.createElement('a');
-
-    link.href = url;
+    link.href = dataURI;
     link.download = `${titulo.replace(/\s+/g, '_')}.ics`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
+
 
 
 export default function TalkDetail() {
@@ -82,7 +85,7 @@ export default function TalkDetail() {
                         className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
                     >
                     <CalendarIcon className='w-8'/>
-                        Agendar en calendario
+                        Agendar
                     </button>
                 </div>
 
