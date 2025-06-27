@@ -8,45 +8,40 @@ import { CalendarIcon } from '@heroicons/react/24/solid';
 
 //Función para descargar el .ICS
 function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 60 }) {
-    const start = new Date(`${fecha}T${hora.padStart(5, '0')}:00`);
-    const end = new Date(start.getTime() + duracionMin * 60000);
+  const start = new Date(`${fecha}T${hora.padStart(5, '0')}:00`);
+  const end = new Date(start.getTime() + duracionMin * 60000);
+  const formatDate = (date) =>
+    date
+      .toISOString()
+      .replace(/[-:]/g, '')
+      .split('.')[0] + 'Z';
 
-    const formatDate = (date) =>
-        date
-            .toISOString()
-            .replace(/[-:]/g, '')
-            .split('.')[0] + 'Z'; // formato UTC
+  const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CongresoMedico//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTART:${formatDate(start)}
+DTEND:${formatDate(end)}
+SUMMARY:${titulo}
+DESCRIPTION:${descripcion || ''} - Ponente: ${doctor}
+LOCATION:Centro de Convenciones
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:Recordatorio
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
 
-    const icsContent = `BEGIN:VCALENDAR
-        VERSION:2.0
-        PRODID:-//CongresoMedico//EN
-        CALSCALE:GREGORIAN
-        BEGIN:VEVENT
-        DTSTART:${formatDate(start)}
-        DTEND:${formatDate(end)}
-        SUMMARY:${titulo}
-        DESCRIPTION:${descripcion ? descripcion : ''} - Ponente: ${doctor}
-        LOCATION:Centro de Convenciones
-        STATUS:CONFIRMED
-        SEQUENCE:0
-        BEGIN:VALARM
-        TRIGGER:-PT15M
-        ACTION:DISPLAY
-        DESCRIPTION:Recordatorio
-        END:VALARM
-        END:VEVENT
-        END:VCALENDAR`;
-
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-
-    link.href = url;
-    link.download = `${titulo.replace(/\s+/g, '_')}.ics`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Codificar como URI y abrir en una nueva ventana
+  const encoded = encodeURIComponent(icsContent);
+  const dataUri = `data:text/calendar;charset=utf-8,${encoded}`;
+  window.open(dataUri, '_blank');
 }
+
 
 
 export default function TalkDetail() {
