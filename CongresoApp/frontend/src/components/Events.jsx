@@ -34,7 +34,7 @@ const GridButton = ({ item, isDesktop }) => (
         to={item.to}
         className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl px-1 py-7 md:py-3 md:px-2 text-white font-semibold text-base md:text-2xl hover:bg-yellow-400 transition-all
       ${isDesktop
-                ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[240px] max-w-[350px]'
+                ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[200px] max-w-[350px]'
                 : 'w-full'}`}
     >
         {item.icon}
@@ -52,19 +52,19 @@ export default function Events() {
                 <HeaderDesktop backLink="/home" />
             </div>
 
-            <main className="min-h-dvh p-4 flex flex-col items-center justify-center">
+            <main className="min-h-dvh p-3 flex flex-col items-center justify-center">
                 {/* Logo del congreso */}
                 <div className='w-full md:w-1/2 flex flex-col items-center text-center'>
                     <img
                         src={logo}
                         alt="Logo Congreso"
-                        className='w-full max-w-lg md:max-w-3xl mt-6'
+                        className='w-full max-w-lg md:max-w-3xl mt-10'
                     />
                 </div>
 
                 {/* Vista Mobile*/}
                 <div
-                    className={`grid gap-4 w-full max-w-sm text-center mt-10 md:hidden ${gridItems.length === 1 ? 'grid-cols-1' : 'grid-cols-2'
+                    className={`grid gap-4 w-full max-w-sm text-center mt-6 md:hidden ${gridItems.length === 1 ? 'grid-cols-1' : 'grid-cols-2'
                         }`}
                 >
                     {gridItems.map((item, idx) => {

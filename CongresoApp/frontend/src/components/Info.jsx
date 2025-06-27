@@ -17,30 +17,7 @@ export default function Info() {
             {/* CONTENIDO */}
             <main className="pt-24 pb-10 px-4 flex-grow w-full max-w-4xl mx-auto">
                 <div className="bg-white rounded-xl shadow-lg p-6 space-y-4">
-                    <h2 className="text-xl font-semibold">Bienvenido al Congreso</h2>
-                    <p className="text-gray-700 leading-relaxed">
-                        CONVOCA A TODA LA COMUNIDAD UNIVERSITARIA
-                    </p>
-
-                    <h3 className="text-lg font-semibold mt-4">Ubicación</h3>
-                    <p className="text-gray-700">
-                        Centro de Convenciones Cintermex, Monterrey, N.L.
-                    </p>
-
-                    <h3 className="text-lg font-semibold mt-4">Fecha y Horarios</h3>
-                    <ul className="list-disc list-inside text-gray-700">
-                        <li>📅 25 al 28 de Octubre 2025</li>
-                        <li>🕘 Horario: 9:00 AM - 6:00 PM</li>
-                    </ul>
-
-                    <h3 className="text-lg font-semibold mt-4">¿Qué incluye?</h3>
-                    <ul className="list-disc list-inside text-gray-700">
-                        <li>Ponencias y talleres</li>
-                        <li>Conferencistas nacionales e internacionales</li>
-                        <li>Presentaciones Orales</li>
-                        <li>Platicas Magistrales</li>
-                        <li>Simposios</li>
-                    </ul>
+                    
                 </div>
             </main>
 
