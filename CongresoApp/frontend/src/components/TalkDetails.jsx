@@ -48,6 +48,7 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
 }
 
 

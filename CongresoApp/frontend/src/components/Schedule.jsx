@@ -21,6 +21,8 @@ const scheduleData = [
     fecha: '2025-10-10',
     Tipo: 'Car',
     tp: 'Simposios',
+    videoUrl: null
+
   },
   {
     titulo: 'Avances de Cardiología',
@@ -29,6 +31,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Platicas magistrales',
+    videoUrl: null
+
   },
   {
     titulo: 'Investigación de Cáncer',
@@ -37,6 +41,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Presentaciones orales',
+    videoUrl: null
+
   },
   {
     titulo: 'Enfermedades Autoinmunes',
@@ -45,6 +51,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'Car',
     tp: 'Simposios',
+    videoUrl: null
+
   },
   {
     titulo: 'Conferencia Final',
@@ -53,6 +61,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Platicas magistrales',
+    videoUrl: null
+
   },
   {
     titulo: 'Investigación de Cáncer',
@@ -61,6 +71,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Presentaciones orales',
+    videoUrl: null
+
   },
   {
     titulo: 'Enfermedades Autoinmunes',
@@ -69,6 +81,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'Car',
     tp: 'Platicas magistrales',
+    videoUrl: null
+
   },
   {
     titulo: 'Conferencia Final',
@@ -77,6 +91,8 @@ const scheduleData = [
     fecha: '2025-10-09',
     Tipo: 'His',
     tp: 'Simposios',
+    videoUrl: null
+
   },
   {
     titulo: 'Nuevos Horizontes en Oncología',
@@ -84,7 +100,8 @@ const scheduleData = [
     doctor: 'Dra. Grey',
     fecha: '2025-10-10',
     Tipo: 'His',
-    tp: 'Platicas magistrales'
+    tp: 'Platicas magistrales',
+    videoUrl: null
   },
   {
     titulo: 'Cuidado de la piel',
@@ -92,7 +109,9 @@ const scheduleData = [
     doctor: 'Dr. Enrique Segobiano',
     fecha: '2025-10-10',
     Tipo: 'Car',
-    tp: 'Presentaciones orales'
+    tp: 'Presentaciones orales',
+    videoUrl: null
+
   }
 ];
 
