@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
+import HeaderDesktop from '../modules/HeaderDesktop';
+
 
 const scheduleData = [
     { titulo: 'Conferencia de Apertura', hora: '06:00', doctor: 'Dr. Daniela Cantú Barajas', fecha: '9', Tipo: 'His', tp: 'Presentaciones orales' },
@@ -61,6 +63,9 @@ function Magistrales() {
     return (
         <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
             <HeaderMobile backLink="/events" title="Platicas Magistrales" />
+            <div className="hidden md:block">
+            <HeaderDesktop backLink="/events" />
+            </div>
 
             <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
                 {/* Botones de día */}
