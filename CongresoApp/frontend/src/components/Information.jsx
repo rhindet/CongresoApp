@@ -1,9 +1,11 @@
 
 import { Link } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
-import logoPrincipal from '../assets/logo.png';
-import logoCintermex from '../assets/LogoCintermex.png';
-import backgroundPage from '../assets/Fondo.png'; 
+import HeaderMobile from '../modules/HeaderMobile'
+import HeaderDesktop from '../modules/HeaderDesktop'
+import logo from '../assets/logo.png'
+import logoCintermex from '../assets/LogoCintermex.png'
+import backgroundPage from '../assets/Fondo.png';
+
 
 function Information() {
   return (
@@ -16,24 +18,16 @@ function Information() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* NAVBAR */}
-      <div className="bg-white fixed top-0 left-0 right-0 z-10 shadow-md">
-        <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto w-full">
-          <Link
-            to="/home"
-            className="text-gray-600 text-2xl hover:text-blue-700 transition"
-          >
-            <FaArrowLeft />
-          </Link>
-          <h1 className="text-2xl font-bold text-blue-900 text-center flex-1 mr-8">
-            CONVOCATORIA 2025
-          </h1>
-        </div>
+      {/* Header Mobile*/}
+      <HeaderMobile backLink="/home" title="CONVOCATORIA 2025" />
+      {/* Heacer Desktop */}
+      <div className="hidden md:block">
+        <HeaderDesktop backLink="/home" />
       </div>
 
       {/* CONTENIDO */}
       <main className="pt-28 pb-16 px-6 flex-grow w-full max-w-4xl mx-auto">
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 space-y-6 border border-gray-200">
+        <section className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 space-y-6 border border-gray-200">
           <h2 className="text-2xl font-extrabold text-blue-800 border-b pb-2">
             1er Foro de Innovación Tecnológica en Salud
           </h2>
@@ -68,20 +62,20 @@ function Information() {
               La Facultad de Medicina de la UANL garantiza la privacidad de los datos personales y la propiedad intelectual de los proyectos. No se compartirá información sin el consentimiento del participante, salvo por requerimiento legal. El comité evaluador también mantendrá la reserva de toda la información manejada.
             </p>
           </div>
-        </div>
+        </section>
       </main>
 
       {/* FOOTER */}
-      <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-400 bg-white/80 backdrop-blur-md shadow-inner">
+      <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-300">
         <img
-          src={logoPrincipal}
+          src={logo}
           alt="Logo Principal"
-          className="h-12 object-contain"
+          className="w-35 object-contain"
         />
         <img
           src={logoCintermex}
           alt="Logo Cintermex"
-          className="h-12 object-contain"
+          className="w-15 object-contain"
         />
       </footer>
     </div>
