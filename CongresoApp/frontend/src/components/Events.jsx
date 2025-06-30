@@ -9,17 +9,17 @@ const gridItems = [
     {
         text: 'Simposios',
         icon: <PresentationChartBarIcon className="w-16 md:w-20" />,
-        to: '',
+        to: '/simposios',
     },
     {
         text: 'Platicas Magistrales',
         icon: <ChatBubbleLeftRightIcon className="w-16 md:w-20" />,
-        to: '',
+        to: '/Magistrales',
     },
     {
         text: 'Presentaciones Orales',
         icon: <UserGroupIcon className="w-16 md:w-20" />,
-        to: '',
+        to: '/Preor',
     },
     {
         text: 'Talleres',
