@@ -35,12 +35,13 @@ export default function Schedule() {
   useEffect ( ()  => {
     const  getSimposios =  async () =>{
         try{
+            //OBTENCION DE TODAS LAS PLATICAS
             const listDeSimposios = await apiRequest.getAllSimposios();
             setListDeSimposios(listDeSimposios); 
              // Extraer departamentos únicos
       const departamentosUnicos = [
-        ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
-      ];
+          ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
+        ].sort((a, b) => a.localeCompare(b));
       setDepartamentos(departamentosUnicos);
            
         }catch(error){
@@ -67,23 +68,25 @@ export default function Schedule() {
     const date = new Date(isoString);
     const horas = date.getHours();    // 0-23
     const minutos = date.getMinutes(); // 0-59
-     console.log("horas")
-    console.log("minutos")
-    console.log(horas)
-    console.log(minutos)
 
     return `${horas}:${minutos.toString().padStart(2, '0')}`;
   };
 
+
+  //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
   const filteredTalks = listDeSimposios.filter(talk => {
     const fecha = talk.hora_inicio?.split('T')[0]; // "2025-10-09"
-    const dia = fecha?.split('-')[2];  
-    console.log(dia)
-    console.log(fecha)             // "09"
+    const dia = fecha?.split('-')[2]; 
+    console.log("Nombre"+ talk.nombre) 
+    console.log("dia"+ dia)
+    console.log("dia"+ dia)
+    console.log("fecha"+fecha)    
+    console.log("selected"+talk.departamento)         // "09"
     return (
       dia === day.padStart(2, '0') && 
-      (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
+      (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
     );
+
   });
 
 
