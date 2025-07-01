@@ -27,7 +27,7 @@ export class ApiCalls{
     async getAllSimposios(){
         var result = await this._buildFetch.fetch({url:"/api/platicas/simposios",method:methods.GET,headers:getHeaders()})
         
-        if(result.status == 200){
+        if(result != null && result.status == 200){
             const simposios = result.data.data.map(item => new Simposios(item));
             return simposios
         }
@@ -44,8 +44,7 @@ export class ApiCalls{
 export class BuildFetch{
      constructor(){}
 
-    #apiRootUrl = "http://localhost:8003"
-
+    #apiRootUrl  = import.meta.env.VITE_SERVER_ROOT_URL;
    
     async fetch({ url, method, headers }) {
     try {
@@ -54,7 +53,11 @@ export class BuildFetch{
         headers,
       };
 
+      console.log(this.#apiRootUrl )
+
+     
       const fullUrl = this.#apiRootUrl + url;
+       console.log(fullUrl)
       const respuesta = await fetch(fullUrl, options);
 
       if (!respuesta.ok) {

@@ -41,6 +41,7 @@ export default function Schedule() {
       const departamentosUnicos = [
         ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
       ];
+      console.log(departamentosUnicos)
       setDepartamentos(departamentosUnicos);
            
         }catch(error){
