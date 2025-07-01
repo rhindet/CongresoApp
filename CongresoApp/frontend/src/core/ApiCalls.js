@@ -52,12 +52,8 @@ export class BuildFetch{
         method,
         headers,
       };
-
-      console.log(this.#apiRootUrl )
-
      
       const fullUrl = this.#apiRootUrl + url;
-       console.log(fullUrl)
       const respuesta = await fetch(fullUrl, options);
 
       if (!respuesta.ok) {

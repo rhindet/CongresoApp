@@ -10,10 +10,7 @@ pnpm-debug.log*
 # Vite
 .vite/
 
-# Env files
-.env
-.env.local
-.env.*.local
+
 
 # IDEs
 .vscode/
