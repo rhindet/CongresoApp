@@ -1,23 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const connectDB = require('./config/db'); 
+const routes = require('./routes');
+const cors = require('cors');
 
 require('dotenv').config();
 
 const app = express();
 connectDB(); 
+app.use(cors());
 
-app.get('/', async (req, res) => {
-  try {
-    const simposios = await mongoose.connection.db.collection('simposios_anidados').find().toArray();
-    res.json(simposios);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error');
-  }
-});
 
-const PORT = process.env.PORT || 5000;
+app.use(express.json());
+app.use('/api/platicas', routes);
+
+const PORT = 8003;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });

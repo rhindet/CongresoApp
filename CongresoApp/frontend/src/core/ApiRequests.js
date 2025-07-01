@@ -7,9 +7,11 @@ export class ApiRequests {
 
     constructor(){}
 
-    async login(userID) {
-        var result = await this._apiCall.login(userID);
-        return result;
+
+    async getAllSimposios(){
+         var result = await this._apiCall.getAllSimposios();
+         
+         return result;
     }
 
 }

@@ -2,124 +2,10 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
-
-// ---------- Datos ----------
-const scheduleData = [
-  {
-    titulo: 'Conferencia de Apertura',
-    hora: '06:00',
-    doctor: 'Dr. Daniela Cantú Barajas',
-    fecha: '2025-10-09',
-    Tipo: 'His',
-    tp: 'Presentaciones orales',
-    videoUrl: 'https://www.youtube.com/embed/Le6-1ZaLN10'
-  },
-  {
-    titulo: 'Conferencia de Apertura',
-    hora: '06:00',
-    doctor: 'Dr. Daniela Cantú Barajas',
-    fecha: '2025-10-10',
-    Tipo: 'Car',
-    tp: 'Simposios',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Avances de Cardiología',
-    hora: '6:30',
-    doctor: 'Dr. Martell Hinojosa',
-    fecha: '2025-10-09',
-    Tipo: 'His',
-    tp: 'Platicas magistrales',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Investigación de Cáncer',
-    hora: '7:00',
-    doctor: 'Dr. Chester Bennington',
-    fecha: '2025-10-09',
-    Tipo: 'His',
-    tp: 'Presentaciones orales',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Enfermedades Autoinmunes',
-    hora: '7:00',
-    doctor: 'Dr. Edgar Francisco Sandoval',
-    fecha: '2025-10-09',
-    Tipo: 'Car',
-    tp: 'Simposios',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Conferencia Final',
-    hora: '9:00',
-    doctor: 'Dr. Chespín',
-    fecha: '2025-10-09',
-    Tipo: 'His',
-    tp: 'Platicas magistrales',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Investigación de Cáncer',
-    hora: '10:00',
-    doctor: 'Dr. Chester Bennington',
-    fecha: '2025-10-09',
-    Tipo: 'His',
-    tp: 'Presentaciones orales',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Enfermedades Autoinmunes',
-    hora: '10:15',
-    doctor: 'Dr. Edgar Francisco Sandoval',
-    fecha: '2025-10-09',
-    Tipo: 'Car',
-    tp: 'Platicas magistrales',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Conferencia Final',
-    hora: '11:00',
-    doctor: 'Dr. Daniela Barajas',
-    fecha: '2025-10-09',
-    Tipo: 'His',
-    tp: 'Simposios',
-    videoUrl: null
-
-  },
-  {
-    titulo: 'Nuevos Horizontes en Oncología',
-    hora: '12:00',
-    doctor: 'Dra. Grey',
-    fecha: '2025-10-10',
-    Tipo: 'His',
-    tp: 'Platicas magistrales',
-    videoUrl: null
-  },
-  {
-    titulo: 'Cuidado de la piel',
-    hora: '13:00',
-    doctor: 'Dr. Enrique Segobiano',
-    fecha: '2025-10-10',
-    Tipo: 'Car',
-    tp: 'Presentaciones orales',
-    videoUrl: null
-
-  }
-];
+import { useEffect } from 'react';
+import { ApiRequests } from '../core/ApiRequests';
 
 
-const tipoLabels = {
-  Car: 'Cardiología',
-  His: 'Histología',
-};
 
 const tpColorStyles = {
   'presentaciones orales': {
@@ -136,22 +22,70 @@ const tpColorStyles = {
   },
 };
 
+
 export default function Schedule() {
   const [day, setDay] = useState('9');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const navigate = useNavigate();
+  const apiRequest = new ApiRequests(); 
+  const [listDeSimposios, setListDeSimposios] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
+
+
+  useEffect ( ()  => {
+    const  getSimposios =  async () =>{
+        try{
+            const listDeSimposios = await apiRequest.getAllSimposios();
+            setListDeSimposios(listDeSimposios); 
+             // Extraer departamentos únicos
+      const departamentosUnicos = [
+        ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
+      ];
+      setDepartamentos(departamentosUnicos);
+           
+        }catch(error){
+        console.error('Error al obtener simposios:', error);
+        }
+    };
+    getSimposios();
+
+  },[]); 
+
 
 
   const categoryOptions = [
-    { label: 'Todos', value: 'Todos' },
-    { label: 'Cardiología', value: 'Car' },
-    { label: 'Histología', value: 'His' },
-  ];
+  { label: 'Todos', value: 'Todos' },
+  ...departamentos.map(dep => ({
+    label: dep,
+    value: dep
+  }))
+];
 
-  const filteredTalks = scheduleData.filter((talk) =>
-    talk.fecha.endsWith(`-${day.padStart(2, '0')}`) &&
-    (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
-  );
+// Función para convertir ISO string a "H:mm"
+  const formatoHora = (isoString) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    const horas = date.getHours();    // 0-23
+    const minutos = date.getMinutes(); // 0-59
+     console.log("horas")
+    console.log("minutos")
+    console.log(horas)
+    console.log(minutos)
+
+    return `${horas}:${minutos.toString().padStart(2, '0')}`;
+  };
+
+  const filteredTalks = listDeSimposios.filter(talk => {
+    const fecha = talk.hora_inicio?.split('T')[0]; // "2025-10-09"
+    const dia = fecha?.split('-')[2];  
+    console.log(dia)
+    console.log(fecha)             // "09"
+    return (
+      dia === day.padStart(2, '0') && 
+      (selectedCategory === 'Todos' || talk.Tipo === selectedCategory)
+    );
+  });
+
 
 
   return (
@@ -212,14 +146,15 @@ export default function Schedule() {
 
           {selectedCategory === 'Todos'
             ? 'Todas las categorías'
-            : tipoLabels[selectedCategory]}
+            : departamentos[selectedCategory]}
         </h2>
 
         {/* Lista de conferencias */}
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4">
 
           {filteredTalks.map((talk, index) => {
-            const tpKey = talk.tp.toLowerCase();
+            
+            const tpKey = "simposios";
             const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
 
             return (
@@ -239,8 +174,9 @@ export default function Schedule() {
               >
                 {/* Hora */}
                 <div className="w-16 text-right pr-1">
-                  <span className="text-[#29568E] font-extrabold text-2xl">{talk.hora}</span>
-                </div>
+              <span className="text-[#29568E] font-extrabold text-2xl">
+                {`${formatoHora(talk.hora_inicio)}`}
+              </span>                </div>
 
                 {/* Línea vertical */}
                 <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
@@ -248,10 +184,10 @@ export default function Schedule() {
                 {/* Info */}
                 <div className="flex-1 flex flex-col justify-center pl-2">
                   <span className="text-[#29568E] font-bold text-xl leading-tight">
-                    {talk.titulo}
+                    {talk.nombre}
                   </span>
                   <span className="text-gray-700 text-sm font-medium">
-                    {talk.doctor}
+                    {talk.jefe}
                   </span>
 
                   {/* Etiqueta tipo de charla */}
@@ -262,7 +198,7 @@ export default function Schedule() {
                       color: colors.text,
                     }}
                   >
-                    {talk.tp}
+                   simposios
                   </span>
                 </div>
               </div>
