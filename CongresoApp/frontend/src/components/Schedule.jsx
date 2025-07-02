@@ -4,7 +4,7 @@ import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { useEffect } from 'react';
 import { ApiRequests } from '../core/ApiRequests';
-
+import Loader from '../modules/Loader';
 
 
 const tpColorStyles = {
@@ -30,6 +30,7 @@ export default function Schedule() {
   const apiRequest = new ApiRequests(); 
   const [listDeSimposios, setListDeSimposios] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
+  const [loader, setLoader] = useState(true);
 
 
   useEffect ( ()  => {
@@ -42,7 +43,8 @@ export default function Schedule() {
       const departamentosUnicos = [
           ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
         ].sort((a, b) => a.localeCompare(b));
-      setDepartamentos(departamentosUnicos);
+        setDepartamentos(departamentosUnicos);
+        setLoader(false)
            
         }catch(error){
         console.error('Error al obtener simposios:', error);
@@ -92,7 +94,7 @@ export default function Schedule() {
 
 
   return (
-    <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+    loader ? <Loader/> : <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
       <HeaderMobile backLink="/home" title="Horarios" />
 
       <div className="hidden md:block">
