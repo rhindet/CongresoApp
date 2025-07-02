@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+html,
+body {
+  background-color: #dcdcde;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#root {
+  background-color: #dcdcde;
+}
+
