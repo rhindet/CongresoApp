@@ -1,14 +1,15 @@
-import { XMarkIcon } from '@heroicons/react/24/solid';
-
 import React from 'react'
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
 export default function AvisosModal({ open, onClose }) {
     if (!open) return null;
 
     const avisos = [
-        { id: 1, titulo: 'Cambio de horario', mensaje: 'La conferencia de Oncología se moverá a las 10:30 AM.' },
-        { id: 2, titulo: 'Nuevo video disponible', mensaje: 'Ya puedes ver la repetición de la conferencia inaugural.' },
-        { id: 3, titulo: 'Ubicación actualizada', mensaje: 'El simposio de Cardiología se realizará en el Salón B2.' },
+        { id: 1, titulo: 'Inicio día 1 de Congreso 2025', mensaje: 'Iniciamos el primer dia del Congreso 2025' },
+        { id: 2, titulo: 'Cambio de horario', mensaje: 'La conferencia de Oncología se moverá a las 10:30 AM.' },
+        { id: 3, titulo: 'Nuevo video disponible', mensaje: 'Ya puedes ver la repetición de la conferencia inaugural.' },
+        { id: 4, titulo: 'Ubicación actualizada', mensaje: 'El simposio de Cardiología se realizará en el Salón B2.' },
+        { id: 5, titulo: 'Fin día 1 de Congreso 2025', mensaje: 'Terminamos el primer dia del Congreso 2025, nos vemos mañana.' },
     ];
 
     return (
@@ -18,14 +19,18 @@ export default function AvisosModal({ open, onClose }) {
                     <XMarkIcon className="w-6" />
                 </button>
                 <h2 className="text-xl font-bold text-[#29568E] mb-4">Avisos</h2>
-                <ul className="space-y-3">
-                    {avisos.map((aviso) => (
-                        <li key={aviso.id} className="border-l-4 border-yellow-400 pl-3">
-                            <p className="font-semibold text-gray-800">{aviso.titulo}</p>
-                            <p className="text-sm text-gray-600">{aviso.mensaje}</p>
-                        </li>
-                    ))}
-                </ul>
+
+                {/* Contenedor scrollable */}
+                <div className="max-h-64 overflow-y-auto pr-1">
+                    <ul className="space-y-3">
+                        {avisos.map((aviso) => (
+                            <li key={aviso.id} className="border-l-4 border-yellow-400 pl-3">
+                                <p className="font-semibold text-gray-800">{aviso.titulo}</p>
+                                <p className="text-sm text-gray-600">{aviso.mensaje}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     )
