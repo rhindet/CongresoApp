@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'
+import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'
 import { CalendarIcon } from '@heroicons/react/24/solid';
 
 //Función para descargar el .ICS
