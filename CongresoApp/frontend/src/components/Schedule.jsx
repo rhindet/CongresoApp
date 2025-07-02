@@ -38,6 +38,7 @@ export default function Schedule() {
         try{
             //OBTENCION DE TODAS LAS PLATICAS
             const listDeSimposios = await apiRequest.getAllSimposios();
+            console.log(listDeSimposios)
             setListDeSimposios(listDeSimposios); 
              // Extraer departamentos únicos
       const departamentosUnicos = [
@@ -78,18 +79,19 @@ export default function Schedule() {
   //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
   const filteredTalks = listDeSimposios.filter(talk => {
     const fecha = talk.hora_inicio?.split('T')[0]; // "2025-10-09"
-    const dia = fecha?.split('-')[2]; 
-    console.log("Nombre"+ talk.nombre) 
-    console.log("dia"+ dia)
-    console.log("dia"+ dia)
-    console.log("fecha"+fecha)    
-    console.log("selected"+talk.departamento)         // "09"
+    const dia = fecha?.split('-')[2];   
+    
     return (
       dia === day.padStart(2, '0') && 
       (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
     );
 
   });
+
+  const getSimposio = async (talk) => {
+        const simposio = await apiRequest.getSimposio(talk._id);
+        return simposio;
+  }
 
 
 
@@ -165,14 +167,20 @@ export default function Schedule() {
             return (
               <div
                 key={index}
-                onClick={() =>
-                  navigate('/talk-details', {
-                    state: {
-                      ...talk,
-                      descripcion: 'Esta conferencia abordará los últimos avances...',
-                      salon: 'Salón A1',
-                    },
-                  })
+                onClick={ async ()=> {
+                    setLoader(true)
+                   const simposio = await getSimposio(talk);
+                     setLoader(true)
+                    navigate('/talk-details', {
+                                state: {
+                                    ...simposio,
+                                    
+                                    descripcion: simposio.objetivo,
+                                    salon: simposio.salon,
+                                        },
+                                      }); //Navigate
+                }
+                  
                 }
                 className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
                 style={{ backgroundColor: '#E6E6E6' }}

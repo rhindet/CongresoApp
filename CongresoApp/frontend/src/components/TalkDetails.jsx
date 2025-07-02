@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
 import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'
 import { CalendarIcon } from '@heroicons/react/24/solid';
+import { timeFormat } from './dateFormatt';
+import Loader from '../modules/Loader';
+
 
 //Función para descargar el .ICS
 function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 60 }) {
@@ -56,6 +59,7 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
 export default function TalkDetail() {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const [loader, setLoader] = useState(true);
 
     useEffect(() => {
         if (!state) {
@@ -65,8 +69,17 @@ export default function TalkDetail() {
 
     if (!state) return null;
 
-    const { titulo, hora, fecha, doctor, descripcion, salon, videoUrl } = state;
+    const { nombre, hora_inicio,hora_fin, fecha, jefe, objetivo, salon, videoUrl } = state;
+        const nombre1 = nombre || 'Sin dato';
+        const hora_inicio1 = hora_inicio || 'Sin dato';
+        const hora_fin1 = hora_fin || 'Sin dato';
+        const fecha1 = fecha || 'Sin dato';
+        const jefe1 = jefe || 'Sin dato';
+        const objetivo1 = objetivo || 'Sin dato';
+        const salon1 = salon || 'Sin dato';
+        const videoUrl1 = videoUrl || 'Sin dato';
 
+        //YYYY-MM-DD
     return (
         <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
             {/* HEADER */}
@@ -81,7 +94,7 @@ export default function TalkDetail() {
                 <div className="mt-1 mb-6 justify-center">
                     <button
                         onClick={() =>
-                            downloadICS({ titulo, doctor, descripcion, fecha, hora })
+                            downloadICS({ nombre1, jefe1, objetivo1, fecha1, hora_inicio1 })
                         }
                         className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
                     >
@@ -91,14 +104,15 @@ export default function TalkDetail() {
                 </div>
 
                 <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
-                    <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{titulo}</h2>
-                    <p className="text-sm md:text-base text-gray-600 mt-2">{hora} - {doctor}</p>
-
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{nombre1}</h2>
+                    <p className="text-sm md:text-base text-gray-600 mt-2">
+                    {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}  - ${jefe1}`}
+                    </p>
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Resumen</h3>
-                    <p className="text-sm md:text-base mt-2 text-gray-700">{descripcion || 'Aún no disponible.'}</p>
+                    <p className="text-sm md:text-base mt-2 text-gray-700">{objetivo1 || 'Aún no disponible.'}</p>
 
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Salón</h3>
-                    <p className="text-sm md:text-base text-gray-700">{salon || 'Auditorio Principal'}</p>
+                    <p className="text-sm md:text-base text-gray-700">{salon1 || 'Auditorio Principal'}</p>
 
                     {/* MAPA */}
                     <div className="mt-6">
@@ -112,14 +126,14 @@ export default function TalkDetail() {
                     {/* Video de YouTube embevido*/}
                     <div className="mt-5 flex items-center gap-2">
                         <span
-                            className={`w-3 h-3 rounded-full ${videoUrl ? 'bg-red-500 animate-pulse' : 'bg-gray-400'
+                            className={`w-3 h-3 rounded-full ${videoUrl1 ? 'bg-red-500 animate-pulse' : 'bg-gray-400'
                                 }`}
                         ></span>
                         <h3 className="text-lg md:text-xl font-semibold text-[#977b27]">EN VIVO</h3>
                     </div>
 
                     {videoUrl ? (
-                        <YTLive url={videoUrl} />
+                        <YTLive url={videoUrl1} />
                     ) : (
                         <div className='relative w-full pb-[56.25%] mt-1'>
                             <div className="absolute top-0 left-0 w-full h-full bg-[#fefce8] flex items-center justify-center border rounded-lg">
