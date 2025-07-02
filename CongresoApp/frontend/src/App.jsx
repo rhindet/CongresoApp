@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Inicio from "./components/Inicio";
+import Home from "./components/Home";
+import Location from "./components/Location";
+import Schedule from "./components/Schedule";
+import TalkDetails from './components/TalkDetails';
+import Events from './components/Events';
+import Information from './components/Information';
+import Simposios from './components/Simposios';
+import Magistrales from './components/Magistrales';
+import PO from './components/PO';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path="/" element={<Inicio />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/schedule" element={<Schedule />} />
+      <Route path="/location" element={<Location />} />
+      <Route path="/talk-details" element={<TalkDetails />} />
+      <Route path="/events" element={<Events />} />
+      <Route path='/info' element={<Information />} />
+      <Route path='/simposios' element={<Simposios />} />
+      <Route path='/magistrales' element={<Magistrales />} />
+      <Route path='/Preor' element={<PO />} />
+
+    </Routes>
   )
 }
 
