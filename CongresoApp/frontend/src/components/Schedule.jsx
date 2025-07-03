@@ -33,7 +33,6 @@ export default function Schedule() {
   const [departamentos, setDepartamentos] = useState([]);
   const [loader, setLoader] = useState(true);
 
-
   useEffect(() => {
     const getSimposios = async () => {
       try {
@@ -56,8 +55,6 @@ export default function Schedule() {
 
   }, []);
 
-
-
   const categoryOptions = [
     { label: 'Todos', value: 'Todos' },
     ...departamentos.map(dep => ({
@@ -75,7 +72,6 @@ export default function Schedule() {
 
     return `${horas}:${minutos.toString().padStart(2, '0')}`;
   };
-
 
   //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
   const filteredTalks = listDeSimposios.filter(talk => {
