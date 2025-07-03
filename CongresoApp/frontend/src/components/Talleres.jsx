@@ -37,14 +37,14 @@ function renderTalkCard(talk, index) {
     );
 }
 
-function PO() {
+function Talleres() {
     const [day, setDay] = useState('9');
 
     const filteredTalks = scheduleData.filter((talk) => talk.fecha === day);
 
     return (
         <div className="min-h-dvh overflow-hidden bg-[#DCDCDE]">
-            <HeaderMobile backLink="/events" title="Presentaciones Orales" />
+            <HeaderMobile backLink="/events" title="Talleres" />
             <div className="hidden md:block">
                 <HeaderDesktop backLink="/events" />
             </div>
@@ -72,4 +72,4 @@ function PO() {
     );
 }
 
-export default PO;
+export default Talleres;

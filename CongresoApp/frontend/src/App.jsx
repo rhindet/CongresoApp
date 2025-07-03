@@ -10,6 +10,7 @@ import Information from './components/Information';
 import Simposios from './components/Simposios';
 import Magistrales from './components/Magistrales';
 import PO from './components/PO';
+import Talleres from './components/Talleres';
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
       <Route path='/info' element={<Information />} />
       <Route path='/simposios' element={<Simposios />} />
       <Route path='/magistrales' element={<Magistrales />} />
-      <Route path='/Preor' element={<PO />} />
+      <Route path='/pre-or' element={<PO />} />
+      <Route path='/talleres' element={<Talleres />} />
 
     </Routes>
   )

@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
@@ -59,7 +59,7 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
 export default function TalkDetail() {
     const { state } = useLocation();
     const navigate = useNavigate();
-    const [loader, setLoader] = useState(true);
+    // const [loader, setLoader] = useState(true);
 
     useEffect(() => {
         if (!state) {
@@ -69,17 +69,17 @@ export default function TalkDetail() {
 
     if (!state) return null;
 
-    const { nombre, hora_inicio,hora_fin, fecha, jefe, objetivo, salon, videoUrl } = state;
-        const nombre1 = nombre || 'Sin dato';
-        const hora_inicio1 = hora_inicio || 'Sin dato';
-        const hora_fin1 = hora_fin || 'Sin dato';
-        const fecha1 = fecha || 'Sin dato';
-        const jefe1 = jefe || 'Sin dato';
-        const objetivo1 = objetivo || 'Sin dato';
-        const salon1 = salon || 'Sin dato';
-        const videoUrl1 = videoUrl || 'Sin dato';
+    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl } = state;
+    const nombre1 = nombre || 'Sin dato';
+    const hora_inicio1 = hora_inicio || 'Sin dato';
+    const hora_fin1 = hora_fin || 'Sin dato';
+    const fecha1 = fecha || 'Sin dato';
+    const jefe1 = jefe || 'Sin dato';
+    const objetivo1 = objetivo || 'Sin dato';
+    const salon1 = salon || 'Sin dato';
+    const videoUrl1 = videoUrl || 'Sin dato';
 
-        //YYYY-MM-DD
+    //YYYY-MM-DD
     return (
         <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
             {/* HEADER */}
@@ -98,7 +98,7 @@ export default function TalkDetail() {
                         }
                         className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
                     >
-                    <CalendarIcon className='w-8'/>
+                        <CalendarIcon className='w-8' />
                         Agendar
                     </button>
                 </div>
@@ -106,7 +106,7 @@ export default function TalkDetail() {
                 <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{nombre1}</h2>
                     <p className="text-sm md:text-base text-gray-600 mt-2">
-                    {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}  - ${jefe1}`}
+                        {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}  - ${jefe1}`}
                     </p>
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Resumen</h3>
                     <p className="text-sm md:text-base mt-2 text-gray-700">{objetivo1 || 'Aún no disponible.'}</p>

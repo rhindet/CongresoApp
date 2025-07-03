@@ -12,19 +12,19 @@ const gridItems = [
         to: '/simposios',
     },
     {
-        text: 'Platicas Magistrales',
+        text: 'Pláticas Magistrales',
         icon: <ChatBubbleLeftRightIcon className="w-16 md:w-20" />,
         to: '/Magistrales',
     },
     {
         text: 'Presentaciones Orales',
         icon: <UserGroupIcon className="w-16 md:w-20" />,
-        to: '/Preor',
+        to: '/pre-or',
     },
     {
         text: 'Talleres',
         icon: <ClipboardDocumentListIcon className="w-16 md:w-20" />,
-        to: '',
+        to: '/talleres',
     },
 ];
 
