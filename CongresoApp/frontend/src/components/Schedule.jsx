@@ -1,5 +1,6 @@
-import { useState, useEffect, Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import { useState ,useEffect} from 'react';
+import { Link, useNavigate,useLocation } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { ApiRequests } from '../core/ApiRequests';
@@ -32,16 +33,25 @@ export default function Schedule() {
   const [listDeSimposios, setListDeSimposios] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [loader, setLoader] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
 
-  useEffect(() => {
-    const getSimposios = async () => {
-      try {
-        //OBTENCION DE TODAS LAS PLATICAS
-        const listDeSimposios = await apiRequest.getAllSimposios();
-        console.log(listDeSimposios)
-        setListDeSimposios(listDeSimposios);
-        // Extraer departamentos únicos
-        const departamentosUnicos = [
+
+  useEffect ( ()  => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    const  getSimposios =  async () =>{
+           window.scrollTo(0, 0);
+        try{
+            //OBTENCION DE TODAS LAS PLATICAS
+            const listDeSimposios = await apiRequest.getAllSimposios();
+            console.log(listDeSimposios)
+            setListDeSimposios(listDeSimposios); 
+             // Extraer departamentos únicos
+      const departamentosUnicos = [
           ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
         ].sort((a, b) => a.localeCompare(b));
         setDepartamentos(departamentosUnicos);
@@ -116,9 +126,9 @@ export default function Schedule() {
         </div>
 
         {/* Filtro de categoría */}
-        <div className="mb-6 relative w-72">
-          <label className="block mb-2 text-[#29568E] font-bold text-lg text-center">
-            Filtrar por categoría
+        <div className="mb-3 relative w-72">
+          <label className="block my-3 text-[#29568E] font-bold text-lg text-center">
+            Filtrar por departamentos
           </label>
           <Listbox value={selectedCategory} onChange={setSelectedCategory}>
             <div className="relative mt-1">
@@ -163,71 +173,73 @@ export default function Schedule() {
         <h2 className="text-2xl font-bold text-blue-900 mb-1 text-center">
 
           {selectedCategory === 'Todos'
-            ? 'Todas las categorías'
+            ? 'Todos las departamentos'
             : departamentos[selectedCategory]}
         </h2>
 
         {/* Lista de conferencias */}
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4">
+          
+         {filteredTalks.length === 0 ? (
+  <p className="text-center text-gray-600 col-span-full text-lg font-medium mt-10">
+    Sin eventos de {selectedCategory} este dia. 
+  </p>
+) : (
+  filteredTalks.map((talk, index) => {
+    const tpKey = "simposios";
+    const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
+    return (
+      <div
+        key={index}
+        onClick={async () => {
+          setLoader(true);
+          const simposio = await getSimposio(talk);
+          setLoader(true);
+          navigate('/talk-details', {
+            state: {
+              ...simposio,
+              descripcion: simposio.objetivo,
+              salon: simposio.salon,
+            },
+          });
+        }}
+        className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
+        style={{ backgroundColor: '#E6E6E6' }}
+      >
+        {/* Hora */}
+        <div className="w-16 text-right pr-1">
+          <span className="text-[#29568E] font-extrabold text-2xl">
+            {`${formatoHora(talk.hora_inicio)}`}
+          </span>
+        </div>
 
-          {filteredTalks.map((talk, index) => {
+        {/* Línea vertical */}
+        <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
 
-            const tpKey = "simposios";
-            const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
+        {/* Info */}
+        <div className="flex-1 flex flex-col justify-center pl-2">
+          <span className="text-[#29568E] font-bold text-xl leading-tight">
+            {talk.nombre}
+          </span>
+          <span className="text-gray-700 text-sm font-medium">
+            {talk.jefe}
+          </span>
 
-            return (
-              <div
-                key={index}
-                onClick={async () => {
-                  setLoader(true)
-                  const simposio = await getSimposio(talk);
-                  setLoader(true)
-                  navigate('/talk-details', {
-                    state: {
-                      ...simposio,
-
-                      descripcion: simposio.objetivo,
-                      salon: simposio.salon,
-                    },
-                  }); //Navigate
-                }
-
-                }
-                className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
-                style={{ backgroundColor: '#E6E6E6' }}
-              >
-                {/* Hora */}
-                <div className="w-16 text-right pr-1">
-                  <span className="text-[#29568E] font-extrabold text-2xl">
-                    {`${formatoHora(talk.hora_inicio)}`}
-                  </span>                </div>
-
-                {/* Línea vertical */}
-                <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
-
-                {/* Info */}
-                <div className="flex-1 flex flex-col justify-center pl-2">
-                  <span className="text-[#29568E] font-bold text-xl leading-tight">
-                    {talk.nombre}
-                  </span>
-                  <span className="text-gray-700 text-sm font-medium">
-                    {talk.jefe}
-                  </span>
-
-                  {/* Etiqueta tipo de charla */}
-                  <span
-                    className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
-                    style={{
-                      backgroundColor: colors.bg,
-                      color: colors.text,
-                    }}
-                  >
-                    simposios
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          {/* Etiqueta tipo de charla */}
+          <span
+            className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
+            style={{
+              backgroundColor: colors.bg,
+              color: colors.text,
+            }}
+          >
+            simposios
+          </span>
+        </div>
+      </div>
+    );
+  })
+)}
         </div>
       </main>
     </div>
