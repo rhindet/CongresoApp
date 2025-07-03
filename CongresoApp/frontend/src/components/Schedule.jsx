@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
-import { useEffect } from 'react';
 import { ApiRequests } from '../core/ApiRequests';
 import Loader from '../modules/Loader';
+import { Listbox } from '@headlessui/react';
+import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid';
 
 
 const tpColorStyles = {
@@ -27,45 +28,45 @@ export default function Schedule() {
   const [day, setDay] = useState('9');
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const navigate = useNavigate();
-  const apiRequest = new ApiRequests(); 
+  const apiRequest = new ApiRequests();
   const [listDeSimposios, setListDeSimposios] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [loader, setLoader] = useState(true);
 
 
-  useEffect ( ()  => {
-    const  getSimposios =  async () =>{
-        try{
-            //OBTENCION DE TODAS LAS PLATICAS
-            const listDeSimposios = await apiRequest.getAllSimposios();
-            console.log(listDeSimposios)
-            setListDeSimposios(listDeSimposios); 
-             // Extraer departamentos únicos
-      const departamentosUnicos = [
+  useEffect(() => {
+    const getSimposios = async () => {
+      try {
+        //OBTENCION DE TODAS LAS PLATICAS
+        const listDeSimposios = await apiRequest.getAllSimposios();
+        console.log(listDeSimposios)
+        setListDeSimposios(listDeSimposios);
+        // Extraer departamentos únicos
+        const departamentosUnicos = [
           ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
         ].sort((a, b) => a.localeCompare(b));
         setDepartamentos(departamentosUnicos);
         setLoader(false)
-           
-        }catch(error){
+
+      } catch (error) {
         console.error('Error al obtener simposios:', error);
-        }
+      }
     };
     getSimposios();
 
-  },[]); 
+  }, []);
 
 
 
   const categoryOptions = [
-  { label: 'Todos', value: 'Todos' },
-  ...departamentos.map(dep => ({
-    label: dep,
-    value: dep
-  }))
-];
+    { label: 'Todos', value: 'Todos' },
+    ...departamentos.map(dep => ({
+      label: dep,
+      value: dep
+    }))
+  ];
 
-// Función para convertir ISO string a "H:mm"
+  // Función para convertir ISO string a "H:mm"
   const formatoHora = (isoString) => {
     if (!isoString) return "";
     const date = new Date(isoString);
@@ -79,24 +80,24 @@ export default function Schedule() {
   //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
   const filteredTalks = listDeSimposios.filter(talk => {
     const fecha = talk.hora_inicio?.split('T')[0]; // "2025-10-09"
-    const dia = fecha?.split('-')[2];   
-    
+    const dia = fecha?.split('-')[2];
+
     return (
-      dia === day.padStart(2, '0') && 
+      dia === day.padStart(2, '0') &&
       (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
     );
 
   });
 
   const getSimposio = async (talk) => {
-        const simposio = await apiRequest.getSimposio(talk._id);
-        return simposio;
+    const simposio = await apiRequest.getSimposio(talk._id);
+    return simposio;
   }
 
 
 
   return (
-    loader ? <Loader/> : <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+    loader ? <Loader /> : <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
       <HeaderMobile backLink="/home" title="Horarios" />
 
       <div className="hidden md:block">
@@ -119,33 +120,47 @@ export default function Schedule() {
         </div>
 
         {/* Filtro de categoría */}
-        <div className="mb-3 relative w-72">
-          <label className="block my-3 text-[#29568E] font-bold text-lg text-center">
+        <div className="mb-6 relative w-72">
+          <label className="block mb-2 text-[#29568E] font-bold text-lg text-center">
             Filtrar por categoría
           </label>
-          <div className="relative">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="appearance-none w-full bg-white border border-[#B1B1B4] text-[#29568E] py-3 px-4 pr-10 rounded-xl shadow-md 
-                focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 font-medium text-base"
-            >
-              {categoryOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <svg
-              className="w-5 h-5 text-gray-500 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
+          <Listbox value={selectedCategory} onChange={setSelectedCategory}>
+            <div className="relative mt-1">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white py-3 pl-4 pr-10 text-left border border-[#B1B1B4] shadow-md 
+          focus:outline-none focus:ring-2 focus:ring-yellow-400 text-[#29568E] font-semibold text-base">
+                <span className="block truncate">{selectedCategory}</span>
+                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                  <ChevronUpDownIcon className="h-5 w-5 text-[#29568E]" aria-hidden="true" />
+                </span>
+              </Listbox.Button>
+
+              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
+                {categoryOptions.map((option) => (
+                  <Listbox.Option
+                    key={option.value}
+                    className={({ active }) =>
+                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-yellow-100 text-[#29568E]' : 'text-gray-800'
+                      }`
+                    }
+                    value={option.value}
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
+                          {option.label}
+                        </span>
+                        {selected && (
+                          <span className="absolute left-3 inset-y-0 flex items-center text-yellow-500">
+                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        )}
+                      </>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </div>
+          </Listbox>
         </div>
 
         {/* Título categoría */}
@@ -160,36 +175,36 @@ export default function Schedule() {
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4">
 
           {filteredTalks.map((talk, index) => {
-            
+
             const tpKey = "simposios";
             const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
 
             return (
               <div
                 key={index}
-                onClick={ async ()=> {
-                    setLoader(true)
-                   const simposio = await getSimposio(talk);
-                     setLoader(true)
-                    navigate('/talk-details', {
-                                state: {
-                                    ...simposio,
-                                    
-                                    descripcion: simposio.objetivo,
-                                    salon: simposio.salon,
-                                        },
-                                      }); //Navigate
+                onClick={async () => {
+                  setLoader(true)
+                  const simposio = await getSimposio(talk);
+                  setLoader(true)
+                  navigate('/talk-details', {
+                    state: {
+                      ...simposio,
+
+                      descripcion: simposio.objetivo,
+                      salon: simposio.salon,
+                    },
+                  }); //Navigate
                 }
-                  
+
                 }
                 className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
                 style={{ backgroundColor: '#E6E6E6' }}
               >
                 {/* Hora */}
                 <div className="w-16 text-right pr-1">
-              <span className="text-[#29568E] font-extrabold text-2xl">
-                {`${formatoHora(talk.hora_inicio)}`}
-              </span>                </div>
+                  <span className="text-[#29568E] font-extrabold text-2xl">
+                    {`${formatoHora(talk.hora_inicio)}`}
+                  </span>                </div>
 
                 {/* Línea vertical */}
                 <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
@@ -211,7 +226,7 @@ export default function Schedule() {
                       color: colors.text,
                     }}
                   >
-                   simposios
+                    simposios
                   </span>
                 </div>
               </div>
