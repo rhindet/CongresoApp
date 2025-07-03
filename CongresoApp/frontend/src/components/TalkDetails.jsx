@@ -3,10 +3,41 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'
 import { CalendarIcon } from '@heroicons/react/24/solid';
 import { timeFormat } from './dateFormatt';
 import Loader from '../modules/Loader';
+import S_201 from '../assets/S_201.png';
+import S_202 from '../assets/S_202.png';
+import S_203 from '../assets/S_203.png';
+import S_204 from '../assets/S_204.png';
+import S_205 from '../assets/S_205.png';
+import S_206 from '../assets/S_206.png';
+import S_306 from '../assets/S_306.png';
+import S_307 from '../assets/S_307.png';
+import S_308 from '../assets/S_308.png';
+import S_309 from '../assets/S_309.png';
+import S_Antartida from '../assets/S_Antartida.png';
+import S_Canada from '../assets/S_Canada.png';
+import S_EstadosUnidos from '../assets/S_EstadosUnidos.png';
+import S_Europa from '../assets/S_Europa.png';
+import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'; // imagen por default
+
+const salonMapas = {
+  '201': S_201,
+  '202': S_202,
+  '203': S_203,
+  '204': S_204,
+  '205': S_205,
+  '206': S_206,
+  '306': S_306,
+  '307': S_307,
+  '308': S_308,
+  '309': S_309,
+  'Antártida': S_Antartida,
+  'Europa': S_Europa,
+  'Canadá': S_Canada,
+  'Estados Unidos': S_EstadosUnidos
+};
 
 
 //Función para descargar el .ICS
@@ -116,12 +147,13 @@ export default function TalkDetail() {
 
                     {/* MAPA */}
                     <div className="mt-6">
-                        <img
-                            src={planoMapa}
-                            alt="Mapa del auditorio"
-                            className="w-full max-h-[500px] object-contain rounded-lg border"
-                        />
+                    <img
+                        src={salonMapas[salon1] || planoMapa}
+                        alt={`Mapa del salón ${salon1}`}
+                        className="w-full max-h-[500px] object-contain rounded-lg border"
+                    />
                     </div>
+
 
                     {/* Video de YouTube embevido*/}
                     <div className="mt-5 flex items-center gap-2">
