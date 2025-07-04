@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg';
+import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png';
 import logoPrincipal from '../assets/logo.png';
 import logoCintermex from '../assets/LogoCintermex.png';
 

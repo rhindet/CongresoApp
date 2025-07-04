@@ -20,7 +20,7 @@ import S_Antartida from '../assets/S_Antartida.png';
 import S_Canada from '../assets/S_Canada.png';
 import S_EstadosUnidos from '../assets/S_EstadosUnidos.png';
 import S_Europa from '../assets/S_Europa.png';
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg'; // imagen por default
+import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'; // imagen por default
 
 const salonMapas = {
   '201': S_201,

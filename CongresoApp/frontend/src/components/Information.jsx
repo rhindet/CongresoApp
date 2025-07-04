@@ -1,26 +1,17 @@
-
 import { Link } from 'react-router-dom';
-import HeaderMobile from '../modules/HeaderMobile'
-import HeaderDesktop from '../modules/HeaderDesktop'
-import logo from '../assets/logo.png'
-import logoCintermex from '../assets/LogoCintermex.png'
-import backgroundPage from '../assets/Fondo.png';
-
+import HeaderMobile from '../modules/HeaderMobile';
+import HeaderDesktop from '../modules/HeaderDesktop';
+import logo from '../assets/logo.png';
+import logoCintermex from '../assets/LogoCintermex.png';
 
 function Information() {
   return (
     <div
-      className="min-h-screen flex flex-col text-blue-900"
-      style={{
-        backgroundImage: `url(${backgroundPage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+      className="min-h-screen flex flex-col text-blue-900 bg-gradient-to-r from-gray-400 via-gray-300 to-white"
     >
       {/* Header Mobile*/}
       <HeaderMobile backLink="/home" title="CONVOCATORIA 2025" />
-      {/* Heacer Desktop */}
+      {/* Header Desktop */}
       <div className="hidden md:block">
         <HeaderDesktop backLink="/home" />
       </div>
@@ -81,6 +72,5 @@ function Information() {
     </div>
   );
 }
-
 
 export default Information;
