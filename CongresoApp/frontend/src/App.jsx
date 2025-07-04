@@ -7,10 +7,10 @@ import Schedule from "./components/Schedule";
 import TalkDetails from './components/TalkDetails';
 import Events from './components/Events';
 import Information from './components/Information';
-import Simposios from './components/Simposios';
-import Magistrales from './components/Magistrales';
-import PO from './components/PO';
-import Talleres from './components/Talleres';
+import Simposios from './components/Cate_Eventos/Simposios';
+import Magistrales from './components/Cate_Eventos/Magistrales';
+import PO from './components/Cate_Eventos/PO';
+import Talleres from './components/Cate_Eventos/Talleres';
 
 function App() {
   return (
