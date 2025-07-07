@@ -19,7 +19,7 @@ export default function HeaderMobile({ backLink }) {
         </Link>
       </div>
 
-      {/* Botón de avisos (esquina derecha) */}
+      {/* Botón de avisos */}
       <div className="fixed top-8 right-8 z-50">
         <button
           onClick={() => setAvisosAbiertos(true)}
