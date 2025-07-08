@@ -14,4 +14,12 @@ export class ApiRequests {
          return result;
     }
 
+    async getSimposio(id){
+         var result = await this._apiCall.getSimposio(id);
+         
+         return result;
+    }
+
+    
+
 }

@@ -26,7 +26,7 @@ export class ApiCalls{
 
     async getAllSimposios(){
         var result = await this._buildFetch.fetch({url:"/api/platicas/simposios",method:methods.GET,headers:getHeaders()})
-        
+        console.log(result)
         if(result != null && result.status == 200){
             const simposios = result.data.data.map(item => new Simposios(item));
             return simposios
@@ -36,6 +36,21 @@ export class ApiCalls{
        
         //return this.formatResult(result);
     }
+
+    async getSimposio(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/simposio/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    
 
 
 }
@@ -54,8 +69,8 @@ export class BuildFetch{
       };
      
       const fullUrl = this.#apiRootUrl + url;
+      console.log(fullUrl)
       const respuesta = await fetch(fullUrl, options);
-
       if (!respuesta.ok) {
         throw new Error('Error en el fetch: ' + respuesta.status);
       }

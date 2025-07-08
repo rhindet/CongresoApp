@@ -1,6 +1,7 @@
 export class Simposios {
   constructor(data) {
     
+    this._id = data._id || "";
     this.departamento = data.departamento || "";
     this.nombre = data.nombre || "";
     this.objetivo = data.objetivo || "";
