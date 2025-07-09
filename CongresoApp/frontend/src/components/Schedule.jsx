@@ -13,11 +13,11 @@ const tpColorStyles = {
     bg: '#5F8575',
     text: '#0b5345',
   },
-  'platicas magistrales': {
+  'magistral': {
     bg: '#E0B7B1',
     text: '#a93226',
   },
-  'simposios': {
+  'simposio': {
     bg: '#B6A6CA',
     text: '#5b2c6f',
   },
@@ -50,12 +50,13 @@ export default function Schedule() {
       window.scrollTo(0, 0);
       try {
         //OBTENCION DE TODAS LAS PLATICAS
-        const listDeSimposios = await apiRequest.getAllSimposios();
-        console.log(listDeSimposios)
-        setListDeSimposios(listDeSimposios);
+        const listDeSimposiosPaso = await apiRequest.getAllEvents();
+       console.log("listDeSimposiosPaso")
+       console.log(listDeSimposiosPaso)
+        setListDeSimposios(listDeSimposiosPaso);
         // Extraer departamentos únicos
         const departamentosUnicos = [
-          ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
+          ...new Set(listDeSimposiosPaso.map(s => s.departamento).filter(Boolean))
         ].sort((a, b) => a.localeCompare(b));
         setDepartamentos(departamentosUnicos);
         setLoader(false)
@@ -87,21 +88,29 @@ export default function Schedule() {
   };
 
   //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
-  const filteredTalks = listDeSimposios.filter(talk => {
-    const fecha = talk.hora_inicio?.split('T')[0]; // "2025-10-09"
-    const dia = fecha?.split('-')[2];
+const filteredTalks = listDeSimposios.filter(talk => {
+  const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
 
-    return (
-      dia === day.padStart(2, '0') &&
-      (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
-    );
+  return (
+    dia === day.padStart(2, '0') &&
+    (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
+  );
+});
 
-  });
+
 
   const getSimposio = async (talk) => {
-    const simposio = await apiRequest.getSimposio(talk._id);
+    console.log(talk.id)
+    const simposio = await apiRequest.getSimposio(talk.id);
     return simposio;
   }
+
+   const getEvent = async (talk) => {
+    console.log(talk.id)
+    const simposio = await apiRequest.getEvent(talk.id);
+    return simposio;
+  }
+  
 
 
 
@@ -196,7 +205,7 @@ export default function Schedule() {
                   key={index}
                   onClick={async () => {
                     setLoader(true);
-                    const simposio = await getSimposio(talk);
+                    const simposio = await getEvent(talk);
                     setLoader(true);
                     navigate('/talk-details', {
                       state: {
@@ -232,11 +241,11 @@ export default function Schedule() {
                     <span
                       className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                       style={{
-                        backgroundColor: colors.bg,
-                        color: colors.text,
+                        backgroundColor: tpColorStyles[talk.tipo].bg,
+                        color: tpColorStyles[talk.tipo].text,
                       }}
                     >
-                      simposios
+                      {talk.tipo}
                     </span>
                   </div>
                 </div>

@@ -42,14 +42,14 @@ function Simposios() {
         return `${horas}:${minutos.toString().padStart(2, '0')}`;
     };
 
-    const filteredTalks = listDeSimposios.filter(talk => {
-        const dia = talk.hora_inicio?.split('T')[0]?.split('-')[2];
+        const filteredTalks = listDeSimposios.filter(talk => {
+        const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
         return dia === day.padStart(2, '0');
     });
 
     const getSimposio = async (talk) => {
         const apiRequest = new ApiRequests();
-        return await apiRequest.getSimposio(talk._id);
+        return await apiRequest.getSimposio(talk.id);
     };
 
     return (

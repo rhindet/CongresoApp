@@ -4,7 +4,7 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
 import { CalendarIcon } from '@heroicons/react/24/solid';
-import { timeFormat } from './dateFormatt';
+import { timeFormat,formatDownloadICS } from './dateFormatt';
 import Loader from '../modules/Loader';
 import S_201 from '../assets/S_201.png';
 import S_202 from '../assets/S_202.png';
@@ -99,7 +99,7 @@ export default function TalkDetail() {
     }, [state, navigate]);
 
     if (!state) return null;
-
+    console.log(state)
     const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl } = state;
     const nombre1 = nombre || 'Sin dato';
     const hora_inicio1 = hora_inicio || 'Sin dato';
@@ -124,9 +124,17 @@ export default function TalkDetail() {
                 {/* BOTON DE AGREGAR AL CALENDARIO */}
                 <div className="mt-1 mb-6 justify-center">
                     <button
-                        onClick={() =>
-                            downloadICS({ nombre1, jefe1, objetivo1, fecha1, hora_inicio1 })
-                        }
+                        onClick={() => {
+                                const { fecha, hora, duracionMin } = formatDownloadICS(hora_inicio1, hora_fin1);
+                                downloadICS({
+                                    titulo: nombre1,
+                                    doctor: jefe1,
+                                    descripcion: objetivo1,
+                                    fecha,
+                                    hora,
+                                    duracionMin
+                                });
+                                }}
                         className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
                     >
                         <CalendarIcon className='w-8' />

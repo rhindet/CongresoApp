@@ -1,7 +1,7 @@
 export class Simposios {
   constructor(data) {
     
-    this._id = data._id || "";
+    this.id = data.id || "";
     this.departamento = data.departamento || "";
     this.nombre = data.nombre || "";
     this.objetivo = data.objetivo || "";
@@ -15,6 +15,7 @@ export class Simposios {
     this.salon = data.salon || "";
     this.capacidad = data.capacidad || 0;
     this.extra = data.extra || "";
+     this.tipo = data.tipo || "";
     this.programa = data.programa || [];
   }
 }

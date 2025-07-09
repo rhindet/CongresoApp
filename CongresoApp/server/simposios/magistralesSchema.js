@@ -6,7 +6,8 @@ const ProgramaSchema = new mongoose.Schema({
   ponentes: [String], // o puedes hacer otro esquema si los ponentes tienen más datos
 });
 
-const SimposioSchema = new mongoose.Schema({
+const MagistralSchema = new mongoose.Schema({
+  id:String,
   departamento: String,
   nombre: String,
   objetivo: String,
@@ -23,4 +24,4 @@ const SimposioSchema = new mongoose.Schema({
   programa: [ProgramaSchema]
 }, { collection: 'eventos' });
 
-module.exports = mongoose.model('Simposio', SimposioSchema);
+module.exports = mongoose.model('MagistralSchema', MagistralSchema);

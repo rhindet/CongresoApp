@@ -23,8 +23,8 @@ function Talleres() {
             const apiRequest = new ApiRequests(); // ← definido dentro del efecto
             window.scrollTo(0, 0);
             try {
-                const allSimposios = await apiRequest.getAllSimposios();
-                // setListDeSimposios(allSimposios);
+                const allSimposios = await apiRequest.getAllTalleres();
+                setListDeSimposios(allSimposios);
             } catch (error) {
                 console.error('Error al obtener magistrales:', error);
             } finally {
@@ -49,13 +49,13 @@ function Talleres() {
 
     const getSimposio = async (talk) => {
         const apiRequest = new ApiRequests();
-        return await apiRequest.getSimposio(talk._id);
+        return await apiRequest.getTaller(talk.id);
     };
 
     return (
         loader ? <Loader /> : (
             <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
-                <HeaderMobile backLink="/events" title="Presentaciones Orales" />
+                <HeaderMobile backLink="/events" title="Talleres" />
                 <div className="hidden md:block">
                     <HeaderDesktop backLink="/events" />
                 </div>
@@ -121,8 +121,8 @@ function Talleres() {
                                             <span
                                                 className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                                                 style={{
-                                                    backgroundColor: colors.bg,
-                                                    color: colors.text,
+                                                     backgroundColor: tpColorStyles['taller'].bg,
+                                                     color: tpColorStyles['taller'].text,
                                                 }}
                                             >
                                                 Talleres

@@ -6,7 +6,7 @@ import { ApiRequests } from '../../core/ApiRequests';
 import Loader from '../../modules/Loader';
 
 const tpColorStyles = {
-    'presentaciones orales': {
+    'presentaciones_orales': {
         bg: '#5F8575',
         text: '#0b5345',
     },
@@ -23,8 +23,8 @@ function PO() {
             const apiRequest = new ApiRequests(); // ← definido dentro del efecto
             window.scrollTo(0, 0);
             try {
-                const allSimposios = await apiRequest.getAllSimposios();
-                // setListDeSimposios(allSimposios);
+                const allOralPresentation = await apiRequest.getAllOralPresentation();
+                setListDeSimposios(allOralPresentation);
             } catch (error) {
                 console.error('Error al obtener magistrales:', error);
             } finally {
@@ -43,13 +43,15 @@ function PO() {
     };
 
     const filteredTalks = listDeSimposios.filter(talk => {
-        const dia = talk.hora_inicio?.split('T')[0]?.split('-')[2];
+        const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
         return dia === day.padStart(2, '0');
     });
 
+
+
     const getSimposio = async (talk) => {
         const apiRequest = new ApiRequests();
-        return await apiRequest.getSimposio(talk._id);
+        return await apiRequest.getOralPresentation(talk.id);
     };
 
     return (
@@ -121,8 +123,8 @@ function PO() {
                                             <span
                                                 className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                                                 style={{
-                                                    backgroundColor: colors.bg,
-                                                    color: colors.text,
+                                                    backgroundColor: tpColorStyles['presentaciones_orales'].bg,
+                                                     color: tpColorStyles['presentaciones_orales'].text,
                                                 }}
                                             >
                                                 Presentacones Orales

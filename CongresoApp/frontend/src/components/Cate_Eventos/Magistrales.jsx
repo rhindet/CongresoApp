@@ -23,8 +23,8 @@ function Magistrales() {
             const apiRequest = new ApiRequests(); // ← definido dentro del efecto
             window.scrollTo(0, 0);
             try {
-                const allSimposios = await apiRequest.getAllSimposios();
-                // setListDeSimposios(allSimposios);
+                const allMagistales = await apiRequest.getAllMagistrales();
+                setListDeSimposios(allMagistales);
             } catch (error) {
                 console.error('Error al obtener magistrales:', error);
             } finally {
@@ -48,8 +48,9 @@ function Magistrales() {
     });
 
     const getSimposio = async (talk) => {
+       
         const apiRequest = new ApiRequests();
-        return await apiRequest.getSimposio(talk._id);
+        return await apiRequest.getMagistral(talk.id);
     };
 
     return (
@@ -121,8 +122,8 @@ function Magistrales() {
                                             <span
                                                 className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                                                 style={{
-                                                    backgroundColor: colors.bg,
-                                                    color: colors.text,
+                                                    backgroundColor: tpColorStyles['platicas magistrales'].bg,
+                                                    color: tpColorStyles['platicas magistrales'].text,
                                                 }}
                                             >
                                                 Pláticas Magistrales

@@ -23,12 +23,36 @@ export class ApiCalls{
     _buildFetch = new BuildFetch()
     constructor(){};
 
+     async getAllEvents(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/eventos",method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.flatMap((grupo, index) => {
+              const tipo = index === 0 ? 'simposio' : 'magistral';
+
+              return grupo.map(item => {
+                item.tipo = tipo; // le añadimos el tipo
+                return new Simposios(item); // instanciamos
+              });
+            });
+
+            return simposios
+
+
+        }
+
+
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
 
     async getAllSimposios(){
         var result = await this._buildFetch.fetch({url:"/api/platicas/simposios",method:methods.GET,headers:getHeaders()})
         console.log(result)
         if(result != null && result.status == 200){
-            const simposios = result.data.data.map(item => new Simposios(item));
+            const simposios = result.data.data.simposios.map(item => new Simposios(item));
             return simposios
         }
         console.log("Llamada realizada sin exito")   
@@ -36,6 +60,55 @@ export class ApiCalls{
        
         //return this.formatResult(result);
     }
+      async getAllMagistrales(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/magistrales",method:methods.GET,headers:getHeaders()})
+                console.log("resultados:magistrales")
+
+        console.log(result.data.data.platicas_magistrales[0])
+
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getAllOralPresentation(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/oralPresentations",method:methods.GET,headers:getHeaders()})
+                console.log("resultados:magistrales")
+
+        console.log(result)
+
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+      async getAllTalleres(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/talleres",method:methods.GET,headers:getHeaders()})
+                console.log("resultados:magistrales")
+
+        console.log(result)
+
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    
 
     async getSimposio(id){
         var result = await this._buildFetch.fetch({url:`/api/platicas/simposio/${id}`,method:methods.GET,headers:getHeaders()})
@@ -49,6 +122,59 @@ export class ApiCalls{
        
         //return this.formatResult(result);
     }
+
+    async getEvent(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/evento/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getMagistral(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/magistral/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getTaller(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/taller/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getOralPresentation(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/oralPresentation/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+    
 
     
 
