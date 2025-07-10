@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
-import logo from '../assets/logo.png';
-import logoCintermex from '../assets/LogoCintermex.png';
+import logo from '../../public//assets/logo.png';
+import logoCintermex from '../../public//assets/LogoCintermex.png';
 
 function Information() {
   return (

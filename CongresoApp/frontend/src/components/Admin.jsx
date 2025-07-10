@@ -38,7 +38,7 @@ export default function Admin() {
   const [setScrollY] = useState(0);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [aviso, setAviso] = useState({
-    titulo: '',
+    titulo: '', 
     descripcion: '',
     hora: '',
   });

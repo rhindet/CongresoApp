@@ -3,7 +3,7 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import ImageCarousel from '../modules/ImageCarousel'
 import { CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
-import logo from '../assets/logo.png'
+import logo from '../../public/assets/logo.png'
 
 // Lista de opciones del grid
 const gridItems = [

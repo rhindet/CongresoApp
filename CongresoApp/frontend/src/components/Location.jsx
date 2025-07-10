@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png';
-import logoPrincipal from '../assets/logo.png';
-import logoCintermex from '../assets/LogoCintermex.png';
+import planoMapa from '../../public/assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png';
+import logoPrincipal from '../../public/assets/logo.png';
+import logoCintermex from '../../public/assets/LogoCintermex.png';
 
 function Location() {
   const [isPortrait, setIsPortrait] = useState(false);

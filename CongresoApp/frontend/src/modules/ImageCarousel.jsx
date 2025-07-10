@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import img1 from '../assets/img1-carrusel.jpg';
-import img2 from '../assets/img2-carrusel.jpg';
-import img3 from '../assets/img3-carrusel.jpg';
-import img4 from '../assets/img4-carrusel.jpg';
-import img5 from '../assets/img5-carrusel.jpg';
-import img6 from '../assets/img6-carrusel.jpg';
-import img7 from '../assets/img7-carrusel.jpg';
+import img1 from '../../public/assets/img1-carrusel.jpg';
+import img2 from '../../public/assets/img2-carrusel.jpg';
+import img3 from '../../public/assets/img3-carrusel.jpg';
+import img4 from '../../public/assets/img4-carrusel.jpg';
+import img5 from '../../public/assets/img5-carrusel.jpg';
+import img6 from '../../public/assets/img6-carrusel.jpg';
+import img7 from '../../public/assets/img7-carrusel.jpg';
 
 const images = [img1, img2, img3, img4, img5, img6, img7];
 
