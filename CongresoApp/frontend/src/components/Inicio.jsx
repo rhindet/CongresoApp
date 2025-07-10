@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import logo from '../../public/assets/logo.png'
+// import fondo from '../../public/assets/patronFondo.svg'
 
 function Inicio() {
   return (
-    <div className="min-h-dvh bg-[#DCDCDE] flex flex-col md:flex-row items-center justify-center p-4 md:p-10 gap-6 overflow-x-hidden">
+    <div className="min-h-dvh flex flex-col md:flex-row items-center justify-center p-4 md:p-10 gap-6 overflow-x-hidden">
       {/* Logo del congreso */}
       <div className='w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left space-y-4'>
         <img src={logo} alt="Logo Congreso" className='w-full max-w-xs md:max-w-sm lg:max-w-md' />

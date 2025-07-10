@@ -46,7 +46,7 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Home() {
     return (
-        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden"
+        <div className="min-h-dvh w-full h-full overflow-hidden"
         >
             {/* Header Mobile*/}
             <HeaderMobile backLink="/" title="Home" />
