@@ -94,7 +94,7 @@ export default function Admin() {
   });
 
   return (
-    loader ? <Loader /> : <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+    loader ? <Loader /> : <div className="min-h-dvh w-full bg-[#9fd8e9] overflow-x-hidden">
       <HeaderMobile backLink="/home" title="**** ADMIN ****" />
 
       <div className="hidden md:block">

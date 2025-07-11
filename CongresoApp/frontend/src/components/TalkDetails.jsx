@@ -139,7 +139,7 @@ export default function TalkDetail() {
 
     //YYYY-MM-DD
     return (
-        <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+        <div className="min-h-dvh w-full overflow-x-hidden">
             {/* HEADER */}
             <HeaderMobile backLink="/schedule" title="Detalle" />
             {/* Heacer Desktop */}

@@ -115,7 +115,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
 
 
   return (
-    loader ? <Loader /> : <div className="min-h-dvh w-full bg-[#DCDCDE] overflow-x-hidden">
+    loader ? <Loader /> : <div className="min-h-dvh w-full overflow-x-hidden">
       <HeaderMobile backLink="/home" title="Horarios" />
 
       <div className="hidden md:block">
@@ -130,7 +130,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
               key={d}
               onClick={() => setDay(d)}
               className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30
-              ${day === d ? 'bg-yellow-400 text-white' : 'bg-gray-300 text-gray-600'}`}
+              ${day === d ? 'bg-yellow-400 text-white' : 'bg-[#999999]'}`}
             >
               {d} Octubre
             </button>

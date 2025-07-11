@@ -7,7 +7,7 @@ import logoCintermex from '../../public//assets/LogoCintermex.png';
 function Information() {
   return (
     <div
-      className="min-h-screen flex flex-col text-blue-900 bg-gradient-to-r from-gray-400 via-gray-300 to-white"
+      className="min-h-screen flex flex-col text-blue-900"
     >
       {/* Header Mobile*/}
       <HeaderMobile backLink="/home" title="CONVOCATORIA 2025" />

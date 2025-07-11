@@ -34,7 +34,7 @@ function Location() {
   }, [lastScrollY]);
 
   return (
-    <div className="min-h-screen bg-gray-300 w-full flex flex-col relative overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col relative overflow-hidden">
       {isPortrait && (
         <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col justify-center items-center text-white text-center px-6">
           <HeaderDesktop backLink="/home" />

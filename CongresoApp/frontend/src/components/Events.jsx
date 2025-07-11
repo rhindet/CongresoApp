@@ -44,7 +44,7 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Events() {
     return (
-        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden">
+        <div className="min-h-dvh w-full h-full overflow-hidden">
             {/* Header Mobile*/}
             <HeaderMobile backLink="/home" title="Eventos" />
             {/* Heacer Desktop */}
