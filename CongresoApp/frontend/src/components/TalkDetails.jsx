@@ -180,23 +180,7 @@ export default function TalkDetail() {
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Salón</h3>
                     <p className="text-sm md:text-base text-gray-700">{salon1 || 'Auditorio Principal'}</p>
 
-                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Ponentes</h3>
                     
-                       <div
-                          ref={scrollRef}
-                          className="flex overflow-x-auto gap-4 p-4 scroll-smooth scrollbar-hide"
-                        >
-                          {programa1.map((elemento, index) => (
-                            <Ponentes
-                              key={index}
-                              programa={elemento.ponentes}
-                              index={index}
-                              departamento={departamento1}
-                            />
-                          ))}
-                         <div className="min-w-[200px]" />
-
-                        </div>
 
                     {/* MAPA */}
                     <div className="mt-6">
@@ -206,6 +190,34 @@ export default function TalkDetail() {
                         className="w-full max-h-[500px] object-contain rounded-lg border"
                     />
                     </div>
+                    
+                     {programa1 && programa1.length > 0 ? (
+                        <>
+                            <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">
+                            Ponentes
+                            </h3>
+
+                            <div
+                            ref={scrollRef}
+                            className="flex overflow-x-auto gap-4 p-4 scroll-smooth scrollbar-hide"
+                            >
+                            {programa1.map((elemento, index) => {
+                                    if (!Array.isArray(elemento.ponentes)) return null; // ❌ evita errores
+
+                                    return (
+                                        <Ponentes
+                                        key={index}
+                                        programa={elemento.ponentes}
+                                        index={index}
+                                        departamento={departamento1}
+                                        />
+                                    );
+                                    })}
+                            <div className="min-w-[200px]" /> {/* Padding extra para mostrar el último */}
+                            </div>
+                        </>
+                        ) : null}
+                        
 
 
                     {/* Video de YouTube embevido*/}
