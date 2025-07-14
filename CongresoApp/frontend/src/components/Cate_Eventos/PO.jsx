@@ -94,6 +94,7 @@ function PO() {
                                             const simposio = await getSimposio(talk);
                                             navigate('/talk-details', {
                                                 state: {
+                                                    from: 'po',
                                                     ...simposio,
                                                     descripcion: simposio.objetivo,
                                                     salon: simposio.salon,

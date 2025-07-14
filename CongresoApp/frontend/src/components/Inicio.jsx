@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import logo from '../../public/assets/logo.png'
-// import fondo from '../../public/assets/patronFondo.svg'
+import logoFACMED from '../../public/assets/logoFACMED.png'
 
 function Inicio() {
   return (
@@ -19,10 +19,14 @@ function Inicio() {
         </p>
       </div>
 
-      {/* Imagen central */}
-      <div className='w-full md:w-1/2 flex flex-col items-center gap-6'>
+      {/* Logo FACMED */}
+      <div className='w-1/2 md:w-lg flex flex-col items-center md:items-start text-center md:text-left space-y-4'>
+        <img src={logoFACMED} alt="Logo Congreso" className='w-full max-w-xs md:max-w-sm lg:max-w-md' />
+      </div>
 
-      {/* Boton */}
+      {/* Div bloque boton */}
+      <div className='w-full md:w-1/2 flex flex-col items-center gap-6'>
+        {/* Boton */}
         <div className="flex flex-row gap-4 mt-3 md:mx-auto md:w-full">
           <Link
             to="/home"

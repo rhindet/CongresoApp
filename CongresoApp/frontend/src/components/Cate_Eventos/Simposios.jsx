@@ -92,6 +92,7 @@ function Simposios() {
                                             const simposio = await getSimposio(talk);
                                             navigate('/talk-details', {
                                                 state: {
+                                                    from: 'simposios',
                                                     ...simposio,
                                                     descripcion: simposio.objetivo,
                                                     salon: simposio.salon,

@@ -93,6 +93,7 @@ function Magistrales() {
                                             const simposio = await getSimposio(talk);
                                             navigate('/talk-details', {
                                                 state: {
+                                                    from: 'magistrales',
                                                     ...simposio,
                                                     descripcion: simposio.objetivo,
                                                     salon: simposio.salon,

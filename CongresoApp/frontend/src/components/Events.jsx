@@ -32,7 +32,7 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl px-1 py-7 md:py-3 md:px-2 text-white font-semibold text-base md:text-2xl hover:bg-yellow-400 transition-all
+        className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl px-1 py-6 md:py-3 md:px-2 text-white font-semibold text-sm md:text-2xl hover:bg-yellow-400 transition-all
       ${isDesktop
                 ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[200px] max-w-[350px]'
                 : 'w-full'}`}

@@ -4,7 +4,7 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
 import { CalendarIcon } from '@heroicons/react/24/solid';
-import { timeFormat,formatDownloadICS } from './dateFormatt';
+import { timeFormat, formatDownloadICS } from './dateFormatt';
 import Loader from '../modules/Loader';
 import S_201 from '../../public/assets/S_201.png';
 import S_202 from '../../public/assets/S_202.png';
@@ -24,20 +24,20 @@ import planoMapa from '../../public/assets/Plano_Centro_de_Convenciones_1 (ZONAC
 import Ponentes from '../modules/Ponentes';
 
 const salonMapas = {
-  '201': S_201,
-  '202': S_202,
-  '203': S_203,
-  '204': S_204,
-  '205': S_205,
-  '206': S_206,
-  '306': S_306,
-  '307': S_307,
-  '308': S_308,
-  '309': S_309,
-  'Antártida': S_Antartida,
-  'Europa': S_Europa,
-  'Canadá': S_Canada,
-  'Estados Unidos': S_EstadosUnidos
+    '201': S_201,
+    '202': S_202,
+    '203': S_203,
+    '204': S_204,
+    '205': S_205,
+    '206': S_206,
+    '306': S_306,
+    '307': S_307,
+    '308': S_308,
+    '309': S_309,
+    'Antártida': S_Antartida,
+    'Europa': S_Europa,
+    'Canadá': S_Canada,
+    'Estados Unidos': S_EstadosUnidos
 };
 
 
@@ -89,10 +89,13 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
 
 
 export default function TalkDetail() {
-      const scrollRef = useRef(null);
+    const scrollRef = useRef(null);
     const { state } = useLocation();
     const navigate = useNavigate();
     // const [loader, setLoader] = useState(true);
+
+    const backLink = state?.from ? `/${state.from}` : '/schedule';
+
 
     useEffect(() => {
         if (!state) {
@@ -101,31 +104,31 @@ export default function TalkDetail() {
     }, [state, navigate]);
 
     useEffect(() => {
-    const interval = setInterval(() => {
-      if (scrollRef.current) {
-        const container = scrollRef.current;
-        const cardWidth = container.firstChild?.offsetWidth || 0;
-        const visibleWidth = container.offsetWidth;
-        const maxScrollLeft = container.scrollWidth - visibleWidth;
+        const interval = setInterval(() => {
+            if (scrollRef.current) {
+                const container = scrollRef.current;
+                const cardWidth = container.firstChild?.offsetWidth || 0;
+                const visibleWidth = container.offsetWidth;
+                const maxScrollLeft = container.scrollWidth - visibleWidth;
 
-        // Avanza una "pantalla" o fila de tarjetas
-       const nextScrollLeft = container.scrollLeft + cardWidth;
+                // Avanza una "pantalla" o fila de tarjetas
+                const nextScrollLeft = container.scrollLeft + cardWidth;
 
-            if (nextScrollLeft + visibleWidth > container.scrollWidth) {
-            // Reinicia scroll si el próximo paso lo saca del límite
-            container.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-            container.scrollTo({ left: nextScrollLeft, behavior: 'smooth' });
-            }
+                if (nextScrollLeft + visibleWidth > container.scrollWidth) {
+                    // Reinicia scroll si el próximo paso lo saca del límite
+                    container.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    container.scrollTo({ left: nextScrollLeft, behavior: 'smooth' });
                 }
-    }, 4000); // cada 5 segundos
+            }
+        }, 4000); // cada 5 segundos
 
-    return () => clearInterval(interval);
-  }, []);
+        return () => clearInterval(interval);
+    }, []);
 
     if (!state) return null;
     console.log(state)
-    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl , programa,departamento} = state;
+    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento } = state;
     const nombre1 = nombre || 'Sin dato';
     const hora_inicio1 = hora_inicio || 'Sin dato';
     const hora_fin1 = hora_fin || 'Sin dato';
@@ -141,10 +144,10 @@ export default function TalkDetail() {
     return (
         <div className="min-h-dvh w-full overflow-x-hidden">
             {/* HEADER */}
-            <HeaderMobile backLink="/schedule" title="Detalle" />
+            <HeaderMobile backLink={backLink} title="Detalle" />
             {/* Heacer Desktop */}
             <div className="hidden md:block">
-                <HeaderDesktop backLink="/schedule" />
+                <HeaderDesktop backLink={backLink} />
             </div>
 
             <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
@@ -152,16 +155,16 @@ export default function TalkDetail() {
                 <div className="mt-1 mb-6 justify-center">
                     <button
                         onClick={() => {
-                                const { fecha, hora, duracionMin } = formatDownloadICS(hora_inicio1, hora_fin1);
-                                downloadICS({
-                                    titulo: nombre1,
-                                    doctor: jefe1,
-                                    descripcion: objetivo1,
-                                    fecha,
-                                    hora,
-                                    duracionMin
-                                });
-                                }}
+                            const { fecha, hora, duracionMin } = formatDownloadICS(hora_inicio1, hora_fin1);
+                            downloadICS({
+                                titulo: nombre1,
+                                doctor: jefe1,
+                                descripcion: objetivo1,
+                                fecha,
+                                hora,
+                                duracionMin
+                            });
+                        }}
                         className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
                     >
                         <CalendarIcon className='w-8' />
@@ -180,44 +183,44 @@ export default function TalkDetail() {
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Salón</h3>
                     <p className="text-sm md:text-base text-gray-700">{salon1 || 'Auditorio Principal'}</p>
 
-                    
+
 
                     {/* MAPA */}
                     <div className="mt-6">
-                    <img
-                        src={salonMapas[salon1] || planoMapa}
-                        alt={`Mapa del salón ${salon1}`}
-                        className="w-full max-h-[500px] object-contain rounded-lg border"
-                    />
+                        <img
+                            src={salonMapas[salon1] || planoMapa}
+                            alt={`Mapa del salón ${salon1}`}
+                            className="w-full max-h-[500px] object-contain rounded-lg border"
+                        />
                     </div>
-                    
-                     {programa1 && programa1.length > 0 ? (
+
+                    {programa1 && programa1.length > 0 ? (
                         <>
                             <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">
-                            Ponentes
+                                Ponentes
                             </h3>
 
                             <div
-                            ref={scrollRef}
-                            className="flex overflow-x-auto gap-4 p-4 scroll-smooth scrollbar-hide"
+                                ref={scrollRef}
+                                className="flex overflow-x-auto gap-4 p-4 scroll-smooth scrollbar-hide"
                             >
-                            {programa1.map((elemento, index) => {
+                                {programa1.map((elemento, index) => {
                                     if (!Array.isArray(elemento.ponentes)) return null; // ❌ evita errores
 
                                     return (
                                         <Ponentes
-                                        key={index}
-                                        programa={elemento.ponentes}
-                                        index={index}
-                                        departamento={departamento1}
+                                            key={index}
+                                            programa={elemento.ponentes}
+                                            index={index}
+                                            departamento={departamento1}
                                         />
                                     );
-                                    })}
-                            <div className="min-w-[200px]" /> {/* Padding extra para mostrar el último */}
+                                })}
+                                <div className="min-w-[200px]" /> {/* Padding extra para mostrar el último */}
                             </div>
                         </>
-                        ) : null}
-                        
+                    ) : null}
+
 
 
                     {/* Video de YouTube embevido*/}
