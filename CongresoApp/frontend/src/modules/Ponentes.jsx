@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function Ponentes({ programa, departamento, index }) {
+export default function Ponentes({ programa, departamento, index,actividad1 }) {
                 const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -16,6 +16,7 @@ export default function Ponentes({ programa, departamento, index }) {
             const nombre = p.nombre ?? 'Sin dato';
             const afiliacion = p.afiliacion ?? 'Ponente';
             const imagen = p.imagen ?? 'default.png';
+            const actividad = actividad1 ?? '';
 
             const rutaFinal = imagen !== 'default.png'
               ? `/assets/ponentes/Simposio/${departamento}/${imagen}`
@@ -42,7 +43,9 @@ export default function Ponentes({ programa, departamento, index }) {
                 />
 
                 <p className="text-sm font-semibold text-center">{nombre}</p>
-                <p className="text-xs text-gray-500 text-center">{afiliacion}</p>
+                                <p className="text-xs text-gray-500 text-center">{afiliacion}</p>
+
+                <p className="text-sm mt-2 font-semibold text-center text-[#977b27]"> ~ {actividad} </p>
               </div>
             );
           })}

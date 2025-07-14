@@ -128,17 +128,18 @@ export default function TalkDetail() {
 
     if (!state) return null;
     console.log(state)
-    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento } = state;
-    const nombre1 = nombre || 'Sin dato';
-    const hora_inicio1 = hora_inicio || 'Sin dato';
-    const hora_fin1 = hora_fin || 'Sin dato';
-    const fecha1 = fecha || 'Sin dato';
-    const jefe1 = jefe || 'Sin dato';
-    const objetivo1 = objetivo || 'Sin dato';
-    const salon1 = salon || 'Sin dato';
-    const videoUrl1 = videoUrl || 'Sin dato';
+    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento,coordinador } = state;
+    const nombre1 = nombre || 'Sin nombre';
+    const hora_inicio1 = hora_inicio || 'Sin hora';
+    const hora_fin1 = hora_fin || 'Sin hora';
+    const fecha1 = fecha || 'Sin fecha';
+    const jefe1 = jefe || '';
+    const objetivo1 = objetivo || 'Sin resumen';
+    const salon1 = salon || 'Sin salon';
+    const videoUrl1 = videoUrl || '';
     const programa1 = programa || [];
     const departamento1 = departamento || '';
+    const coordinador1 = coordinador || '';
 
     //YYYY-MM-DD
     return (
@@ -175,10 +176,28 @@ export default function TalkDetail() {
                 <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{nombre1}</h2>
                     <p className="text-sm md:text-base text-gray-600 mt-2">
-                        {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}  - ${jefe1}`}
+                        {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}`}
                     </p>
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Resumen</h3>
-                    <p className="text-sm md:text-base mt-2 text-gray-700">{objetivo1 || 'Aún no disponible.'}</p>
+<p className="text-sm md:text-base mt-2 text-gray-700 text-justify">{objetivo1 || 'Aún no disponible.'}</p>                    
+                                      {jefe != '' ? (
+                        <>
+                         <p className="text-sm md:text-base mt-2 text-gray-700">
+                        <strong>Jefe:</strong> {jefe1}
+                        </p>
+                        </>
+                    ):''}
+
+                                 {coordinador1 != '' ? (
+                        <>
+                         <p className="text-sm md:text-base text-gray-700">
+                        <strong>Coordinador:</strong> {coordinador1}
+                        </p>
+                        </>
+                    ):''}
+                  
+                   
+                       
 
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Salón</h3>
                     <p className="text-sm md:text-base text-gray-700">{salon1 || 'Auditorio Principal'}</p>
@@ -206,13 +225,14 @@ export default function TalkDetail() {
                             >
                                 {programa1.map((elemento, index) => {
                                     if (!Array.isArray(elemento.ponentes)) return null; // ❌ evita errores
-
+                                    
                                     return (
                                         <Ponentes
                                             key={index}
                                             programa={elemento.ponentes}
                                             index={index}
                                             departamento={departamento1}
+                                            actividad1= {elemento.actividad}
                                         />
                                     );
                                 })}
@@ -238,7 +258,7 @@ export default function TalkDetail() {
                         <div className='relative w-full pb-[56.25%] mt-1'>
                             <div className="absolute top-0 left-0 w-full h-full bg-[#fefce8] flex items-center justify-center border rounded-lg">
                                 <p className="text-[#977b27] font-semibold text-center px-4">
-                                    El video en vivo comenzará próximamente.
+                                    El video en vivo comenzará próximamente...
                                 </p>
                             </div>
                         </div>
