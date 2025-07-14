@@ -3,7 +3,7 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import ImageCarousel from '../modules/ImageCarousel'
 import { CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
-import logo from '../assets/logo.png'
+import logo from '../../public/assets/logo.png'
 
 // Lista de opciones del grid
 const gridItems = [
@@ -46,7 +46,7 @@ const GridButton = ({ item, isDesktop }) => (
 
 export default function Home() {
     return (
-        <div className="min-h-dvh w-full h-full bg-[#DCDCDE] overflow-hidden"
+        <div className="min-h-dvh w-full h-full overflow-hidden"
         >
             {/* Header Mobile*/}
             <HeaderMobile backLink="/" title="Home" />

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
-import planoMapa from '../assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).jpg';
-import logoPrincipal from '../assets/logo.png';
-import logoCintermex from '../assets/LogoCintermex.png';
+import planoMapa from '../../public/assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png';
+import logoPrincipal from '../../public/assets/logo.png';
+import logoCintermex from '../../public/assets/LogoCintermex.png';
 
 function Location() {
   const [isPortrait, setIsPortrait] = useState(false);
@@ -34,7 +34,7 @@ function Location() {
   }, [lastScrollY]);
 
   return (
-    <div className="min-h-screen bg-gray-300 w-full flex flex-col relative overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col relative overflow-hidden">
       {isPortrait && (
         <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col justify-center items-center text-white text-center px-6">
           <HeaderDesktop backLink="/home" />

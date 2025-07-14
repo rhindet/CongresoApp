@@ -1,3 +1,5 @@
+import { ApiRequestsResult } from '../models/ApiRequestResult';
+import { Simposio, Simposios } from '../models/simposiosModel';
 
 const methods = {
     GET: "GET",
@@ -21,28 +23,160 @@ export class ApiCalls{
     _buildFetch = new BuildFetch()
     constructor(){};
 
-   formatResult(result) {
-        let parsedBody;
-        try {
-            parsedBody = typeof result.body === 'string' 
-            ? JSON.parse(result.body) 
-            : result.body;
-        } catch (e) {
-            parsedBody = result.body;
+     async getAllEvents(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/eventos",method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.flatMap((grupo, index) => {
+              const tipo = index === 0 ? 'simposio' : 'magistral';
+
+              return grupo.map(item => {
+                item.tipo = tipo; // le añadimos el tipo
+                return new Simposios(item); // instanciamos
+              });
+            });
+
+            return simposios
+
+
         }
 
-        const formatted = {
-            status: result.status,
-            data: parsedBody,
-        };
 
-        return new ApiRequestsResult(formatted);
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
     }
 
-    async login(){
-        var result = await this._buildFetch.fetch({url:"/login",method:methods.GET,headers:getHeaders(),body:body})
-        return this.formatResult(result);
+    async getAllSimposios(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/simposios",method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.simposios.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
     }
+      async getAllMagistrales(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/magistrales",method:methods.GET,headers:getHeaders()})
+                console.log("resultados:magistrales")
+
+        console.log(result.data.data.platicas_magistrales[0])
+
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getAllOralPresentation(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/oralPresentations",method:methods.GET,headers:getHeaders()})
+                console.log("resultados:magistrales")
+
+        console.log(result)
+
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+      async getAllTalleres(){
+        var result = await this._buildFetch.fetch({url:"/api/platicas/talleres",method:methods.GET,headers:getHeaders()})
+                console.log("resultados:magistrales")
+
+        console.log(result)
+
+        if(result != null && result.status == 200){
+            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    
+
+    async getSimposio(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/simposio/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getEvent(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/evento/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getMagistral(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/magistral/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getTaller(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/taller/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+    async getOralPresentation(id){
+        var result = await this._buildFetch.fetch({url:`/api/platicas/oralPresentation/${id}`,method:methods.GET,headers:getHeaders()})
+        console.log(result)
+        if(result != null && result.status == 200){
+            const simposios = new Simposios(result.data.data)
+            return simposios
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+    
+
+    
 
 
 }
@@ -51,31 +185,29 @@ export class ApiCalls{
 export class BuildFetch{
      constructor(){}
 
-    #apiRootUrl = "http://localhost:8000"
-
+    #apiRootUrl  = import.meta.env.VITE_SERVER_ROOT_URL;
    
-     async fetch({url,method,headers,body}){
-        try {
-      const respuesta = await fetch(this.#apiRootUrl + url, {
-        method: method,
-        headers: headers,
-        body: JSON.stringify(body),
-      });
-
-      if (!respuesta.ok || respuesta == null) {
-        throw new Error('Error en el fetch');
-      }
-
-      if(respuesta.status == false){
-         throw new Error('Respuesta fallada o nula');
-      }
-       setMensaje('✅ Sesión iniciada correctamente');
-       return await respuesta.json();
+    async fetch({ url, method, headers }) {
+    try {
+      const options = {
+        method,
+        headers,
+      };
      
-    } catch (error) {
-      setMensaje(`❌ Error: ${error.message}`);
-    }
-     }
+      const fullUrl = this.#apiRootUrl + url;
+      console.log(fullUrl)
+      const respuesta = await fetch(fullUrl, options);
+      if (!respuesta.ok) {
+        throw new Error('Error en el fetch: ' + respuesta.status);
+      }
 
+      const data = await respuesta.json();
+      console.log("Respuesta JSON:", data);
+
+     return new ApiRequestsResult({ status: respuesta.status, data });
+    } catch (error) {
+      console.log(`Error en fetch: ${error}`);
+    }
+  }
 
 }
