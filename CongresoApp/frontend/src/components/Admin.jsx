@@ -8,6 +8,7 @@ import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid';
 import { ArrowUpOnSquareStackIcon } from '@heroicons/react/24/outline';
 
 
+
 const tpColorStyles = {
   'presentaciones orales': {
     bg: '#5F8575',
@@ -295,16 +296,32 @@ export default function Admin() {
                 Cancelar
               </button>
               <button
-                onClick={async () => {
-                  // Aquí puedes hacer la llamada a la API si ya la tienes lista
-                  console.log('Aviso enviado:', aviso);
+              onClick={async () => {
+                try {
+                  const fechaActual = new Date().toISOString();
+                      console.log("X", aviso.titulo);
+                       console.log("X", aviso.descripcion);
+
+                  await apiRequest.ponerAviso({
+
+                    titulo: aviso.titulo,
+                    descripcion: aviso.descripcion,
+                    hora_creacion: fechaActual,
+                    hora_actualizacion: fechaActual,
+                  });
+                  alert('Aviso publicado');
                   setMostrarModal(false);
                   setAviso({ titulo: '', descripcion: '', hora: '' });
-                }}
-                className="px-4 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500"
-              >
-                Publicar
-              </button>
+                } catch (error) {
+                  alert('Error al publicar el aviso');
+                  console.error(error);
+                }
+              }}
+              className="px-4 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500"
+            >
+              Publicar
+            </button>
+
             </div>
 
             {/* Botón de cerrar arriba a la derecha */}

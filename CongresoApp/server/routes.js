@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const platicasController = require('./platicas/platicasController');
+const avisoController = require('./avisos/avisoController');
+
 
 router.get('/eventos', platicasController.eventos);
 router.get('/evento/:id', platicasController.getEvent);
@@ -19,6 +21,9 @@ router.get('/oralPresentation/:id', platicasController.getOralPresentation);
 router.get('/talleres', platicasController.allTalleres);
 router.get('/taller/:id', platicasController.getTaller);
 
+// POST y GETS
+router.get('/avisos', avisoController.getAvisos);
+router.post('/avisos/poneraviso', avisoController.crearAviso);
 
 
 

@@ -67,6 +67,17 @@ export class ApiRequests {
          return result;
     }
 
+    async ponerAviso(titulo, descripcion, hora_creacion, hora_actualizacion){
+          var aviso ={
+              titulo,
+              descripcion,
+              hora_creacion,
+              hora_actualizacion
+          }
+         var result = await this._apiCall.ponerAviso(aviso);
+
+         return result;
+    }
     
     
 

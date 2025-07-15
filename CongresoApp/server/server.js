@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/platicas', routes);
 
-const PORT = 8008;
+const PORT = 8003;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });

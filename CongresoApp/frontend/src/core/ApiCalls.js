@@ -175,6 +175,35 @@ export class ApiCalls{
         //return this.formatResult(result);
     }
     
+    //AVISOS
+    async ponerAviso(data) {
+    const result = await this._buildFetch.fetch({
+      url: "/api/platicas/avisos/poneraviso",
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+
+    if (result?.status === 201) {
+      return result.data;
+    }
+    console.log("No se pudo publicar el aviso");
+    return null;
+  }
+
+  async getAvisos() {
+    const result = await this._buildFetch.fetch({
+      url: "/api/avisos",
+      method: "GET",
+      headers: getHeaders(),
+    });
+
+    if (result?.status === 200) {
+      return result.data.data; 
+    }
+    console.log("No se pudieron obtener los avisos");
+    return [];
+  }
 
     
 
@@ -187,12 +216,16 @@ export class BuildFetch{
 
     #apiRootUrl  = import.meta.env.VITE_SERVER_ROOT_URL;
    
-    async fetch({ url, method, headers }) {
+    async fetch({ url, method, headers, body }) {
     try {
       const options = {
         method,
         headers,
       };
+
+      if (method === "POST" || method === "PUT") {
+      options.body = body;
+    }
      
       const fullUrl = this.#apiRootUrl + url;
       console.log(fullUrl)
