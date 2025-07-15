@@ -224,7 +224,7 @@ const getMagistrales = async (req, res) => {
 const getOralPresentation = async (req, res) => {
   try {
     const { id } = req.params;
-    const documento = await programaCompletoSchema.findOne();
+    const documento = await programaCompletoSchema.findOne().lean();
 
     console.log("Entrooo")
     console.log(documento?.categorias)
@@ -265,7 +265,7 @@ const getOralPresentation = async (req, res) => {
 const getTaller = async (req, res) => {
   try {
     const { id } = req.params;
-    const documento = await programaCompletoSchema.findOne();
+    const documento = await programaCompletoSchema.findOne().lean();
 
     //console.log(documento?.categorias[1]);
     //console.log("Entro a magistrales")
