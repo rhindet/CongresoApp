@@ -9,7 +9,6 @@ const fs = require('fs');
 const allSimposios = async (req, res) => {
   try {
   const simposios = await programaCompletoSchema.find().lean(); // lean NO altera los _id    console.log(simposio)
-  //console.log(simposios[0].categorias[0])  
   res.json({
       status:true,
       data:simposios[0].categorias[0]
@@ -85,7 +84,7 @@ const allTalleres= async (req, res) => {
 const getSimposio = async (req, res) => {
   try {
     const { id } = req.params;
-    const documento = await programaCompletoSchema.findOne();
+    const documento = await programaCompletoSchema.findOne().lean();
 
     if (documento && documento?.categorias[0]) {
         
@@ -180,7 +179,7 @@ const getEvent = async (req, res) => {
 const getMagistrales = async (req, res) => {
   try {
     const { id } = req.params;
-    const documento = await programaCompletoSchema.findOne();
+    const documento = await programaCompletoSchema.findOne().lean();
 
     //console.log(documento?.categorias[1]);
     //console.log("Entro a magistrales")

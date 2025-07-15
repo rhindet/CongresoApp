@@ -112,7 +112,7 @@ export class ApiCalls{
 
     async getSimposio(id){
         var result = await this._buildFetch.fetch({url:`/api/platicas/simposio/${id}`,method:methods.GET,headers:getHeaders()})
-        console.log(result)
+        console.log("Result antes modelo",result)
         if(result != null && result.status == 200){
             const simposios = new Simposios(result.data.data)
             return simposios
