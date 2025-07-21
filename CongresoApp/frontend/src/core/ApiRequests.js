@@ -7,6 +7,21 @@ export class ApiRequests {
 
     constructor(){}
 
+
+    
+    async actualizarLinkYoutube(id,videoUrl){
+         var result = await this._apiCall.actualizarLinkYoutube(id,videoUrl);
+     
+         return result;
+    }
+
+
+     async getAllAvisos(){
+         var result = await this._apiCall.getAllAvisos();
+         
+         return result;
+    }
+
      async getAllEvents(){
          var result = await this._apiCall.getAllEvents();
          
@@ -55,6 +70,10 @@ export class ApiRequests {
          return result;
     }
 
+  
+
+    
+
      async getOralPresentation(id){
          var result = await this._apiCall.getOralPresentation(id);
      
@@ -66,6 +85,16 @@ export class ApiRequests {
      
          return result;
     }
+     async actualizarAviso(_id){
+         var result = await this._apiCall.actualizarAviso(_id);
+         return result;
+    }
+     async eliminarAviso(_id){
+         var result = await this._apiCall.eliminarAviso(_id);
+         return result;
+    }
+
+    
 
     async ponerAviso(titulo, descripcion, hora_creacion, hora_actualizacion){
           var aviso ={

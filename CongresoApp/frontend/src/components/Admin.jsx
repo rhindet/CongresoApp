@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import React, { useEffect, useRef, useState } from 'react';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { ApiRequests } from '../core/ApiRequests';
@@ -31,6 +32,10 @@ const tpColorStyles = {
 
 export default function Admin() {
   const [day, setDay] = useState('9');
+    const [isAdmin, setIsAdmin] = useState(true);
+    const [avisoId, setAvisosId] = useState('');
+    const [videoUrl, setVideoUrl] = useState('');
+
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const apiRequest = new ApiRequests();
   const [listDeSimposios, setListDeSimposios] = useState([]);
@@ -38,11 +43,19 @@ export default function Admin() {
   const [loader, setLoader] = useState(true);
   const [setScrollY] = useState(0);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [updateMode, setUpdateMode] = useState(false);
+  const [modalLinkOpen, setModalLinkOpen] = useState(false);
+    const modalRef = useRef(null);
+
+
   const [aviso, setAviso] = useState({
     titulo: '', 
     descripcion: '',
     hora: '',
   });
+
+    const [adminModal, setAdminModal] = useState(false);
+
 
 
   useEffect(() => {
@@ -56,12 +69,13 @@ export default function Admin() {
       window.scrollTo(0, 0);
       try {
         //OBTENCION DE TODAS LAS PLATICAS
-        const listDeSimposios = await apiRequest.getAllSimposios();
-        console.log(listDeSimposios)
-        setListDeSimposios(listDeSimposios);
+        const listDeSimposiosPaso = await apiRequest.getAllEvents();
+       console.log("listDeSimposiosPaso")
+       console.log(listDeSimposiosPaso)
+        setListDeSimposios(listDeSimposiosPaso);
         // Extraer departamentos únicos
         const departamentosUnicos = [
-          ...new Set(listDeSimposios.map(s => s.departamento).filter(Boolean))
+          ...new Set(listDeSimposiosPaso.map(s => s.departamento).filter(Boolean))
         ].sort((a, b) => a.localeCompare(b));
         setDepartamentos(departamentosUnicos);
         setLoader(false)
@@ -82,21 +96,42 @@ export default function Admin() {
     }))
   ];
 
+     const handleOverlayClick = (e) => {
+     
+        if (modalRef.current && !modalRef.current.contains(e.target)) {
+            setModalLinkOpen(false)
+        }
+    };
+
   //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
-  const filteredTalks = listDeSimposios.filter(talk => {
-    const fecha = talk.hora_inicio?.split('T')[0]; // "2025-10-09"
-    const dia = fecha?.split('-')[2];
-
-    return (
-      dia === day.padStart(2, '0') &&
-      (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
-    );
-
-  });
+const filteredTalks = listDeSimposios.filter(talk => {
+  const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
 
   return (
+    dia === day.padStart(2, '0') &&
+    (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
+  );
+});
+  return (
     loader ? <Loader /> : <div className="min-h-dvh w-full bg-[#9fd8e9] overflow-x-hidden">
-      <HeaderMobile backLink="/home" title="**** ADMIN ****" />
+      <HeaderMobile 
+        backLink="/home" 
+        title="**** ADMIN ****" 
+        isAdmin={true}  
+        isUpdateMode = {
+          (isUpdate) => {
+            setUpdateMode(isUpdate)
+  
+          }
+        }
+        adminModal = {(modal,aviso) => {
+          console.log("aviso",aviso)
+          setAvisosId(aviso._id)
+          setAviso(aviso)
+          setMostrarModal(modal)
+        }
+  }
+ />
 
       <div className="hidden md:block">
         <HeaderDesktop backLink="/home" />
@@ -193,11 +228,73 @@ export default function Admin() {
               return (
                 <div
                   key={index}
-
+                  
                   className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
                   style={{ backgroundColor: '#E6E6E6' }}
                 >
-                  <div className="flex-1 flex flex-col justify-center pl-2">
+
+
+                  {
+                  modalLinkOpen ?
+                       <div
+                       ref={modalRef}
+                                   onClick={handleOverlayClick}
+                                  className="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center"
+                              >
+                                <button
+                                onClick={() => setModalLinkOpen(false)}
+                                className="absolute top-3 right-3 text-gray-600 hover:text-red-500"
+                              >
+                                ✕
+                              </button> 
+                                  <div
+                                      className="bg-white w-11/12 max-w-md rounded-xl shadow-lg relative p-6 max-h-[90vh] overflow-hidden"
+                                  >
+                                      <button className="absolute top-3 right-3 text-gray-600 hover:text-red-500">
+                                      </button>
+                                      <h2 className="text-xl font-bold text-[#29568E] mb-4">Link youtube</h2>
+                      
+                                      <div className="max-h-64 overflow-y-auto pr-1">
+                                           <input
+                                              type="text"
+                                              placeholder="Link de YouTube"
+                                              value={videoUrl}
+                                              onChange={(e) => {
+                                                  setVideoUrl(e.target.value)
+                                              }}
+                                              className="mt-2 p-1 text-sm border border-gray-300 rounded-md"
+                                            />
+
+                                            <button
+                                                onClick={async () => {
+                                                  //const simposioActual = listDeSimposios.find(s => s._id === talk._id);
+                                                  try {
+                                              
+                                                    await apiRequest.actualizarLinkYoutube(talk.id , videoUrl)
+                                                    
+                                                    alert('Link guardado correctamente');
+                                                  } catch (error) {
+                                                    alert('Error al guardar el link');
+                                                    console.error(error);
+                                                  }
+                                                }}
+                                                className="mt-2 px-3 py-1 text-sm bg-yellow-400 hover:bg-yellow-500 text-white rounded-md w-30"
+                                              >
+                                                Guardar link
+                                              </button>
+
+
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              : 
+                              
+                <div onClick={async () => {
+                          console.log("Se abre modal")
+                          setModalLinkOpen(true);
+
+                  }} className="flex-1 flex flex-col justify-center pl-2 ">
                     <span className="text-[#29568E] font-bold text-xl leading-tight">
                       {talk.nombre}
                     </span>
@@ -206,39 +303,10 @@ export default function Admin() {
                     </span>
 
                     {/* Campo para ingresar link de YouTube */}
-                    <input
-                      type="text"
-                      placeholder="Link de YouTube"
-                      value={talk.videoUrl || ''}
-                      onChange={(e) => {
-                        const newList = listDeSimposios.map((simposio) =>
-                          simposio._id === talk._id
-                            ? { ...simposio, videoUrl: e.target.value }
-                            : simposio
-                        );
-                        setListDeSimposios(newList);
-                      }}
-                      className="mt-2 p-1 text-sm border border-gray-300 rounded-md"
-                    />
+                  
 
                     {/* Botón para guardar */}
-                    <button
-                      onClick={async () => {
-                        const simposioActual = listDeSimposios.find(s => s._id === talk._id);
-                        try {
-                          await apiRequest.updateSimposio(talk._id, {
-                            videoUrl: simposioActual.videoUrl,
-                          });
-                          alert('Link guardado correctamente');
-                        } catch (error) {
-                          alert('Error al guardar el link');
-                          console.error(error);
-                        }
-                      }}
-                      className="mt-2 px-3 py-1 text-sm bg-yellow-400 hover:bg-yellow-500 text-white rounded-md w-30"
-                    >
-                      Guardar link
-                    </button>
+                    
 
                     {/* Etiqueta tipo de charla */}
                     <span
@@ -251,8 +319,18 @@ export default function Admin() {
                       simposios
                     </span>
                   </div>
+
+                    }
+                    
+
+                  
+
+
+
+
+
                 </div>
-              );
+            );
             })
           )}
         </div>
@@ -263,7 +341,9 @@ export default function Admin() {
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-96 shadow-lg relative">
 
-            <h2 className="text-xl font-bold text-[#29568E] mb-4">Nuevo aviso</h2>
+            <h2 className="text-xl font-bold text-[#29568E] mb-4"> 
+              {!updateMode ? "Nuevo Aviso" : "Actualizar aviso"}
+            </h2>
 
             <label className="block text-sm text-gray-700 mb-1">Título</label>
             <input
@@ -280,46 +360,73 @@ export default function Admin() {
               className="w-full p-2 border rounded-md mb-3"
             />
 
-            <label className="block text-sm text-gray-700 mb-1">Hora</label>
-            <input
-              type="time"
-              value={aviso.hora}
-              onChange={(e) => setAviso({ ...aviso, hora: e.target.value })}
-              className="w-full p-2 border rounded-md mb-4"
-            />
+     
 
             <div className="flex justify-end gap-2">
               <button
-                onClick={() => setMostrarModal(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md"
+                onClick={async () => {
+                    if(!updateMode){
+                    setMostrarModal(false)
+                    return;
+                    }
+                    //TODO CREAR FUNCIONALIDAD DE ELIMINAR AVISO
+                    
+                      await apiRequest.eliminarAviso(avisoId)
+                      setMostrarModal(false);
+                      setAviso({ titulo: '', descripcion: '', hora: '' });
+                      return;
+                    
+                  }
+                
+                
+                }
+                className={`px-4 py-2 ${!updateMode ? "bg-gray-300" : "bg-red-300"}  text-gray-800 rounded-md`}
               >
-                Cancelar
+                 {!updateMode ? "Cancelar" : "Eliminar"}
               </button>
               <button
               onClick={async () => {
                 try {
                   const fechaActual = new Date().toISOString();
-                      console.log("X", aviso.titulo);
-                       console.log("X", aviso.descripcion);
+                  
+                  if(!updateMode){
+                            await apiRequest.ponerAviso({
 
-                  await apiRequest.ponerAviso({
+                                                titulo: aviso.titulo,
+                                                descripcion: aviso.descripcion,
+                                                hora_creacion: fechaActual,
+                                                hora_actualizacion: fechaActual,
+                                              });
 
-                    titulo: aviso.titulo,
-                    descripcion: aviso.descripcion,
-                    hora_creacion: fechaActual,
-                    hora_actualizacion: fechaActual,
-                  });
-                  alert('Aviso publicado');
-                  setMostrarModal(false);
-                  setAviso({ titulo: '', descripcion: '', hora: '' });
+
+                                              alert('Aviso publicado');
+                                              setMostrarModal(false);
+                                            
+                                              setAviso({ titulo: '', descripcion: '', hora: '' });
+                                              return;
+                    }
+
+                    //TODO - CREAR FUNCION DE ACTUALIZAR AVISO
+                       await apiRequest.actualizarAviso(
+                        {
+                              _id:avisoId,
+                              titulo: aviso.titulo,
+                              descripcion: aviso.descripcion,
+                        }
+                       )
+                      setMostrarModal(false);
+                      setAviso({ titulo: '', descripcion: '', hora: '' });
+
+
+                  
                 } catch (error) {
                   alert('Error al publicar el aviso');
                   console.error(error);
                 }
               }}
-              className="px-4 py-2 bg-yellow-400 text-white rounded-md hover:bg-yellow-500"
+              className={`px-4 py-2 ${!updateMode ? "bg-yellow-400 " : "bg-blue-300"} text-white rounded-md hover:bg-yellow-500`}  
             >
-              Publicar
+              {!updateMode ? "Publicar" : "Actualizar"}
             </button>
 
             </div>
@@ -327,7 +434,12 @@ export default function Admin() {
             {/* Botón de cerrar arriba a la derecha */}
             <button
               className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
-              onClick={() => setMostrarModal(false)}
+              onClick={() => {
+                setMostrarModal(false)
+                setUpdateMode(false)
+                setAviso({ titulo: '', descripcion: '', hora: '' });
+
+              }}
             >
               ✕
             </button>

@@ -1,19 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
+import { ApiRequests } from '../core/ApiRequests';
 
-export default function AvisosModal({ open, onClose }) {
-    const avisos = [
-        { id: 1, titulo: 'Inicio día 1 de Congreso 2025', mensaje: 'Iniciamos el primer dia del Congreso 2025' },
-        { id: 2, titulo: 'Cambio de horario', mensaje: 'La conferencia de Oncología se moverá a las 10:30 AM.' },
-        { id: 3, titulo: 'Nuevo video disponible', mensaje: 'Ya puedes ver la repetición de la conferencia inaugural.' },
-        { id: 4, titulo: 'Ubicación actualizada', mensaje: 'El simposio de Cardiología se realizará en el Salón B2.' },
-        { id: 5, titulo: 'Fin día 1 de Congreso 2025', mensaje: 'Terminamos el primer dia del Congreso 2025, nos vemos mañana.' },
-    ];
+
+export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
+
+    const [setAvisos,SetAvisos] = useState();
+
+      const apiRequest = new ApiRequests();
+    
+
 
     const modalRef = useRef(null);
 
     useEffect(() => {
         const originalStyle = window.getComputedStyle(document.body).overflow;
+        const getAvisos = async () =>  {
+           const avisos =  await apiRequest.getAllAvisos()
+           SetAvisos(avisos)
+        }
+        
+        getAvisos()
         if (open) {
             document.body.style.overflow = 'hidden';
         }
@@ -23,8 +30,17 @@ export default function AvisosModal({ open, onClose }) {
         };
     }, [open]);
 
+    const handleAvisoClick = async (aviso) => {
+        if(isAdmin == true){
+              abrirModal(aviso);
+
+        }
+
+    }
+
     //Click fuera del modal
     const handleOverlayClick = (e) => {
+     
         if (modalRef.current && !modalRef.current.contains(e.target)) {
             onClose();
         }
@@ -49,12 +65,16 @@ export default function AvisosModal({ open, onClose }) {
 
                 <div className="max-h-64 overflow-y-auto pr-1">
                     <ul className="space-y-3">
-                        {avisos.map((aviso) => (
-                            <li key={aviso.id} className="border-l-4 border-yellow-400 pl-3">
-                                <p className="font-semibold text-gray-800">{aviso.titulo}</p>
-                                <p className="text-sm text-gray-600">{aviso.mensaje}</p>
-                            </li>
-                        ))}
+                       {setAvisos.map((aviso) => (
+                                <li
+                                    key={aviso.id}
+                                    className="border-l-4 border-yellow-400 pl-3 cursor-pointer hover:bg-yellow-50"
+                                    onClick={() => handleAvisoClick(aviso)}
+                                >
+                                    <p className="font-semibold text-gray-800">{aviso.titulo}</p>
+                                    <p className="text-sm text-gray-600">{aviso.descripcion}</p>
+                                </li>
+                                ))}
                     </ul>
                 </div>
             </div>

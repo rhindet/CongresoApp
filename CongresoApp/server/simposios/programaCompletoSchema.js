@@ -1,11 +1,21 @@
 const mongoose = require('mongoose');
 
+
+const PonenteSchema = new mongoose.Schema({
+  nombre: String,
+  descripcion: String,
+  afiliacion: String,
+  imagen: String
+}, { _id: false });
+
 // Subdocumento: cada bloque dentro del arreglo `programa`
 const ProgramaSchema = new mongoose.Schema({
   horario: String,
   actividad: String,
-  ponentes: [String],
+  ponentes: [PonenteSchema],
 }); // <== Ya no tiene { _id: false }
+
+
 
 // Subdocumento: cada elemento dentro de `simposios`, `platicas_magistrales`, etc.
 const ItemSchema = new mongoose.Schema({
@@ -23,6 +33,7 @@ const ItemSchema = new mongoose.Schema({
   salon: String,
   capacidad: Number,
   extra: String,
+  link:String,
   programa: [ProgramaSchema]
 }); // <== Ya no tiene { _id: false }
 

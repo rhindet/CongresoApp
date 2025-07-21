@@ -5,7 +5,7 @@ import { MegaphoneIcon } from '@heroicons/react/24/solid';
 import AvisosModal from '../modules/AvisosModal';
 
 
-export default function HeaderMobile({ backLink, title}) {
+export default function HeaderMobile({ backLink, title, isAdmin = false,adminModal,isUpdateMode}) {
   const [avisosAbiertos, setAvisosAbiertos] = useState(false);
 
   return (
@@ -23,7 +23,21 @@ export default function HeaderMobile({ backLink, title}) {
       </header>
 
       {/* Modal de avisos */}
-      <AvisosModal open={avisosAbiertos} onClose={() => setAvisosAbiertos(false)} />
+      <AvisosModal 
+            open={avisosAbiertos} 
+            onClose={() => {
+              setAvisosAbiertos(false)
+             
+
+            }}
+            isAdmin={isAdmin} 
+            abrirModal={(aviso) => {
+              
+              adminModal(true,aviso)
+              setAvisosAbiertos(false)
+              isUpdateMode(true);
+            }}
+          />
     </>
   );
 }

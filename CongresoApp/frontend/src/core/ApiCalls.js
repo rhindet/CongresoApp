@@ -1,10 +1,12 @@
 import { ApiRequestsResult } from '../models/ApiRequestResult';
+import { AvisosModel } from '../models/AvisosModel';
 import { Simposio, Simposios } from '../models/simposiosModel';
 
 const methods = {
     GET: "GET",
     PUT:"PUT",
-    POST:"POST"
+    POST:"POST",
+    DELETE:"DELETE"
 }
 
 function getHeaders(){
@@ -23,6 +25,37 @@ export class ApiCalls{
     _buildFetch = new BuildFetch()
     constructor(){};
 
+    
+
+
+    async actualizarLinkYoutube(id,videoUrl){
+       
+        console.log(videoUrl)
+        var result = await this._buildFetch.fetch({url:`/api/platicas/linkYoutube/${id}`,method:methods.PUT,headers:getHeaders(),body:JSON.stringify({ videoUrl: videoUrl }) })
+        console.log("Result antes modelo",result)
+        if(result != null && result.status == 200){
+            return result
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+
+     async getAllAvisos(){
+        var res = await this._buildFetch.fetch({url:"/api/platicas/avisos",method:methods.GET,headers:getHeaders()})
+        const result = new ApiRequestsResult(res.data)
+        if(res != null && res.status == 200){
+              const avisos = result.data.map(item => new AvisosModel(item));
+              return avisos;
+        }
+
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
      async getAllEvents(){
         var result = await this._buildFetch.fetch({url:"/api/platicas/eventos",method:methods.GET,headers:getHeaders()})
         console.log(result)
@@ -135,6 +168,31 @@ export class ApiCalls{
        
         //return this.formatResult(result);
     }
+
+     async actualizarAviso(aviso){
+      
+        var result = await this._buildFetch.fetch({url:`/api/platicas/aviso/${aviso._id}`,method:methods.PUT,headers:getHeaders(),body:JSON.stringify(aviso) })
+        if(result != null && result.status == 200){
+            return result
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
+       async eliminarAviso(_id){
+        console.log("Eliminar",_id)
+        var result = await this._buildFetch.fetch({url:`/api/platicas/eliminarAviso/${_id}`,method:methods.DELETE,headers:getHeaders() })
+        if(result != null && result.status == 200){
+            return result
+        }
+        console.log("Llamada realizada sin exito")   
+        return []
+       
+        //return this.formatResult(result);
+    }
+
 
     async getMagistral(id){
         var result = await this._buildFetch.fetch({url:`/api/platicas/magistral/${id}`,method:methods.GET,headers:getHeaders()})

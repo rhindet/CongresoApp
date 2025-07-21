@@ -23,7 +23,14 @@ router.get('/taller/:id', platicasController.getTaller);
 
 // POST y GETS
 router.get('/avisos', avisoController.getAvisos);
+router.put('/aviso/:id', avisoController.actualizarAviso);
 router.post('/avisos/poneraviso', avisoController.crearAviso);
+router.delete('/eliminarAviso/:id', avisoController.eliminarAviso);
+
+router.put('/linkYoutube/:id', avisoController.actualizarLinkYoutube);
+
+
+
 
 
 

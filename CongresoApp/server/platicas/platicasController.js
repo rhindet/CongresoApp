@@ -9,6 +9,8 @@ const fs = require('fs');
 const allSimposios = async (req, res) => {
   try {
   const simposios = await programaCompletoSchema.find().lean(); // lean NO altera los _id    console.log(simposio)
+    console.log(simposios)
+
   res.json({
       status:true,
       data:simposios[0].categorias[0]
@@ -25,7 +27,7 @@ const eventos = async (req, res) => {
   const eventos = []
   eventos.push(simposios[0].categorias[0].simposios)
   eventos.push(simposios[0].categorias[1].platicas_magistrales)
-
+  console.log(eventos)
   res.json({
       status:true,
       data:eventos

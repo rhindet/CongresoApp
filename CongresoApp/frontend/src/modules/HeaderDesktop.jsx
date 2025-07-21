@@ -4,7 +4,7 @@ import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 import { MegaphoneIcon } from '@heroicons/react/24/solid';
 import AvisosModal from '../modules/AvisosModal';
 
-export default function HeaderMobile({ backLink }) {
+export default function HeaderMobile({ backLink }) { 
   const [avisosAbiertos, setAvisosAbiertos] = useState(false);
 
   return (
