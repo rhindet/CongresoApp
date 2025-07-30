@@ -1,43 +1,51 @@
-import { Link } from 'react-router-dom'
-import logo from '../../public/assets/logo.png'
-import logoFACMED from '../../public/assets/logoFACMED.png'
+import { Link } from 'react-router-dom';
+import logo from '../../public/assets/logo_congreso_33.svg';
+import cintillaLogos from '../../public/assets/cintilla.png';
+import fondo from '../../public/assets/fondoWave.png';
 
 function Inicio() {
   return (
-    <div className="min-h-dvh bg-[#DCDCDE] flex flex-col md:flex-row items-center justify-center p-4 md:p-10 gap-6 overflow-x-hidden">
-      {/* Logo del congreso */}
-      <div className='w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left space-y-4'>
-        <img src={logo} alt="Logo Congreso" className='w-full max-w-xs md:max-w-sm lg:max-w-md' />
-      </div>
+    <div
+      className="min-h-screen flex flex-col justify-between bg-[#DCDCDE] bg-no-repeat bg-bottom bg-cover relative overflow-hidden px-4 md:px-10 py-8"
+      style={{ backgroundImage: `url(${fondo})` }}
+    >
+      {/* Contenedor principal horizontal en desktop */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-70 md:gap-24 md:mt-16 flex-1">
+        
+        {/* Logo Congreso */}
+        <div className="flex justify-center md:justify-end w-full md:w-auto">
+          <img
+            src={logo}
+            alt="Logo Congreso"
+            className="w-full max-w-xl sm:max-w-sm md:max-w-lg"
+          />
+        </div>
 
-      {/* Texto fechas del congreso */}
-      <div className='w-full md:w-1/2 flex flex-col items-center text-center space-y-4'>
-        <p className='text-2xl md:text-3xl font-bold mt-1 text-[#29568E]'>
-          9-10 de
-          <span className="text-yellow-400 mx-2">Octubre</span>
-          2025
-        </p>
-      </div>
+        {/* Contenido central */}
+        <div className="flex flex-col items-center gap-18 text-center">
+          <p className="text-firstblue text-2xl md:text-3xl font-bold">
+            9-10 de <span className="underline decoration-secondyellow decoration-4 underline-offset-4">Octubre</span> 2025
+          </p>
 
-      {/* Logo FACMED */}
-      <div className='w-1/2 md:w-lg flex flex-col items-center md:items-start text-center md:text-left space-y-4'>
-        <img src={logoFACMED} alt="Logo Congreso" className='w-full max-w-xs md:max-w-sm lg:max-w-md' />
-      </div>
-
-      {/* Div bloque boton */}
-      <div className='w-full md:w-1/2 flex flex-col items-center gap-6'>
-        {/* Boton */}
-        <div className="flex flex-row gap-4 mt-3 md:mx-auto md:w-full">
           <Link
             to="/home"
-            className="bg-yellow-400 text-white px-6 py-3 rounded-full font-medium w-40 text-center hover:bg-[#29568E] transition-all duration-300 md:w-full"
+            className="bg-firstblue text-white px-6 py-3 rounded-full font-medium w-40 text-center hover:bg-thirdblue transition-all duration-300"
           >
             Bienvenido
           </Link>
         </div>
       </div>
+
+      {/* Footer con cinta de logos */}
+      <footer className="w-full py-4 px-3 flex justify-center ">
+        <img
+          src={cintillaLogos}
+          alt="Logos institucionales"
+          className="h-10 object-contain"
+        />
+      </footer>
     </div>
-  )
+  );
 }
 
-export default Inicio
+export default Inicio;

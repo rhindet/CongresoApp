@@ -3,7 +3,7 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import ImageCarousel from '../modules/ImageCarousel'
 import { CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
-import logo from '../../public/assets/logo.png'
+import logo from '../../public/assets/logo_congreso_33.svg';
 
 // Lista de opciones del grid
 const gridItems = [
@@ -34,7 +34,7 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-yellow-400 rounded-2xl md:rounded-3xl py-5 md:py-6 px-1 md:px-1 text-white font-semibold text-lg md:text-2xl hover:bg-[#29568E] transition-all
+        className={`flex flex-col items-center justify-center bg-secondyellow rounded-2xl md:rounded-3xl py-5 md:py-6 px-1 md:px-1 text-white font-semibold text-lg md:text-2xl hover:bg-firstblue transition-all
       ${isDesktop
                 ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[170px] max-w-[200px]'
                 : 'w-full'}`}
@@ -102,7 +102,7 @@ export default function Home() {
                 {/* Footer */}
                 <footer className="text-xs md:text-sm text-center text-[#014480] mt-10">
                     Todos los derechos reservados <br />
-                    <span className="text-[#29568E] font-bold">Subdirección de Investigación e Innovación</span>
+                    <span className="text-firstblue font-bold">Subdirección de Investigación e Innovación</span>
                 </footer>
             </main>
         </div>

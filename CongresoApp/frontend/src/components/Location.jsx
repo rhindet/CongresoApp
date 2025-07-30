@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import planoMapa from '../../public/assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png';
-import logoPrincipal from '../../public/assets/logo.png';
+import logoPrincipal from '../../public/assets/logo_congreso_33.svg';
 import logoCintermex from '../../public/assets/LogoCintermex.png';
 
 function Location() {
@@ -11,7 +11,6 @@ function Location() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   //DETECTAR ORIENTACION Y SI ES MOVIL
-
   useEffect(() => {
     const checkOrientation = () => {
       setIsPortrait(window.innerHeight > window.innerWidth);
@@ -44,7 +43,7 @@ function Location() {
           <div className="animate-bounce">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-16 w-16 text-yellow-400"
+              className="h-16 w-16 text-firstyellow"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -62,13 +61,13 @@ function Location() {
 
       {/* NAVBAR con animación */}
       <div
-        className={`fixed top-0 left-0 right-0 z-10 bg-gray-300 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-10 bg-fondo transition-transform duration-300 ${
           showNavbar ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
         <div className="flex items-center justify-between px-4 py-6 max-w-7xl mx-auto w-full">
           <HeaderDesktop backLink="/home" />
-          <h1 className="text-3xl font-bold text-blue-900 text-center flex-1 mr-8">
+          <h1 className="text-3xl font-bold text-secondblue text-center flex-1 mr-8">
             Mapa del Congreso
           </h1>
         </div>

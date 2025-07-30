@@ -15,7 +15,7 @@ export default function HeaderMobile({ backLink }) {
           to={backLink}
           className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-[#f2f2f2] transition"
         >
-          <ArrowUturnLeftIcon className="w-6 h-6 text-[#29568E] hover:text-[#876EE4]" />
+          <ArrowUturnLeftIcon className="w-6 h-6 text-secondblue hover:text-lightblue" />
         </Link>
       </div>
 
@@ -25,7 +25,7 @@ export default function HeaderMobile({ backLink }) {
           onClick={() => setAvisosAbiertos(true)}
           className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center hover:bg-[#f2f2f2] transition"
         >
-          <MegaphoneIcon className="w-5 h-5 text-[#29568E] hover:text-[#78aff3]" />
+          <MegaphoneIcon className="w-5 h-5 text-secondblue hover:text-lightblue" />
         </button>
       </div>
 

@@ -128,7 +128,7 @@ export default function TalkDetail() {
 
     if (!state) return null;
     console.log(state)
-    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento,coordinador } = state;
+    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento, coordinador } = state;
     const nombre1 = nombre || 'Sin nombre';
     const hora_inicio1 = hora_inicio || 'Sin hora';
     const hora_fin1 = hora_fin || 'Sin hora';
@@ -166,7 +166,7 @@ export default function TalkDetail() {
                                 duracionMin
                             });
                         }}
-                        className="px-4 py-2 bg-yellow-400 text-white font-semibold rounded-3xl hover:bg-yellow-500 flex flex-row items-center gap-2"
+                        className="px-4 py-2 bg-secondyellow text-white font-semibold rounded-3xl hover:bg-firstyellow flex flex-row items-center gap-2"
                     >
                         <CalendarIcon className='w-8' />
                         Agendar
@@ -178,28 +178,28 @@ export default function TalkDetail() {
                     <p className="text-sm md:text-base text-gray-600 mt-2">
                         {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}`}
                     </p>
-                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Resumen</h3>
-<p className="text-sm md:text-base mt-2 text-gray-700 text-justify">{objetivo1 || 'Aún no disponible.'}</p>                    
-                                      {jefe != '' ? (
+                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Resumen</h3>
+                    <p className="text-sm md:text-base mt-2 text-gray-700 text-justify">{objetivo1 || 'Aún no disponible.'}</p>
+                    {jefe != '' ? (
                         <>
-                         <p className="text-sm md:text-base mt-2 text-gray-700">
-                        <strong>Jefe:</strong> {jefe1}
-                        </p>
+                            <p className="text-sm md:text-base mt-2 text-gray-700">
+                                <strong>Jefe:</strong> {jefe1}
+                            </p>
                         </>
-                    ):''}
+                    ) : ''}
 
-                                 {coordinador1 != '' ? (
+                    {coordinador1 != '' ? (
                         <>
-                         <p className="text-sm md:text-base text-gray-700">
-                        <strong>Coordinador:</strong> {coordinador1}
-                        </p>
+                            <p className="text-sm md:text-base text-gray-700">
+                                <strong>Coordinador:</strong> {coordinador1}
+                            </p>
                         </>
-                    ):''}
-                  
-                   
-                       
+                    ) : ''}
 
-                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">Salón</h3>
+
+
+
+                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Salón</h3>
                     <p className="text-sm md:text-base text-gray-700">{salon1 || 'Auditorio Principal'}</p>
 
 
@@ -215,7 +215,7 @@ export default function TalkDetail() {
 
                     {programa1 && programa1.length > 0 ? (
                         <>
-                            <h3 className="mt-5 text-lg md:text-xl font-semibold text-[#977b27]">
+                            <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">
                                 Ponentes
                             </h3>
 
@@ -225,14 +225,14 @@ export default function TalkDetail() {
                             >
                                 {programa1.map((elemento, index) => {
                                     if (!Array.isArray(elemento.ponentes)) return null; // ❌ evita errores
-                                    
+
                                     return (
                                         <Ponentes
                                             key={index}
                                             programa={elemento.ponentes}
                                             index={index}
                                             departamento={departamento1}
-                                            actividad1= {elemento.actividad}
+                                            actividad1={elemento.actividad}
                                         />
                                     );
                                 })}
@@ -249,15 +249,15 @@ export default function TalkDetail() {
                             className={`w-3 h-3 rounded-full ${videoUrl1 ? 'bg-red-500 animate-pulse' : 'bg-gray-400'
                                 }`}
                         ></span>
-                        <h3 className="text-lg md:text-xl font-semibold text-[#977b27]">EN VIVO</h3>
+                        <h3 className="text-lg md:text-xl font-semibold text-firstyellow">EN VIVO</h3>
                     </div>
 
                     {videoUrl ? (
                         <YTLive url={videoUrl1} />
                     ) : (
                         <div className='relative w-full pb-[56.25%] mt-1'>
-                            <div className="absolute top-0 left-0 w-full h-full bg-[#fefce8] flex items-center justify-center border rounded-lg">
-                                <p className="text-[#977b27] font-semibold text-center px-4">
+                            <div className="absolute top-0 left-0 w-full h-full bg-fondosecundario flex items-center justify-center border rounded-lg">
+                                <p className="text-gray-500 font-semibold text-center px-4">
                                     El video en vivo comenzará próximamente...
                                 </p>
                             </div>

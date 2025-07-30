@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
-import logo from '../../public//assets/logo.png';
+import logo from '../../public/assets/logo_congreso_33.svg';
 import logoCintermex from '../../public//assets/LogoCintermex.png';
 
 function Information() {

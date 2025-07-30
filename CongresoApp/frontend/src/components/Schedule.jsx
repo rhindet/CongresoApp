@@ -51,8 +51,8 @@ export default function Schedule() {
       try {
         //OBTENCION DE TODAS LAS PLATICAS
         const listDeSimposiosPaso = await apiRequest.getAllEvents();
-       console.log("listDeSimposiosPaso")
-       console.log(listDeSimposiosPaso)
+        console.log("listDeSimposiosPaso")
+        console.log(listDeSimposiosPaso)
         setListDeSimposios(listDeSimposiosPaso);
         // Extraer departamentos únicos
         const departamentosUnicos = [
@@ -88,14 +88,14 @@ export default function Schedule() {
   };
 
   //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
-const filteredTalks = listDeSimposios.filter(talk => {
-  const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
+  const filteredTalks = listDeSimposios.filter(talk => {
+    const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
 
-  return (
-    dia === day.padStart(2, '0') &&
-    (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
-  );
-});
+    return (
+      dia === day.padStart(2, '0') &&
+      (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
+    );
+  });
 
 
 
@@ -105,12 +105,12 @@ const filteredTalks = listDeSimposios.filter(talk => {
     return simposio;
   }
 
-   const getEvent = async (talk) => {
+  const getEvent = async (talk) => {
     console.log(talk.id)
     const simposio = await apiRequest.getEvent(talk.id);
     return simposio;
   }
-  
+
 
 
 
@@ -130,7 +130,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
               key={d}
               onClick={() => setDay(d)}
               className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30
-              ${day === d ? 'bg-yellow-400 text-white' : 'bg-[#999999]'}`}
+              ${day === d ? 'bg-secondyellow text-white' : 'bg-normal-gray'}`}
             >
               {d} Octubre
             </button>
@@ -139,16 +139,16 @@ const filteredTalks = listDeSimposios.filter(talk => {
 
         {/* Filtro de categoría */}
         <div className="mb-3 relative w-72">
-          <label className="block my-3 text-[#29568E] font-bold text-lg text-center">
+          <label className="block my-3 text-secondblue font-bold text-lg text-center">
             Filtrar por departamentos
           </label>
           <Listbox value={selectedCategory} onChange={setSelectedCategory}>
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white py-3 pl-4 pr-10 text-left border border-[#B1B1B4] shadow-md 
-          focus:outline-none focus:ring-2 focus:ring-yellow-400 text-[#29568E] font-semibold text-base">
+              focus:outline-none focus:ring-2 focus:ring-secondyellow text-thirdblue font-semibold text-base">
                 <span className="block truncate">{selectedCategory}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                  <ChevronUpDownIcon className="h-5 w-5 text-[#29568E]" aria-hidden="true" />
+                  <ChevronUpDownIcon className="h-5 w-5 text-firstblue" aria-hidden="true" />
                 </span>
               </Listbox.Button>
 
@@ -157,7 +157,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
                   <Listbox.Option
                     key={option.value}
                     className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-yellow-100 text-[#29568E]' : 'text-gray-800'
+                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${active ? 'bg-yellow-100 text-secondblue' : 'text-gray-800'
                       }`
                     }
                     value={option.value}
@@ -168,7 +168,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
                           {option.label}
                         </span>
                         {selected && (
-                          <span className="absolute left-3 inset-y-0 flex items-center text-yellow-500">
+                          <span className="absolute left-3 inset-y-0 flex items-center text-secondyellow">
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
                         )}
@@ -182,7 +182,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
         </div>
 
         {/* Título categoría */}
-        <h2 className="text-2xl font-bold text-blue-900 mb-1 text-center">
+        <h2 className="text-2xl font-bold text-firstblue mb-1 text-center">
 
           {selectedCategory === 'Todos'
             ? 'Todos las departamentos'
@@ -199,7 +199,7 @@ const filteredTalks = listDeSimposios.filter(talk => {
           ) : (
             filteredTalks.map((talk, index) => {
               const tpKey = "simposios";
-              const colors = tpColorStyles[tpKey] || { bg: '#CCC', text: '#333' };
+              const colors = tpColorStyles[tpKey] || { bg: '#67647', text: '#333' };
               return (
                 <div
                   key={index}
@@ -226,11 +226,11 @@ const filteredTalks = listDeSimposios.filter(talk => {
                   </div>
 
                   {/* Línea vertical */}
-                  <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
+                  <div className="w-1 h-12 bg-secondyellow rounded-sm" />
 
                   {/* Info */}
                   <div className="flex-1 flex flex-col justify-center pl-2">
-                    <span className="text-[#29568E] font-bold text-xl leading-tight">
+                    <span className="text-thirdblue font-bold text-xl leading-tight">
                       {talk.nombre}
                     </span>
                     <span className="text-gray-700 text-sm font-medium">

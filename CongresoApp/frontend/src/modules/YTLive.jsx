@@ -10,7 +10,7 @@ export default function YouTubeEmbed({ url }) {
     {/* Muestra que esta cargando el video */}
     {loading && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white z-10">
-          <div className="text-[#977b27] font-semibold animate-pulse">Cargando...</div>
+          <div className="text-firstyellow font-semibold animate-pulse">Cargando...</div>
         </div>
       )}
       <iframe

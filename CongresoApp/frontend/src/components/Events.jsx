@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import { PresentationChartBarIcon, ChatBubbleLeftRightIcon, UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid'
-import logo from '../../public/assets/logo.png'
+import logo from '../../public/assets/logo_congreso_33.svg';
 
 //Lista de opciones del grid
 const gridItems = [
@@ -32,7 +32,7 @@ const gridItems = [
 const GridButton = ({ item, isDesktop }) => (
     <Link
         to={item.to}
-        className={`flex flex-col items-center justify-center bg-[#29568E] rounded-2xl md:rounded-3xl px-1 py-6 md:py-3 md:px-2 text-white font-semibold text-sm md:text-2xl hover:bg-yellow-400 transition-all
+        className={`flex flex-col items-center justify-center bg-firstblue rounded-2xl md:rounded-3xl px-1 py-6 md:py-3 md:px-2 text-white font-semibold text-sm md:text-2xl hover:bg-secondyellow transition-all
       ${isDesktop
                 ? 'w-[48%] sm:w-[48%] md:w-auto min-w-[200px] max-w-[350px]'
                 : 'w-full'}`}
@@ -92,7 +92,7 @@ export default function Events() {
                 {/* Footer */}
                 <footer className="text-xs md:text-sm text-center text-[#014480] mt-10">
                     Todos los derechos reservados <br />
-                    <span className="text-[#29568E] font-bold">Subdirección de Investigación e Innovación</span>
+                    <span className="text-firstblue font-bold">Subdirección de Investigación e Innovación</span>
                 </footer>
             </main>
         </div>
