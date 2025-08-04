@@ -6,8 +6,11 @@ import img4 from '../../public/assets/img4-carrusel.jpg';
 import img5 from '../../public/assets/img5-carrusel.jpg';
 import img6 from '../../public/assets/img6-carrusel.jpg';
 import img7 from '../../public/assets/img7-carrusel.jpg';
+import img8 from '../../public/assets/img8-carrusel.jpg';
+import img9 from '../../public/assets/img9-carrusel.jpg';
+import img10 from '../../public/assets/img10-carrusel.jpg';
 
-const images = [img1, img2, img3, img4, img5, img6, img7];
+const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
 
 export default function ImageCarousel({ className = '' }) {
     const [current, setCurrent] = useState(0);
