@@ -15,7 +15,7 @@ export default function HeaderMobile({ backLink, title, isAdmin = false,adminMod
           <Link to={backLink} className="text-gray-700 font-bold">
             <ChevronLeftIcon className="w-8 text-secondblue hover:text-lightblue" />
           </Link>
-          <h1 className="text-xl font-bold text-[#29568E]">{title}</h1>
+          <h1 className="text-xl font-bold text-secondblue">{title}</h1>
           <button onClick={() => setAvisosAbiertos(true)} className="font-bold">
             <MegaphoneIcon className="w-8 text-secondblue hover:text-lightblue" />
           </button>

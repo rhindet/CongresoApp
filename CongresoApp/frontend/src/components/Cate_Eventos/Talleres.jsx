@@ -68,7 +68,7 @@ function Talleres() {
                                 key={d}
                                 onClick={() => setDay(d)}
                                 className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30
-                                            ${day === d ? 'bg-yellow-400 text-white' : 'bg-[#999999]'}`}
+                                            ${day === d ? 'bg-secondyellow text-white' : 'bg-[#999999]'}`}
                             >
                                 {d} Octubre
                             </button>
@@ -109,11 +109,11 @@ function Talleres() {
                                         </div>
 
                                         {/* Línea vertical */}
-                                        <div className="w-1 h-12 bg-yellow-400 rounded-sm" />
+                                        <div className="w-1 h-12 bg-secondyellow rounded-sm" />
 
                                         {/* Info */}
                                         <div className="flex-1 flex flex-col justify-center pl-2">
-                                            <span className="text-[#29568E] font-bold text-xl leading-tight">
+                                            <span className="text-thirdblue font-bold text-xl leading-tight">
                                                 {talk.nombre}
                                             </span>
                                             <span className="text-gray-700 text-sm font-medium">

@@ -215,8 +215,7 @@ export default function Schedule() {
                       },
                     });
                   }}
-                  className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4"
-                  style={{ backgroundColor: '#E6E6E6' }}
+                  className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4 bg-[#E6E6E6]"
                 >
                   {/* Hora */}
                   <div className="w-16 text-right pr-1">

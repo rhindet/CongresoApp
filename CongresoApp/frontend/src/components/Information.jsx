@@ -55,9 +55,9 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
 
   return (
     <div
-      className="min-h-screen flex flex-col text-blue-900"
+      className="min-h-screen flex flex-col"
     >
-      <HeaderMobile backLink="/home" title="CONVOCATORIA 2025" />
+      <HeaderMobile backLink="/home" title="Mensaje Directores" />
       <div className="hidden md:block">
         <HeaderDesktop backLink="/home" />
       </div>
@@ -77,8 +77,8 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
               />
             </div>
             <div className="flex-1 text-left md:text-justify space-y-2 md:space-y-4 text-gray-800">
-              <h3 className="text-2xl font-bold text-blue-800">Dr. med. Oscar Vidal Gutiérrez</h3>
-              <p className="text-sm italic text-blue-600">
+              <h3 className="text-2xl font-bold text-firstblue">Dr. med. Oscar Vidal Gutiérrez</h3>
+              <p className="text-sm italic text-secondblue">
                 Director de la Facultad de Medicina y del Hospital Universitario "Dr. José Eleuterio González" – UANL
               </p>
               <p className="whitespace-pre-line leading-snug text-base text-justify">
@@ -86,7 +86,7 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
               </p>
               <button
                 onClick={() => setShowOscarFull(!showOscarFull)}
-                className="text-blue-700 font-semibold underline mt-2"
+                className="text-thirdblue font-semibold underline mt-2"
 >
                 {showOscarFull ? 'Ver menos' : 'Ver más'}
               </button>
@@ -104,8 +104,8 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
               />
             </div>
             <div className="flex-1 text-left md:text-justify space-y-2 md:space-y-4 text-gray-800">
-              <h3 className="text-2xl font-bold text-blue-800">Dr. med. Adrián Camacho Ortiz</h3>
-              <p className="text-sm italic text-blue-600">
+              <h3 className="text-2xl font-bold text-firstblue">Dr. med. Adrián Camacho Ortiz</h3>
+              <p className="text-sm italic text-secondblue">
                 Subdirector de Investigación, Facultad de Medicina, UANL
               </p>
               <p className="whitespace-pre-line leading-snug text-base text-justify">
@@ -113,7 +113,7 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
               </p>
               <button
                 onClick={() => setShowCamachoFull(!showCamachoFull)}
-                className="text-blue-700 font-semibold underline mt-2">
+                className="text-thirdblue font-semibold underline mt-2">
                 {showCamachoFull ? 'Ver menos' : 'Ver más'}
               </button>
 

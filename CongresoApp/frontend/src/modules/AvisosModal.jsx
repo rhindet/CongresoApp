@@ -61,14 +61,14 @@ export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
                 <button onClick={onClose} className="absolute top-3 right-3 text-gray-600 hover:text-red-500">
                     <XMarkIcon className="w-6" />
                 </button>
-                <h2 className="text-xl font-bold text-[#29568E] mb-4">Avisos</h2>
+                <h2 className="text-xl font-bold text-secondblue mb-4">Avisos</h2>
 
                 <div className="max-h-64 overflow-y-auto pr-1">
                     <ul className="space-y-3">
                        {setAvisos.map((aviso) => (
                                 <li
                                     key={aviso.id}
-                                    className="border-l-4 border-yellow-400 pl-3 cursor-pointer hover:bg-yellow-50"
+                                    className="border-l-4 border-secondyellow pl-3 cursor-pointer hover:bg-yellow-50"
                                     onClick={() => handleAvisoClick(aviso)}
                                 >
                                     <p className="font-semibold text-gray-800">{aviso.titulo}</p>
