@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from '../../public/assets/logo_congreso_33.svg';
 import cintillaLogos from '../../public/assets/cintilla.png';
-import fondo from '../../public/assets/fondoWave.png';
+import fondo from '../../public/assets/fondoFacultad.png';
 
 function Inicio() {
   return (
