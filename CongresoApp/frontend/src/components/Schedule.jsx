@@ -21,10 +21,6 @@ const tpColorStyles = {
     bg: '#B6A6CA',
     text: '#5b2c6f',
   },
-  'taller': {
-    bg: '#EE8EA9',
-    text: '#D23A65',
-  },
 };
 
 
@@ -87,16 +83,17 @@ export default function Schedule() {
     return `${horas}:${minutos.toString().padStart(2, '0')}`;
   };
 
-  //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS)
-  const filteredTalks = listDeSimposios.filter(talk => {
+  //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS) y se ordenan por hora 
+  const filteredTalks = listDeSimposios
+  .filter(talk => {
     const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
 
     return (
       dia === day.padStart(2, '0') &&
       (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
     );
-  });
-
+  })
+  .sort((a,b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
 
 
   const getSimposio = async (talk) => {

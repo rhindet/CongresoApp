@@ -42,10 +42,12 @@ function Magistrales() {
         return `${horas}:${minutos.toString().padStart(2, '0')}`;
     };
 
-    const filteredTalks = listDeSimposios.filter(talk => {
+    const filteredTalks = listDeSimposios
+    .filter(talk => {
         const dia = talk.hora_inicio?.split('T')[0]?.split('-')[2];
         return dia === day.padStart(2, '0');
-    });
+    })
+    .sort((a,b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
 
     const getSimposio = async (talk) => {
        

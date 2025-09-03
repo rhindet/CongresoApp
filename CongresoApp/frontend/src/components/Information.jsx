@@ -57,7 +57,7 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
     <div
       className="min-h-screen flex flex-col"
     >
-      <HeaderMobile backLink="/home" title="Mensaje Directores" />
+      <HeaderMobile backLink="/home" title="Mensajes Oficiales" />
       <div className="hidden md:block">
         <HeaderDesktop backLink="/home" />
       </div>

@@ -10,7 +10,6 @@ import Information from './components/Information';
 import Simposios from './components/Cate_Eventos/Simposios';
 import Magistrales from './components/Cate_Eventos/Magistrales';
 import PO from './components/Cate_Eventos/PO';
-import Talleres from './components/Cate_Eventos/Talleres';
 import Admin from './components/Admin';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
       <Route path='/simposios' element={<Simposios />} />
       <Route path='/magistrales' element={<Magistrales />} />
       <Route path='/pre-or' element={<PO />} />
-      <Route path='/talleres' element={<Talleres />} />
       <Route path='/admin0707' element={<Admin />} />
 
     </Routes>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-export default function Ponentes({ programa, departamento, index,actividad1 }) {
-                const [loaded, setLoaded] = useState(false);
+export default function Ponentes({ programa, departamento, index, actividad1 }) {
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     console.log("Programa", programa[0]?.afiliacion);
@@ -43,9 +43,10 @@ export default function Ponentes({ programa, departamento, index,actividad1 }) {
                 />
 
                 <p className="text-sm font-semibold text-center">{nombre}</p>
-                                <p className="text-xs text-gray-500 text-center">{afiliacion}</p>
+                <p className="text-xs text-gray-500 text-center">{afiliacion}</p>
 
-                <p className="text-sm mt-2 font-semibold text-center text-[#977b27]"> ~ {actividad} </p>
+                <p className="text-sm mt-4 font-bold text-center text-[#977b27]"> Tema: </p>
+                <p className="text-sm text-center text-[#977b27]"> {actividad} </p>
               </div>
             );
           })}

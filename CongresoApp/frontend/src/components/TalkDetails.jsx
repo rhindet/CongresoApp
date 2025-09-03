@@ -244,7 +244,7 @@ export default function TalkDetail() {
 
 
                     {/* Video de YouTube embevido*/}
-                    <div className="mt-5 flex items-center gap-2">
+                    {/* <div className="mt-5 flex items-center gap-2">
                         <span
                             className={`w-3 h-3 rounded-full ${videoUrl1 ? 'bg-red-500 animate-pulse' : 'bg-gray-400'
                                 }`}
@@ -262,7 +262,8 @@ export default function TalkDetail() {
                                 </p>
                             </div>
                         </div>
-                    )}
+                    )} */}
+                    
                 </div>
             </main>
         </div>

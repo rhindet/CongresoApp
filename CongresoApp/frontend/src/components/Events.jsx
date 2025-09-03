@@ -21,11 +21,6 @@ const gridItems = [
         icon: <UserGroupIcon className="w-16 md:w-20" />,
         to: '/pre-or',
     },
-    {
-        text: 'Talleres',
-        icon: <ClipboardDocumentListIcon className="w-16 md:w-20" />,
-        to: '/talleres',
-    },
 ];
 
 // Componente Botón Reutilizable

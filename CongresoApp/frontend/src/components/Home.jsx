@@ -18,7 +18,7 @@ const gridItems = [
         to: '/events',
     },
     {
-        text: 'Mensaje Director',
+        text: 'Mensajes',
         icon: <InformationCircleIcon className="w-16 md:w-20" />,
         to: '/info',
     },

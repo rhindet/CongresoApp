@@ -42,10 +42,12 @@ function Simposios() {
         return `${horas}:${minutos.toString().padStart(2, '0')}`;
     };
 
-        const filteredTalks = listDeSimposios.filter(talk => {
+    const filteredTalks = listDeSimposios
+    .filter(talk => {
         const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
         return dia === day.padStart(2, '0');
-    });
+    })
+    .sort((a,b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
 
     const getSimposio = async (talk) => {
         const apiRequest = new ApiRequests();
