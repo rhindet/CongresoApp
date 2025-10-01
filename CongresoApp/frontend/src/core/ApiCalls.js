@@ -1,5 +1,6 @@
 import { ApiRequestsResult } from '../models/ApiRequestResult';
 import { AvisosModel } from '../models/AvisosModel';
+import { MagistralesModelo } from '../models/magistralesModel';
 import { Simposio, Simposios } from '../models/simposiosModel';
 
 const methods = {
@@ -100,7 +101,7 @@ export class ApiCalls{
         console.log(result.data.data.platicas_magistrales[0])
 
         if(result != null && result.status == 200){
-            const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
+            const simposios = result.data.data.platicas_magistrales.map(item => new MagistralesModelo(item));
             return simposios
         }
         console.log("Llamada realizada sin exito")   
@@ -198,7 +199,7 @@ export class ApiCalls{
         var result = await this._buildFetch.fetch({url:`/api/platicas/magistral/${id}`,method:methods.GET,headers:getHeaders()})
         console.log(result)
         if(result != null && result.status == 200){
-            const simposios = new Simposios(result.data.data)
+            const simposios = new MagistralesModelo(result.data.data)
             return simposios
         }
         console.log("Llamada realizada sin exito")   

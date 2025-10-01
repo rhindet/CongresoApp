@@ -25,6 +25,7 @@ function Magistrales() {
             try {
                 const allMagistales = await apiRequest.getAllMagistrales();
                 setListDeSimposios(allMagistales);
+                console.log(allMagistales);
             } catch (error) {
                 console.error('Error al obtener magistrales:', error);
             } finally {
@@ -93,11 +94,11 @@ function Magistrales() {
                                         onClick={async () => {
                                             setLoader(true);
                                             const simposio = await getSimposio(talk);
-                                            navigate('/talk-details', {
+                                            navigate('/talk-details-magistrales', {
                                                 state: {
                                                     from: 'magistrales',
                                                     ...simposio,
-                                                    descripcion: simposio.objetivo,
+                                                    descripcion: simposio.semblanza,
                                                     salon: simposio.salon,
                                                 },
                                             });
@@ -117,10 +118,10 @@ function Magistrales() {
                                         {/* Info */}
                                         <div className="flex-1 flex flex-col justify-center pl-2">
                                             <span className="text-thirdblue font-bold text-xl leading-tight">
-                                                {talk.nombre}
+                                                {talk.ponencia}
                                             </span>
                                             <span className="text-gray-700 text-sm font-medium">
-                                                {talk.jefe}
+                                                {talk.ponente}
                                             </span>
                                             <span
                                                 className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"

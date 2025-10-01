@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Location from "./components/Location";
 import Schedule from "./components/Schedule";
 import TalkDetails from './components/TalkDetails';
+import TalkDetailsMagistrales from './components/TalkDetailsMagistrales';
 import Events from './components/Events';
 import Information from './components/Information';
 import Simposios from './components/Cate_Eventos/Simposios';
@@ -20,6 +21,7 @@ function App() {
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/location" element={<Location />} />
       <Route path="/talk-details" element={<TalkDetails />} />
+      <Route path="/talk-details-magistrales" element={<TalkDetailsMagistrales />} />
       <Route path="/events" element={<Events />} />
       <Route path='/info' element={<Information />} />
       <Route path='/simposios' element={<Simposios />} />
