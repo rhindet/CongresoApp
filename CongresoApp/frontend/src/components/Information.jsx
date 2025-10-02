@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
-import logo from '../../public/assets/logo_congreso_33.svg';
-import logoCintermex from '../../public//assets/LogoCintermex.png';
-import { useState } from 'react';
+import logo from '../../public/assets/principales/logo_congreso_33.svg';
+import logoCintermex from '../../public/assets/principales/LogoCintermex.png';
+import Doctor1 from '../../public/assets/info/Dr_ Oscar.png';
+import Doctor2 from '../../public/assets/info/Dr_ Camacho.png';
 
 function Information() {
 
@@ -71,7 +73,7 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
 
             <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-200 shadow-md shrink-0">
               <img
-                src="/assets/Dr_ Oscar.png"
+                src={Doctor1}
                 alt="Dr. Oscar Vidal"
                 className="w-full h-full object-cover object-top"
               />
@@ -98,7 +100,7 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
           <article className="bg-white rounded-2xl border border-gray-200 shadow-md p-6 flex flex-col md:flex-row gap-6 items-center md:items-start">
             <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-200 shadow-md shrink-0">
               <img
-                src="/assets/Dr_ Camacho.png"
+                src={Doctor2}
                 alt="Dr. Adrián Camacho"
                 className="w-full h-full object-cover object-top"
               />

@@ -3,24 +3,24 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import YTLive from '../modules/YTLive'
+import Loader from '../modules/Loader';
 import { CalendarIcon } from '@heroicons/react/24/solid';
 import { timeFormat, formatDownloadICS } from './dateFormatt';
-import Loader from '../modules/Loader';
-import S_201 from '../../public/assets/S_201.png';
-import S_202 from '../../public/assets/S_202.png';
-import S_203 from '../../public/assets/S_203.png';
-import S_204 from '../../public/assets/S_204.png';
-import S_205 from '../../public/assets/S_205.png';
-import S_206 from '../../public/assets/S_206.png';
-import S_306 from '../../public/assets/S_306.png';
-import S_307 from '../../public/assets/S_307.png';
-import S_308 from '../../public/assets/S_308.png';
-import S_309 from '../../public/assets/S_309.png';
-import S_Antartida from '../../public/assets/S_Antartida.png';
-import S_Canada from '../../public/assets/S_Canada.png';
-import S_EstadosUnidos from '../../public/assets/S_EstadosUnidos.png';
-import S_Europa from '../../public/assets/S_Europa.png';
-import planoMapa from '../../public/assets/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'; // imagen por default
+import S_201 from '../../public/assets/mapas/S_201.png';
+import S_202 from '../../public/assets/mapas/S_202.png';
+import S_203 from '../../public/assets/mapas/S_203.png';
+import S_204 from '../../public/assets/mapas/S_204.png';
+import S_205 from '../../public/assets/mapas/S_205.png';
+import S_206 from '../../public/assets/mapas/S_206.png';
+import S_306 from '../../public/assets/mapas/S_306.png';
+import S_307 from '../../public/assets/mapas/S_307.png';
+import S_308 from '../../public/assets/mapas/S_308.png';
+import S_309 from '../../public/assets/mapas/S_309.png';
+import S_Antartida from '../../public/assets/mapas/S_Antartida.png';
+import S_Canada from '../../public/assets/mapas/S_Canada.png';
+import S_EstadosUnidos from '../../public/assets/mapas/S_EstadosUnidos.png';
+import S_Europa from '../../public/assets/mapas/S_Europa.png';
+import planoMapa from '../../public/assets/mapas/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'; // imagen por default
 import Ponentes from '../modules/Ponentes';
 
 const salonMapas = {

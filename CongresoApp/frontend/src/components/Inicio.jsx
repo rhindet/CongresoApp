@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../public/assets/logo_congreso_33.svg';
-import cintillaLogos from '../../public/assets/cintilla.png';
-import fondo from '../../public/assets/fondoFacultad.png';
+import logo from '../../public/assets/principales/logo_congreso_33.svg';
+import cintillaLogos from '../../public/assets/principales/cintilla.png';
+import fondo from '../../public/assets/principales/fondoFacultad.png';
 
 function Inicio() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);

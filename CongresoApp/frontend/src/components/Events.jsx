@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import { PresentationChartBarIcon, ChatBubbleLeftRightIcon, UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid'
-import logo from '../../public/assets/logo_congreso_33.svg';
+import logo from '../../public/assets/principales/logo_congreso_33.svg';
 
 //Lista de opciones del grid
 const gridItems = [

@@ -3,7 +3,7 @@ import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
 import ImageCarousel from '../modules/ImageCarousel'
 import { CalendarDaysIcon, RectangleGroupIcon, MapIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
-import logo from '../../public/assets/logo_congreso_33.svg';
+import logo from '../../public/assets/principales/logo_congreso_33.svg';
 
 // Lista de opciones del grid
 const gridItems = [

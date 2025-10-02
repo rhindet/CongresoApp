@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import img1 from '../../public/assets/img1-carrusel.jpg';
-import img2 from '../../public/assets/img2-carrusel.jpg';
-import img3 from '../../public/assets/img3-carrusel.jpg';
-import img4 from '../../public/assets/img4-carrusel.jpg';
-import img5 from '../../public/assets/img5-carrusel.jpg';
-import img6 from '../../public/assets/img6-carrusel.jpg';
-import img7 from '../../public/assets/img7-carrusel.jpg';
-import img8 from '../../public/assets/img8-carrusel.jpg';
-import img9 from '../../public/assets/img9-carrusel.jpg';
-import img10 from '../../public/assets/img10-carrusel.jpg';
+import img1 from '../../public/assets/carrusel/img1-carrusel.jpg';
+import img2 from '../../public/assets/carrusel/img2-carrusel.jpg';
+import img3 from '../../public/assets/carrusel/img3-carrusel.jpg';
+import img4 from '../../public/assets/carrusel/img4-carrusel.jpg';
+import img5 from '../../public/assets/carrusel/img5-carrusel.jpg';
+import img6 from '../../public/assets/carrusel/img6-carrusel.jpg';
+import img7 from '../../public/assets/carrusel/img7-carrusel.jpg';
+import img8 from '../../public/assets/carrusel/img8-carrusel.jpg';
+import img9 from '../../public/assets/carrusel/img9-carrusel.jpg';
+import img10 from '../../public/assets/carrusel/img10-carrusel.jpg';
 
 const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
 
