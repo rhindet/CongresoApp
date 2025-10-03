@@ -83,7 +83,7 @@ export default function Schedule() {
     return `${horas}:${minutos.toString().padStart(2, '0')}`;
   };
 
-  //SE FILTRAN LOS SIMPOSIOS POR DIA Y CATEGORIA(DEFECTO:TODAS) y se ordenan por hora 
+  //SE FILTRAN POR DIA Y CATEGORIA(DEFECTO:TODAS) y se ordenan por hora 
   const filteredTalks = listDeSimposios
   .filter(talk => {
     const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');

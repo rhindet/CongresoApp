@@ -36,9 +36,18 @@ function Simposios() {
 
     const formatoHora = (isoString) => {
         if (!isoString) return "";
-        const date = new Date(isoString);
-        const horas = date.getHours();
-        const minutos = date.getMinutes();
+
+        // Si la cadena NO incluye información de zona horaria ('Z' o '+'),
+        // se añade 'Z' para forzar a new Date() a tratarla como UTC.
+        // Esto evita que se aplique la zona horaria local del usuario.
+        const dateStringUTC = isoString.includes('Z') || isoString.includes('+') ? isoString : `${isoString}Z`;
+
+        const date = new Date(dateStringUTC);
+
+        // Usamos getUTCHours y getUTCMinutes para obtener la hora UTC (la hora "fija" de la base de datos).
+        const horas = date.getUTCHours();
+        const minutos = date.getUTCMinutes();
+
         return `${horas}:${minutos.toString().padStart(2, '0')}`;
     };
 

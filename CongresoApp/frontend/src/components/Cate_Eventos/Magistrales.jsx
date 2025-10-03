@@ -14,17 +14,17 @@ const tpColorStyles = {
 
 function Magistrales() {
     const [day, setDay] = useState('9');
-    const [listDeSimposios, setListDeSimposios] = useState([]);
+    const [listDeMagistrales, setListDeMagistrales] = useState([]);
     const [loader, setLoader] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchSimposios = async () => {
+        const fetchMagistrales = async () => {
             const apiRequest = new ApiRequests(); // ← definido dentro del efecto
             window.scrollTo(0, 0);
             try {
                 const allMagistales = await apiRequest.getAllMagistrales();
-                setListDeSimposios(allMagistales);
+                setListDeMagistrales(allMagistales);
                 console.log(allMagistales);
             } catch (error) {
                 console.error('Error al obtener magistrales:', error);
@@ -32,26 +32,34 @@ function Magistrales() {
                 setLoader(false);
             }
         };
-        fetchSimposios();
+        fetchMagistrales();
     }, []);
 
     const formatoHora = (isoString) => {
         if (!isoString) return "";
-        const date = new Date(isoString);
-        const horas = date.getHours();
-        const minutos = date.getMinutes();
+
+        // Si la cadena NO incluye información de zona horaria ('Z' o '+'),
+        // se añade 'Z' para forzar a new Date() a tratarla como UTC.
+        // Esto evita que se aplique la zona horaria local del usuario.
+        const dateStringUTC = isoString.includes('Z') || isoString.includes('+') ? isoString : `${isoString}Z`;
+
+        const date = new Date(dateStringUTC);
+
+        // Usamos getUTCHours y getUTCMinutes para obtener la hora UTC (la hora "fija" de la base de datos).
+        const horas = date.getUTCHours();
+        const minutos = date.getUTCMinutes();
+
         return `${horas}:${minutos.toString().padStart(2, '0')}`;
     };
 
-    const filteredTalks = listDeSimposios
-    .filter(talk => {
-        const dia = talk.hora_inicio?.split('T')[0]?.split('-')[2];
-        return dia === day.padStart(2, '0');
-    })
-    .sort((a,b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
+    const filteredTalks = listDeMagistrales
+        .filter(talk => {
+            const dia = talk.hora_inicio?.split('T')[0]?.split('-')[2];
+            return dia === day.padStart(2, '0');
+        })
+        .sort((a, b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
 
-    const getSimposio = async (talk) => {
-       
+    const getMagistral = async (talk) => {
         const apiRequest = new ApiRequests();
         return await apiRequest.getMagistral(talk.id);
     };
@@ -87,19 +95,19 @@ function Magistrales() {
                             </p>
                         ) : (
                             filteredTalks.map((talk, index) => {
-                                const colors = tpColorStyles['simposios'];
+                                {/* const colors = tpColorStyles['magistrales']; */ }
                                 return (
                                     <div
                                         key={index}
                                         onClick={async () => {
                                             setLoader(true);
-                                            const simposio = await getSimposio(talk);
+                                            const magistral = await getMagistral(talk);
                                             navigate('/talk-details-magistrales', {
                                                 state: {
                                                     from: 'magistrales',
-                                                    ...simposio,
-                                                    descripcion: simposio.semblanza,
-                                                    salon: simposio.salon,
+                                                    ...magistral,
+                                                    descripcion: magistral.semblanza,
+                                                    salon: magistral.salon,
                                                 },
                                             });
                                         }}

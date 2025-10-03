@@ -21,7 +21,6 @@ import S_Canada from '../../public/assets/mapas/S_Canada.png';
 import S_EstadosUnidos from '../../public/assets/mapas/S_EstadosUnidos.png';
 import S_Europa from '../../public/assets/mapas/S_Europa.png';
 import planoMapa from '../../public/assets/mapas/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'; // imagen por default
-import Ponentes from '../modules/Ponentes';
 
 const salonMapas = {
     '201': S_201,
@@ -109,7 +108,7 @@ export default function TalkDetailMagistrales() {
                 const container = scrollRef.current;
                 const cardWidth = container.firstChild?.offsetWidth || 0;
                 const visibleWidth = container.offsetWidth;
-                const maxScrollLeft = container.scrollWidth - visibleWidth;
+                // const maxScrollLeft = container.scrollWidth - visibleWidth;
 
                 // Avanza una "pantalla" o fila de tarjetas
                 const nextScrollLeft = container.scrollLeft + cardWidth;
