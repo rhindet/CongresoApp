@@ -15,8 +15,8 @@ export class Simposios {
     this.salon = data.salon || "";
     this.capacidad = data.capacidad || 0;
     this.extra = data.extra || "";
-     this.link = data.link || "";
-     this.tipo = data.tipo || "";
+    this.link = data.link || "";
+    this.tipo = data.tipo || "";
     this.programa = data.programa || [];
   }
 }

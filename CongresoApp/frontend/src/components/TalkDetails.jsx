@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
@@ -109,7 +110,7 @@ export default function TalkDetail() {
                 const container = scrollRef.current;
                 const cardWidth = container.firstChild?.offsetWidth || 0;
                 const visibleWidth = container.offsetWidth;
-                const maxScrollLeft = container.scrollWidth - visibleWidth;
+                // const maxScrollLeft = container.scrollWidth - visibleWidth;
 
                 // Avanza una "pantalla" o fila de tarjetas
                 const nextScrollLeft = container.scrollLeft + cardWidth;
@@ -128,18 +129,18 @@ export default function TalkDetail() {
 
     if (!state) return null;
     console.log(state)
-    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento, coordinador } = state;
+    const { nombre, hora_inicio, hora_fin, fecha, jefe, descripcion, objetivo, salon, videoUrl, programa, departamento, coordinador } = state;
     const nombre1 = nombre || 'Sin nombre';
     const hora_inicio1 = hora_inicio || 'Sin hora';
     const hora_fin1 = hora_fin || 'Sin hora';
-    const fecha1 = fecha || 'Sin fecha';
     const jefe1 = jefe || '';
     const objetivo1 = objetivo || 'Sin resumen';
     const salon1 = salon || 'Sin salon';
-    const videoUrl1 = videoUrl || '';
     const programa1 = programa || [];
     const departamento1 = departamento || '';
     const coordinador1 = coordinador || '';
+    const fecha1 = fecha || 'Sin fecha';
+    const videoUrl1 = videoUrl || '';
 
     //YYYY-MM-DD
     return (
@@ -233,6 +234,7 @@ export default function TalkDetail() {
                                             index={index}
                                             departamento={departamento1}
                                             actividad1={elemento.actividad}
+                                            
                                         />
                                     );
                                 })}
