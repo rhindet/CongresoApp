@@ -89,13 +89,13 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
 
 
 
-export default function TalkDetail() {
+export default function TalkDetailsSimposio() {
     const scrollRef = useRef(null);
     const { state } = useLocation();
     const navigate = useNavigate();
     // const [loader, setLoader] = useState(true);
 
-    const backLink = state?.from ? `/${state.from}` : '/schedule';
+    const backLink = state?.from || '/schedule';
 
 
     useEffect(() => {
@@ -129,7 +129,8 @@ export default function TalkDetail() {
 
     if (!state) return null;
     console.log(state)
-    const { nombre, hora_inicio, hora_fin, fecha, jefe, descripcion, objetivo, salon, videoUrl, programa, departamento, coordinador } = state;
+
+    const { nombre, hora_inicio, hora_fin, fecha, jefe, objetivo, salon, videoUrl, programa, departamento, coordinador } = state;
     const nombre1 = nombre || 'Sin nombre';
     const hora_inicio1 = hora_inicio || 'Sin hora';
     const hora_fin1 = hora_fin || 'Sin hora';

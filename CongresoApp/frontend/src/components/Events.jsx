@@ -14,12 +14,12 @@ const gridItems = [
     {
         text: 'Pláticas Magistrales',
         icon: <ChatBubbleLeftRightIcon className="w-16 md:w-20" />,
-        to: '/Magistrales',
+        to: '/magistrales',
     },
     {
         text: 'Presentaciones Orales',
         icon: <UserGroupIcon className="w-16 md:w-20" />,
-        to: '/pre-or',
+        to: '/presentaciones',
     },
 ];
 

@@ -6,7 +6,7 @@ import { ApiRequests } from '../../core/ApiRequests';
 import Loader from '../../modules/Loader';
 
 const tpColorStyles = {
-    'platicas magistrales': {
+    'magistral': {
         bg: '#E0B7B1',
         text: '#a93226',
     },
@@ -104,7 +104,7 @@ function Magistrales() {
                                             const magistral = await getMagistral(talk);
                                             navigate('/talk-details-magistrales', {
                                                 state: {
-                                                    from: 'magistrales',
+                                                    from: '/magistrales',
                                                     ...magistral,
                                                     descripcion: magistral.semblanza,
                                                     salon: magistral.salon,
@@ -134,8 +134,8 @@ function Magistrales() {
                                             <span
                                                 className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                                                 style={{
-                                                    backgroundColor: tpColorStyles['platicas magistrales'].bg,
-                                                    color: tpColorStyles['platicas magistrales'].text,
+                                                    backgroundColor: tpColorStyles['magistral'].bg,
+                                                    color: tpColorStyles['magistral'].text,
                                                 }}
                                             >
                                                 Pláticas Magistrales

@@ -101,9 +101,9 @@ function Simposios() {
                                         onClick={async () => {
                                             setLoader(true);
                                             const simposio = await getSimposio(talk);
-                                            navigate('/talk-details', {
+                                            navigate('/talk-details-simposio', {
                                                 state: {
-                                                    from: 'simposios',
+                                                    from: '/simposios',
                                                     ...simposio,
                                                     descripcion: simposio.objetivo,
                                                     salon: simposio.salon,

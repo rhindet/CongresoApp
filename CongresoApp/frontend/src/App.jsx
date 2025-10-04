@@ -4,7 +4,7 @@ import Inicio from "./components/Inicio";
 import Home from "./components/Home";
 import Location from "./components/Location";
 import Schedule from "./components/Schedule";
-import TalkDetails from './components/TalkDetails';
+import TalkDetailsSimposio from './components/TalkDetailsSimposio';
 import TalkDetailsMagistrales from './components/TalkDetailsMagistrales';
 import Events from './components/Events';
 import Information from './components/Information';
@@ -20,13 +20,13 @@ function App() {
       <Route path="/home" element={<Home />} />
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/location" element={<Location />} />
-      <Route path="/talk-details" element={<TalkDetails />} />
+      <Route path="/talk-details-simposio" element={<TalkDetailsSimposio />} />
       <Route path="/talk-details-magistrales" element={<TalkDetailsMagistrales />} />
       <Route path="/events" element={<Events />} />
       <Route path='/info' element={<Information />} />
       <Route path='/simposios' element={<Simposios />} />
       <Route path='/magistrales' element={<Magistrales />} />
-      <Route path='/pre-or' element={<PO />} />
+      <Route path='/presentaciones' element={<PO />} />
       <Route path='/admin0707' element={<Admin />} />
 
     </Routes>

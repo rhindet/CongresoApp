@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
@@ -9,7 +10,7 @@ import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid';
 
 
 const tpColorStyles = {
-  'presentaciones orales': {
+  'presentacion oral': {
     bg: '#5F8575',
     text: '#0b5345',
   },
@@ -29,10 +30,11 @@ export default function Schedule() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const navigate = useNavigate();
   const apiRequest = new ApiRequests();
-  const [listDeSimposios, setListDeSimposios] = useState([]);
+
+  const [listDeEventos, setListDeEventos] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [loader, setLoader] = useState(true);
-  const [setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
 
 
   useEffect(() => {
@@ -42,27 +44,34 @@ export default function Schedule() {
 
     window.addEventListener('scroll', handleScroll);
 
-    const getSimposios = async () => {
+    const getAllEvents = async () => {
       window.scrollTo(0, 0);
       try {
-        //OBTENCION DE TODAS LAS PLATICAS
-        const listDeSimposiosPaso = await apiRequest.getAllEvents();
-        console.log("listDeSimposiosPaso")
-        console.log(listDeSimposiosPaso)
-        setListDeSimposios(listDeSimposiosPaso);
+        //OBTENCION DE TODOS LOS EVENTOS (Simposios, Magsitrales, Orales)
+        const listEventsPaso = await apiRequest.getAllEvents();
+        console.log("listEventsPaso", listEventsPaso);
+        setListDeEventos(listEventsPaso);
+
         // Extraer departamentos únicos
         const departamentosUnicos = [
-          ...new Set(listDeSimposiosPaso.map(s => s.departamento).filter(Boolean))
+          ...new Set(listEventsPaso.map(s => s.departamento).filter(Boolean))
         ].sort((a, b) => a.localeCompare(b));
+
         setDepartamentos(departamentosUnicos);
-        setLoader(false)
+        setLoader(false);
 
       } catch (error) {
         console.error('Error al obtener simposios:', error);
       }
     };
-    getSimposios();
 
+    getAllEvents();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const categoryOptions = [
@@ -73,39 +82,37 @@ export default function Schedule() {
     }))
   ];
 
-  // Función para convertir ISO string a "H:mm"
+  //FORMATEO DE HORA
   const formatoHora = (isoString) => {
     if (!isoString) return "";
-    const date = new Date(isoString);
-    const horas = date.getHours();    // 0-23
-    const minutos = date.getMinutes(); // 0-59
+
+    const dateStringUTC = isoString.includes('Z') || isoString.includes('+') ? isoString : `${isoString}Z`;
+    const date = new Date(dateStringUTC);
+
+    // Usamos getUTCHours y getUTCMinutes para obtener la hora sin desfase local
+    const horas = date.getUTCHours();
+    const minutos = date.getUTCMinutes();
 
     return `${horas}:${minutos.toString().padStart(2, '0')}`;
   };
 
-  //SE FILTRAN POR DIA Y CATEGORIA(DEFECTO:TODAS) y se ordenan por hora 
-  const filteredTalks = listDeSimposios
-  .filter(talk => {
-    const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
+  //SE FILTRAN POR DIA Y CATEGORIA (Default: Todas) Y SE ORDENAN POR HORA 
+  const filteredTalks = listDeEventos
+    .filter(talk => {
+      // Usamos Date.getUTCDate() para obtener el día sin el desfase local
+      const dia = new Date(`${talk.hora_inicio}Z`).getUTCDate().toString().padStart(2, '0');
 
-    return (
-      dia === day.padStart(2, '0') &&
-      (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
-    );
-  })
-  .sort((a,b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
+      return (
+        dia === day.padStart(2, '0') &&
+        (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
+      );
+    })
+    .sort((a, b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
 
-
-  const getSimposio = async (talk) => {
+  const getEventDetails = async (talk) => {
     console.log(talk.id)
-    const simposio = await apiRequest.getSimposio(talk.id);
-    return simposio;
-  }
-
-  const getEvent = async (talk) => {
-    console.log(talk.id)
-    const simposio = await apiRequest.getEvent(talk.id);
-    return simposio;
+    const eventDetails = await apiRequest.getEvent(talk.id);
+    return eventDetails;
   }
 
 
@@ -136,9 +143,6 @@ export default function Schedule() {
 
         {/* Filtro de categoría */}
         <div className="mb-3 relative w-72">
-          <label className="block my-3 text-secondblue font-bold text-lg text-center">
-            Filtrar por departamentos
-          </label>
           <Listbox value={selectedCategory} onChange={setSelectedCategory}>
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full cursor-pointer rounded-xl bg-white py-3 pl-4 pr-10 text-left border border-[#B1B1B4] shadow-md 
@@ -178,14 +182,6 @@ export default function Schedule() {
           </Listbox>
         </div>
 
-        {/* Título categoría */}
-        <h2 className="text-2xl font-bold text-firstblue mb-1 text-center">
-
-          {selectedCategory === 'Todos'
-            ? 'Todos las departamentos'
-            : departamentos[selectedCategory]}
-        </h2>
-
         {/* Lista de conferencias */}
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-4">
 
@@ -193,27 +189,61 @@ export default function Schedule() {
             <p className="text-center text-gray-600 col-span-full text-lg font-medium mt-10">
               Sin eventos de {selectedCategory} este dia.
             </p>
+
           ) : (
+
             filteredTalks.map((talk, index) => {
-              const tpKey = "simposios";
+              //Obtiene la clave de color del tipo de evento
+              const tpKey = talk.tipo?.toLowerCase();
               const colors = tpColorStyles[tpKey] || { bg: '#67647', text: '#333' };
+
               return (
                 <div
                   key={index}
                   onClick={async () => {
                     setLoader(true);
-                    const simposio = await getEvent(talk);
+                    const eventDetails = await getEventDetails(talk);
                     setLoader(true);
-                    navigate('/talk-details', {
-                      state: {
-                        ...simposio,
-                        descripcion: simposio.objetivo,
-                        salon: simposio.salon,
-                      },
-                    });
+
+                    //Ajusta los campos para la navegación
+                    if (tpKey == 'simposio') {
+                      navigate('/talk-details-simposio', {
+                        state: {
+                          from: '/schedule',
+                          ...eventDetails,
+                          descripcion: eventDetails.objetivo,
+                          salon: eventDetails.salon,
+                        },
+                      });
+                    }
+
+                    if (tpKey === 'magistral') {
+                      const magistral = await apiRequest.getMagistral(talk.id);
+                      navigate('/talk-details-magistrales', {
+                        state: {
+                          from: '/schedule',
+                          ...magistral,
+                          descripcion: magistral.semblanza,
+                          salon: magistral.salon,
+                        },
+                      });
+                    }
+
+                    if (tpKey == 'presentacion oral') {
+                      navigate('/talk-details-presentaciones', {
+                        state: {
+                          ...eventDetails,
+                          descripcion: eventDetails.objetivo,
+                          salon: eventDetails.salon,
+                        },
+                      });
+                    }
+
+
                   }}
                   className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4 bg-[#E6E6E6]"
                 >
+
                   {/* Hora */}
                   <div className="w-16 text-right pr-1">
                     <span className="text-[#29568E] font-extrabold text-2xl">
@@ -226,19 +256,28 @@ export default function Schedule() {
 
                   {/* Info */}
                   <div className="flex-1 flex flex-col justify-center pl-2">
+                    {/* 💡 Títulos: 
+                      'nombre' para Simposio
+                      'ponencia' para Magistrales,
+                    */}
                     <span className="text-thirdblue font-bold text-xl leading-tight">
-                      {talk.nombre}
+                      {talk.ponencia || talk.nombre}
                     </span>
+
+                    {/* 💡 Ponente: 
+                      'jefe' para Simposio
+                      'ponente' para Magistrales
+                    */}
                     <span className="text-gray-700 text-sm font-medium">
-                      {talk.jefe}
+                      {talk.ponente || talk.jefe}
                     </span>
 
                     {/* Etiqueta tipo de charla */}
                     <span
                       className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                       style={{
-                        backgroundColor: tpColorStyles[talk.tipo].bg,
-                        color: tpColorStyles[talk.tipo].text,
+                        backgroundColor: colors.bg,
+                        color: colors.text,
                       }}
                     >
                       {talk.tipo}

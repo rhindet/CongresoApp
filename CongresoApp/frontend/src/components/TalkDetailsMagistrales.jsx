@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
@@ -93,7 +94,7 @@ export default function TalkDetailMagistrales() {
     const navigate = useNavigate();
     // const [loader, setLoader] = useState(true);
 
-    const backLink = state?.from ? `/${state.from}` : '/schedule';
+    const backLink = state?.from || '/schedule';
 
 
     useEffect(() => {
@@ -127,6 +128,7 @@ export default function TalkDetailMagistrales() {
 
     if (!state) return null;
     console.log(state)
+
     const { ponente, hora_inicio, hora_fin, ponencia, salon, link, semblanza, imagen} = state;
     const nombre1 = ponente || 'Sin nombre';
     const imagen1 = imagen || 'Sin nombre';

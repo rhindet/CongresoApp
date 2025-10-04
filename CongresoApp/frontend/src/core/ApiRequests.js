@@ -46,12 +46,6 @@ export class ApiRequests {
          return result;
     }
 
-     async getAllTalleres(){
-         var result = await this._apiCall.getAllTalleres();
-         return result;
-    }
-
-
     async getSimposio(id){
          var result = await this._apiCall.getSimposio(id);
      
