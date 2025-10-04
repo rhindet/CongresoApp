@@ -1,25 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useRef, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { ApiRequests } from '../core/ApiRequests';
 
 
 export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
-
-    const [setAvisos,SetAvisos] = useState();
-
-      const apiRequest = new ApiRequests();
-    
-
-
+    const [setAvisos, SetAvisos] = useState();
+    const apiRequest = new ApiRequests();
     const modalRef = useRef(null);
 
     useEffect(() => {
         const originalStyle = window.getComputedStyle(document.body).overflow;
-        const getAvisos = async () =>  {
-           const avisos =  await apiRequest.getAllAvisos()
-           SetAvisos(avisos)
+        const getAvisos = async () => {
+            const avisos = await apiRequest.getAllAvisos()
+            SetAvisos(avisos)
         }
-        
+
         getAvisos()
         if (open) {
             document.body.style.overflow = 'hidden';
@@ -31,8 +27,8 @@ export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
     }, [open]);
 
     const handleAvisoClick = async (aviso) => {
-        if(isAdmin == true){
-              abrirModal(aviso);
+        if (isAdmin == true) {
+            abrirModal(aviso);
 
         }
 
@@ -40,7 +36,6 @@ export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
 
     //Click fuera del modal
     const handleOverlayClick = (e) => {
-     
         if (modalRef.current && !modalRef.current.contains(e.target)) {
             onClose();
         }
@@ -61,20 +56,21 @@ export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
                 <button onClick={onClose} className="absolute top-3 right-3 text-gray-600 hover:text-red-500">
                     <XMarkIcon className="w-6" />
                 </button>
+
                 <h2 className="text-xl font-bold text-secondblue mb-4">Avisos</h2>
 
                 <div className="max-h-64 overflow-y-auto pr-1">
                     <ul className="space-y-3">
-                       {setAvisos.map((aviso) => (
-                                <li
-                                    key={aviso.id}
-                                    className="border-l-4 border-secondyellow pl-3 cursor-pointer hover:bg-yellow-50"
-                                    onClick={() => handleAvisoClick(aviso)}
-                                >
-                                    <p className="font-semibold text-gray-800">{aviso.titulo}</p>
-                                    <p className="text-sm text-gray-600">{aviso.descripcion}</p>
-                                </li>
-                                ))}
+                        {setAvisos.map((aviso) => (
+                            <li
+                                key={aviso.id}
+                                className="border-l-4 border-secondyellow pl-3 cursor-pointer hover:bg-yellow-50"
+                                onClick={() => handleAvisoClick(aviso)}
+                            >
+                                <p className="font-semibold text-gray-800">{aviso.titulo}</p>
+                                <p className="text-sm text-gray-600">{aviso.descripcion}</p>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

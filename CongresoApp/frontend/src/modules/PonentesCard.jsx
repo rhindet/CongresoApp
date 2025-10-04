@@ -1,65 +1,99 @@
 import { useEffect, useState } from 'react';
 import DefaultImg from '../.././public/assets/ponentes/default.png';
+import PonenteModal from './PonenteModal';
 
-export default function PonentesCard({ programa, departamento, index, actividad1}) {
-  const [loaded, setLoaded] = useState(false);
+export default function PonentesCard({ programa, departamento, index, actividad1 }) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [ponenteSeleccionado, setPonenteSeleccionado] = useState(null);
+  const [loadedImages, setLoadedImages] = useState({});
+
 
   useEffect(() => {
     console.log("Programa", programa[0]?.afiliacion);
     console.log("Index", index);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleImageLoad = (index) => {
+    setLoadedImages(prev => ({ ...prev, [index]: true }));
+  };
+
+  // Función para abrir el modal con la información del ponente
+  const abrirModal = (ponenteData) => {
+    setPonenteSeleccionado(ponenteData);
+    setModalVisible(true);
+  };
+
+  // Función para cerrar el modal
+  const cerrarModal = () => {
+    setModalVisible(false);
+    setPonenteSeleccionado(null);
+  };
 
   return (
     <>
-      {programa.length > 0 && (
-        <div className="flex flex-wrap gap-4 justify-center">
-          {programa.map((p, idx) => {
-            const nombre = p.nombre ?? 'Sin dato';
-            const afiliacion = p.afiliacion ?? 'Ponente';
-            const imagen = p.imagen ?? DefaultImg;
-            const actividad = actividad1 ?? '';
-            const descripcion = p.descripcion ?? 'Sin descripción'
+      <div className="flex flex-wrap gap-4 justify-center">
+        {programa.map((p, idx) => {
+          const nombre = p.nombre ?? 'Sin dato';
+          const afiliacion = p.afiliacion ?? 'Ponente';
+          const imagen = p.imagen ?? 'default.png';
+          const actividad = actividad1 ?? '';
+          const descripcion = p.descripcion ?? 'Sin descripción disponible.';
+          const isImageLoaded = loadedImages[idx];
 
-            const rutaFinal = imagen !== 'default.png'
-              ? `/assets/ponentes/Simposio/${departamento}/${imagen}`
-              : DefaultImg;
+          const rutaFinal = imagen !== 'default.png'
+            ? `/assets/ponentes/Simposio/${departamento}/${imagen}`
+            : DefaultImg.src;
 
-
-            return (
-              <div key={idx} className="flex flex-col items-center bg-white p-4 rounded-xl shadow-md w-48 relative">
-                {/* 
-                  ERROR: 
-                  En esta parte del código si no se carga ninguna imagen para ningun ponente se desborda/descuadra la interfaz de la pantalla de detalle 
-                */}
-
-                {/* Imagen placeholder */}
-                {!loaded && (
+          return (
+            <div
+              key={idx}
+              className="flex flex-col items-center bg-white p-3 rounded-xl shadow-md w-48 text-center relative"
+            >
+              {/* Contenedor de la imagen */}
+              <div className="w-24 h-24 mb-2 relative">
+                {!isImageLoaded && (
                   <img
-                    src={DefaultImg}
-                    alt="Cargando"
-                    className="w-24 h-24 object-cover rounded-full mb-2 opacity-50"
+                    src={DefaultImg.src}
+                    alt="Cargando..."
+                    className="w-24 h-24 object-cover rounded-full absolute"
                   />
                 )}
-
-                {/* Imagen real */}
                 <img
                   src={rutaFinal}
                   alt={`Foto de ${nombre}`}
-                  className={`w-24 h-24 object-cover rounded-full mb-2 transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0 absolute'}`}
-                  onLoad={() => setLoaded(true)}
+                  className={`w-24 h-24 object-cover rounded-full transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  onLoad={() => handleImageLoad(idx)}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = DefaultImg.src;
+                    handleImageLoad(idx);
+                  }}
                 />
-
-                <p className="text-sm font-semibold text-center">{nombre}</p>
-                <p className="text-xs text-gray-500 text-center">{afiliacion}</p>
-
-                <p className="text-sm mt-4 font-bold text-center text-[#977b27]"> Tema: </p>
-                <p className="text-sm text-center text-[#977b27]"> {actividad} </p>
-                <p className="text-xs text-gray-600 text-center mt-2 ">{descripcion}</p>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Contenido del card */}
+              <p className="text-sm font-semibold">{nombre}</p>
+              <p className="text-xs text-gray-500 mb-2">{afiliacion}</p>
+
+              <p className="text-sm font-bold text-[#977b27]">Tema:</p>
+              <p className="text-sm text-[#977b27] mb-5">{actividad}</p>
+
+              {/* Botón "Ver más" */}
+              <button
+                onClick={() => abrirModal({ nombre, afiliacion, descripcion, rutaFinal, actividad })}
+                className="mt-auto text-sm font-semibold text-blue-600 hover:underline focus:outline-none" >
+                Ver más
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* El componente Modal se renderiza cuando modalVisible es true */}
+      {modalVisible && (
+        <PonenteModal ponente={ponenteSeleccionado} onClose={cerrarModal} />
       )}
     </>
   );
