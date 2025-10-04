@@ -44,7 +44,7 @@ export default function Schedule() {
 
     window.addEventListener('scroll', handleScroll);
 
-    const getAllEvents = async () => {
+    const FetchAllEvents = async () => {
       window.scrollTo(0, 0);
       try {
         //OBTENCION DE TODOS LOS EVENTOS (Simposios, Magsitrales, Orales)
@@ -65,7 +65,7 @@ export default function Schedule() {
       }
     };
 
-    getAllEvents();
+    FetchAllEvents();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);

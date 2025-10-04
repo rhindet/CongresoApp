@@ -22,7 +22,7 @@ import S_Canada from '../../public/assets/mapas/S_Canada.png';
 import S_EstadosUnidos from '../../public/assets/mapas/S_EstadosUnidos.png';
 import S_Europa from '../../public/assets/mapas/S_Europa.png';
 import planoMapa from '../../public/assets/mapas/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'; // imagen por default
-import Ponentes from '../modules/Ponentes';
+import PonentesCard from '../modules/PonentesCard';
 
 const salonMapas = {
     '201': S_201,
@@ -229,7 +229,7 @@ export default function TalkDetailsSimposio() {
                                     if (!Array.isArray(elemento.ponentes)) return null; // ❌ evita errores
 
                                     return (
-                                        <Ponentes
+                                        <PonentesCard
                                             key={index}
                                             programa={elemento.ponentes}
                                             index={index}

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'
 import HeaderMobile from '../modules/HeaderMobile'
 import HeaderDesktop from '../modules/HeaderDesktop'
@@ -22,6 +22,7 @@ import S_Canada from '../../public/assets/mapas/S_Canada.png';
 import S_EstadosUnidos from '../../public/assets/mapas/S_EstadosUnidos.png';
 import S_Europa from '../../public/assets/mapas/S_Europa.png';
 import planoMapa from '../../public/assets/mapas/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png'; // imagen por default
+import DefaultImg from '../.././public/assets/ponentes/default.png';
 
 const salonMapas = {
     '201': S_201,
@@ -92,7 +93,7 @@ export default function TalkDetailMagistrales() {
     const scrollRef = useRef(null);
     const { state } = useLocation();
     const navigate = useNavigate();
-    // const [loader, setLoader] = useState(true);
+    const [loaded, setLoaded] = useState(false);
 
     const backLink = state?.from || '/schedule';
 
@@ -129,15 +130,19 @@ export default function TalkDetailMagistrales() {
     if (!state) return null;
     console.log(state)
 
-    const { ponente, hora_inicio, hora_fin, ponencia, salon, link, semblanza, imagen} = state;
+    const { ponente, hora_inicio, hora_fin, ponencia, salon, link, semblanza, imagen } = state;
     const nombre1 = ponente || 'Sin nombre';
-    const imagen1 = imagen || 'Sin nombre';
+    const imagen1 = imagen || DefaultImg;
     const semblanza1 = semblanza || 'Sin nombre';
     const ponencia1 = ponencia || 'Sin nombre';
     const hora_inicio1 = hora_inicio || 'Sin hora';
     const hora_fin1 = hora_fin || 'Sin hora';
     const salon1 = salon || 'Sin salon';
     const videoUrl1 = link || '';
+
+    const rutaFinal = imagen !== 'default.png'
+        ? `/assets/ponentes/Magistral/${imagen}`
+        : DefaultImg;
 
     //YYYY-MM-DD
     return (
@@ -172,34 +177,58 @@ export default function TalkDetailMagistrales() {
                 </div>
 
                 <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
-                    <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{nombre1}</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{ponencia1}</h2>
+
+                    {/* HORARIO */}
                     <p className="text-sm md:text-base text-gray-600 mt-2">
                         {`${timeFormat(hora_inicio1)} - ${timeFormat(hora_fin1)}`}
                     </p>
-                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Magistrales</h3>
-                    <p className="text-sm md:text-base mt-2 text-gray-700 text-justify">{semblanza1 || 'Aún no disponible.'}</p>
+
+                    <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Plática Magistral</h3>
+
+                    {/* PONENTE */}
                     {nombre1 != '' ? (
                         <>
                             <p className="text-sm md:text-base mt-2 text-gray-700">
-                                <strong>Jefe:</strong> {nombre1}
+                                <strong>Ponente:</strong> {nombre1}
                             </p>
                         </>
                     ) : ''}
 
-                    {nombre1 != '' ? (
-                        <>
-                            <p className="text-sm md:text-base text-gray-700">
-                                <strong>Coordinador:</strong> {nombre1}
+                    {/* SECCIÓN IMAGEN Y SEMBLANZA */}
+                    <div className="mt-5 flex flex-col md:flex-row md:items-center md:gap-5">
+                        {/* Imagen */}
+                        <div className="flex justify-center md:justify-start">
+                            {/* Imagen placeholder */}
+                            {!loaded && (
+                                <img
+                                    src={DefaultImg}
+                                    alt="Cargando"
+                                    className="w-32 h-32 object-cover rounded-full md:rounded-xl opacity-50"
+                                />
+                            )}
+
+                            {/* Imagen real */}
+                            <img
+                                src={rutaFinal}
+                                alt={`Foto de ${nombre1}`}
+                                className={`w-32 h-32 object-cover rounded-full md:w-200 transition-opacity duration-500 
+                                            ${loaded ? 'opacity-100' : 'opacity-0 absolute'}`}
+                                onLoad={() => setLoaded(true)}
+                            />
+                        </div>
+
+                        {/* Semblanza */}
+                        <div className="mt-4 md:mt-0">
+                            <p className="text-sm md:text-base mt-2 text-gray-700 text-justify">
+                                {semblanza1 || 'Aún no disponible.'}
                             </p>
-                        </>
-                    ) : ''}
+                        </div>
+                    </div>
 
-
-
-
+                    {/* SALÓN */}
                     <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Salón</h3>
                     <p className="text-sm md:text-base text-gray-700">{salon1 || 'Auditorio Principal'}</p>
-
 
 
                     {/* MAPA */}
@@ -232,7 +261,7 @@ export default function TalkDetailMagistrales() {
                             </div>
                         </div>
                     )} */}
-                    
+
                 </div>
             </main>
         </div>

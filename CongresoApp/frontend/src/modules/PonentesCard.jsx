@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DefaultImg from '../.././public/assets/ponentes/default.png';
 
-export default function Ponentes({ programa, departamento, index, actividad1}) {
+export default function PonentesCard({ programa, departamento, index, actividad1}) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
