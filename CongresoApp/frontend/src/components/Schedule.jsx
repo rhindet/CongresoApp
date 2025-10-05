@@ -11,7 +11,7 @@ import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/20/solid';
 
 const tpColorStyles = {
   'presentacion oral': {
-    bg: '#5F8575',
+    bg: '#85A899',
     text: '#0b5345',
   },
   'magistral': {
@@ -97,17 +97,36 @@ export default function Schedule() {
   };
 
   //SE FILTRAN POR DIA Y CATEGORIA (Default: Todas) Y SE ORDENAN POR HORA 
-  const filteredTalks = listDeEventos
-    .filter(talk => {
-      // Usamos Date.getUTCDate() para obtener el día sin el desfase local
+  const filteredTalks = (() => {
+    // 1. Filtra los eventos por el día seleccionado.
+    const talksForDay = listDeEventos.filter(talk => {
       const dia = new Date(`${talk.hora_inicio}Z`).getUTCDate().toString().padStart(2, '0');
+      return dia === day.padStart(2, '0');
+    });
 
-      return (
-        dia === day.padStart(2, '0') &&
-        (selectedCategory === 'Todos' || talk.departamento === selectedCategory)
-      );
-    })
-    .sort((a, b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
+    let processedTalks;
+
+    // 2. Si la categoría es "Todos", elimina los duplicados.
+    if (selectedCategory === 'Todos') {
+      const uniqueTalks = new Map();
+      talksForDay.forEach(talk => {
+        // Se crea una clave única para cada evento basada en la hora y el título.
+        const uniqueKey = `${talk.hora_inicio}-${talk.ponencia || talk.nombre}`;
+
+        if (!uniqueTalks.has(uniqueKey)) {
+          uniqueTalks.set(uniqueKey, talk);
+        }
+      });
+      processedTalks = Array.from(uniqueTalks.values());
+      
+    } else {
+      // 3. Si se selecciona un departamento, filtra por ese departamento.
+      processedTalks = talksForDay.filter(talk => talk.departamento === selectedCategory);
+    }
+
+    // 4. Ordena la lista resultante por hora de inicio.
+    return processedTalks.sort((a, b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
+  })();
 
   const getEventDetails = async (talk) => {
     console.log(talk.id)

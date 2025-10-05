@@ -7,7 +7,7 @@ import Loader from '../../modules/Loader';
 
 const tpColorStyles = {
     'presentaciones_orales': {
-        bg: '#5F8575',
+        bg: '#85A899',
         text: '#0b5345',
     },
 };

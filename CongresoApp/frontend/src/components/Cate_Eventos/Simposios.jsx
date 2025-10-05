@@ -37,9 +37,7 @@ function Simposios() {
     const formatoHora = (isoString) => {
         if (!isoString) return "";
 
-        // Si la cadena NO incluye información de zona horaria ('Z' o '+'),
-        // se añade 'Z' para forzar a new Date() a tratarla como UTC.
-        // Esto evita que se aplique la zona horaria local del usuario.
+        // Si la cadena NO incluye información de zona horaria ('Z' o '+') se añade 'Z' para forzar a new Date() a tratarla como UTC.
         const dateStringUTC = isoString.includes('Z') || isoString.includes('+') ? isoString : `${isoString}Z`;
 
         const date = new Date(dateStringUTC);
@@ -51,12 +49,28 @@ function Simposios() {
         return `${horas}:${minutos.toString().padStart(2, '0')}`;
     };
 
-    const filteredTalks = listDeSimposios
-    .filter(talk => {
-        const dia = new Date(talk.hora_inicio).getDate().toString().padStart(2, '0');
-        return dia === day.padStart(2, '0');
-    })
-    .sort((a,b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
+    const filteredTalks = Array.from( // Resultado final sera un nuevo Array
+        listDeSimposios
+            //Filtro por día
+            .filter(talk => {
+                const dia = new Date(`${talk.hora_inicio}Z`).getUTCDate().toString();
+                return dia === day;
+            })
+            // 1. Crear un mapa con simposios únicos
+            .reduce((map, talk) => {
+                // Clave única para el simposio
+                const uniqueKey = `${talk.hora_inicio}-${talk.ponencia || talk.nombre}`;
+                // Si el mapa aún no tiene esta clave, añadimos el simposio.
+                if (!map.has(uniqueKey)) {
+                    map.set(uniqueKey, talk);
+                }
+                return map;
+            }, new Map())
+            // 2. Obtenemos solo los valores (simposios unicos) del mapa
+            .values() 
+    )
+        // 3. Ordenar el array de simposios únicos por hora
+        .sort((a, b) => new Date(a.hora_inicio).getTime() - new Date(b.hora_inicio).getTime());
 
     const getSimposio = async (talk) => {
         const apiRequest = new ApiRequests();
