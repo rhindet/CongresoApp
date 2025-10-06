@@ -74,6 +74,7 @@ export default function Schedule() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Cálculo de categorias
   const categoryOptions = [
     { label: 'Todos', value: 'Todos' },
     ...departamentos.map(dep => ({
@@ -118,7 +119,7 @@ export default function Schedule() {
         }
       });
       processedTalks = Array.from(uniqueTalks.values());
-      
+
     } else {
       // 3. Si se selecciona un departamento, filtra por ese departamento.
       processedTalks = talksForDay.filter(talk => talk.departamento === selectedCategory);
@@ -289,7 +290,7 @@ export default function Schedule() {
                       'nombre_ponencia' para Orales
                     */}
                     <span className="text-gray-700 text-sm font-medium">
-                      {talk.ponente }
+                      {talk.ponente}
                     </span>
 
                     {/* Etiqueta tipo de charla */}
