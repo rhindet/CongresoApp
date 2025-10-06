@@ -286,9 +286,10 @@ export default function Schedule() {
                     {/* 💡 Ponente: 
                       'jefe' para Simposio
                       'ponente' para Magistrales
+                      'nombre_ponencia' para Orales
                     */}
                     <span className="text-gray-700 text-sm font-medium">
-                      {talk.ponente || talk.jefe}
+                      {talk.ponente }
                     </span>
 
                     {/* Etiqueta tipo de charla */}

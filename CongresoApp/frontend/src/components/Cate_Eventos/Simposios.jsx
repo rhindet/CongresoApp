@@ -141,9 +141,9 @@ function Simposios() {
                                             <span className="text-thirdblue font-bold text-xl leading-tight">
                                                 {talk.nombre}
                                             </span>
-                                            <span className="text-gray-700 text-sm font-medium">
+                                            {/* <span className="text-gray-700 text-sm font-medium">
                                                 {talk.jefe}
-                                            </span>
+                                            </span> */}
                                             <span
                                                 className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
                                                 style={{
