@@ -3,16 +3,16 @@
   "name": "33° Congreso Nacional de Investigación e Innovación en Medicina", 
   "icons": [
     {
-      "src": "public/assets/principales/favicon.png",
+      "src": "assets/principales/favicon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "public/assets/principales/logo_congreso_33.png",
-      "sizes": "512x512",
+      "src": "assets/principales/logo_congreso_33.png",
+      "sizes": "382x170",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ],
   "start_url": ".",
