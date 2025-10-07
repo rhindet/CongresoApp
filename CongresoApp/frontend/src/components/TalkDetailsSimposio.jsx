@@ -62,7 +62,7 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
         `DTSTART:${formatDate(start)}`,
         `DTEND:${formatDate(end)}`,
         `SUMMARY:${titulo}`,
-        `DESCRIPTION:${descripcion || ''} \r\n Ponente: ${doctor}`,
+        `DESCRIPTION:${descripcion || ''}`,
         'LOCATION:Centro de Convenciones Cintermex',
         'STATUS:CONFIRMED',
         'SEQUENCE:0',

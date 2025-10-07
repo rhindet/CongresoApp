@@ -67,6 +67,7 @@ export class ApiCalls {
       // Tipos de eventos
       const eventTypes = ['simposio', 'magistral', 'presentaciones orales'];
       const eventGroups = result.data.data;
+      console.log(eventGroups);
 
       if (!Array.isArray(eventGroups)) {
         console.error("La estructura de datos de eventos no es un array de grupos.");

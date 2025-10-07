@@ -13,7 +13,8 @@ export default function AvisosModal({ open, onClose, isAdmin, abrirModal }) {
         const originalStyle = window.getComputedStyle(document.body).overflow;
         const getAvisos = async () => {
             const avisos = await apiRequest.getAllAvisos()
-            SetAvisos(avisos)
+            const avisosOrdenados = avisos.slice().sort((a, b) => b.id - a.id);
+            SetAvisos(avisosOrdenados);
         }
 
         getAvisos()

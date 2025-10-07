@@ -52,12 +52,22 @@ export default function Schedule() {
         console.log("listEventsPaso", listEventsPaso);
         setListDeEventos(listEventsPaso);
 
-        // Extraer departamentos únicos
-        const departamentosUnicos = [
-          ...new Set(listEventsPaso.map(s => s.departamento).filter(Boolean))
-        ].sort((a, b) => a.localeCompare(b));
+        // Extraer todos los departamentos únicos
+        const allDepartamentos = [...new Set(listEventsPaso.map(s => s.departamento).filter(Boolean))];
 
-        setDepartamentos(departamentosUnicos);
+        // Filtrar los otros departamentos y ordenarlos alfabéticamente
+        const otrosDepartamentos = allDepartamentos
+          .filter(dep => dep !== 'Platicas Magistrales')
+          .sort((a, b) => a.localeCompare(b));
+
+        // Crear la lista final en el orden deseado: Platicas Magistrales primero, luego el resto.
+        const departamentosOrdenados = [];
+        if (allDepartamentos.includes('Platicas Magistrales')) {
+          departamentosOrdenados.push('Platicas Magistrales');
+        }
+        departamentosOrdenados.push(...otrosDepartamentos);
+
+        setDepartamentos(departamentosOrdenados);
         setLoader(false);
 
       } catch (error) {
