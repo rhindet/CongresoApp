@@ -138,7 +138,7 @@ function Magistrales() {
                                                     color: tpColorStyles['magistral'].text,
                                                 }}
                                             >
-                                                Pláticas Magistrales
+                                                magistral
                                             </span>
                                         </div>
                                     </div>

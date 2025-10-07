@@ -3,7 +3,7 @@ import { useState } from 'react';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import logo from '../../public/assets/principales/logo_congreso_33.svg';
-import logoCintermex from '../../public/assets/principales/LogoCintermex.png';
+import cintillaLogos from '../../public/assets/principales/cintilla.png';
 import Doctor1 from '../../public/assets/info/Dr_ Oscar.png';
 import Doctor2 from '../../public/assets/info/Dr_ Camacho.png';
 
@@ -11,7 +11,7 @@ function Information() {
 
   const [showOscarFull, setShowOscarFull] = useState(false);
 
-const oscarText = `Estimados estudiantes, profesores, investigadores y miembros de la comunidad universitaria:
+  const oscarText = `Estimados estudiantes, profesores, investigadores y miembros de la comunidad universitaria:
 
 Es un privilegio darles la más cordial bienvenida al 33º Congreso Nacional de Investigación e Innovación en Medicina, un espacio emblemático que, durante más de tres décadas, ha sido testigo del crecimiento académico y científico de nuestra institución.
 
@@ -28,12 +28,12 @@ Y a toda la comunidad académica, su participación activa en este congreso reaf
 Les deseo una experiencia enriquecedora, que despierte nuevas preguntas, genere alianzas duraderas y contribuya a construir un futuro donde la medicina mexicana siga avanzando con liderazgo y responsabilidad.
 
 ¡Sean todas y todos bienvenidos al 33.º Congreso!`;
-const oscarShort = oscarText.split('\n')[0] + '\n...';
+  const oscarShort = oscarText.split('\n')[0] + '\n...';
 
 
-const [showCamachoFull, setShowCamachoFull] = useState(false);
+  const [showCamachoFull, setShowCamachoFull] = useState(false);
 
-const camachoText = `Es un verdadero honor darles la más cálida bienvenida al 33º Congreso Nacional de Investigación e Innovación en Medicina, que se llevará a cabo los próximos 9 y 10 de octubre de 2025 en el Centro Internacional de Negocios Monterrey (CINTERMEX).
+  const camachoText = `Es un verdadero honor darles la más cálida bienvenida al 33º Congreso Nacional de Investigación e Innovación en Medicina, que se llevará a cabo los próximos 9 y 10 de octubre de 2025 en el Centro Internacional de Negocios Monterrey (CINTERMEX).
 
 Este congreso representa una celebración del dinamismo, la creatividad y la capacidad transformadora de la investigación y la innovación médica en México y en nuestra Facultad de Medicina de la UANL.
 
@@ -53,7 +53,7 @@ Les exhorto a aprovechar al máximo esta oportunidad: aprendan, dialoguen, colab
 Agradezco profundamente su compromiso, dedicación y pasión por la ciencia y la salud pública. Espero con entusiasmo convivir y aprender juntos en este evento de alto nivel académico.
 `;
 
-const camachoShort = camachoText.split('\n')[0] + '\n...';
+  const camachoShort = camachoText.split('\n')[0] + '\n...';
 
   return (
     <div
@@ -65,7 +65,16 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
       </div>
 
       <main className="pt-28 pb-16 px-6 flex-grow w-full max-w-5xl mx-auto space-y-10">
-  
+
+        {/* Logo Congreso */}
+        <div className="flex justify-center md:justify-end w-full md:w-1/2">
+          <img
+            src={logo}
+            alt="Logo Congreso"
+            className="w-full max-w-xl sm:max-w-sm md:max-w-lg"
+          />
+        </div>
+
         <section className="space-y-14">
           {/* Bloque Dr. Oscar */}
           <article className="bg-white rounded-2xl border border-gray-200 shadow-md p-6 flex flex-col md:flex-row gap-6 items-center md:items-start">
@@ -89,7 +98,7 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
               <button
                 onClick={() => setShowOscarFull(!showOscarFull)}
                 className="text-thirdblue font-semibold underline mt-2"
->
+              >
                 {showOscarFull ? 'Ver menos' : 'Ver más'}
               </button>
 
@@ -125,17 +134,12 @@ const camachoShort = camachoText.split('\n')[0] + '\n...';
       </main>
 
 
-      {/* FOOTER */}
-      <footer className="py-4 px-6 flex justify-between items-center w-full border-t border-gray-300">
+      {/* Footer con cinta de logos */}
+      <footer className="w-full py-2 px-3 flex justify-center">
         <img
-          src={logo}
-          alt="Logo Principal"
-          className="w-35 object-contain"
-        />
-        <img
-          src={logoCintermex}
-          alt="Logo Cintermex"
-          className="w-15 object-contain"
+          src={cintillaLogos}
+          alt="Logos institucionales"
+          className="h-10 object-contain"
         />
       </footer>
     </div>
