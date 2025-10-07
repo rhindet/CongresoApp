@@ -57,7 +57,7 @@ export default function Schedule() {
 
         // Filtrar los otros departamentos y ordenarlos alfabéticamente
         const otrosDepartamentos = allDepartamentos
-          .filter(dep => dep !== 'Platicas _Magistrales')
+          .filter(dep => dep !== 'Platicas_Magistrales')
           .sort((a, b) => a.localeCompare(b));
 
         // Crear la lista final en el orden deseado: Platicas Magistrales primero, luego el resto.
