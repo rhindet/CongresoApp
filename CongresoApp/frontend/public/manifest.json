@@ -9,8 +9,8 @@
       "purpose": "maskable"
     },
     {
-      "src": "public/assets/principales/logo_congres_33.png",
-      "sizes": "512x512",
+      "src": "public/assets/principales/logo_congreso_33.png",
+      "sizes": "382x170",
       "type": "image/png",
       "purpose": "any"
     }
