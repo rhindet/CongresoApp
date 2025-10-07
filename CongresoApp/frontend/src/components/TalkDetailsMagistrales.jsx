@@ -43,7 +43,7 @@ const salonMapas = {
 
 
 //Función para descargar el .ICS
-function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 60 }) {
+function downloadICS({ titulo, salon,  descripcion, fecha, hora, duracionMin = 60 }) {
     const start = new Date(`${fecha}T${hora.padStart(5, '0')}:00`);
     const end = new Date(start.getTime() + duracionMin * 60000);
 
@@ -62,8 +62,8 @@ function downloadICS({ titulo, doctor, descripcion, fecha, hora, duracionMin = 6
         `DTSTART:${formatDate(start)}`,
         `DTEND:${formatDate(end)}`,
         `SUMMARY:${titulo}`,
-        `DESCRIPTION:${descripcion || ''} \r\n Ponente: ${doctor}`,
-        'LOCATION:Centro de Convenciones Cintermex',
+        `DESCRIPTION:${descripcion || ''}`,
+        `LOCATION:Cintermex ${salon}`,
         'STATUS:CONFIRMED',
         'SEQUENCE:0',
         'BEGIN:VALARM',

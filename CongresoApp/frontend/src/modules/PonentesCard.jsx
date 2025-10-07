@@ -7,7 +7,7 @@ const DEFAULT_IMG = '/assets/ponentes/default.png';
 // encodea cada segmento para soportar espacios/acentos
 const safeSeg = (s) => encodeURIComponent(String(s || '').trim());
 
-export default function PonentesCard({ programa = [], departamento = '', index, actividad1 }) {
+export default function PonentesCard({ programa = [], departamento = '', index, actividad1, horario}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [ponenteSeleccionado, setPonenteSeleccionado] = useState(null);
   const [loadedImages, setLoadedImages] = useState({});
@@ -41,6 +41,7 @@ export default function PonentesCard({ programa = [], departamento = '', index, 
           const imagen = p?.imagen ?? 'default.png';
           const actividad = actividad1 ?? '';
           const descripcion = p?.descripcion ?? 'Sin descripción disponible.';
+          const horario1 = p?.horario ?? 'Sin Horario';
           const isImageLoaded = !!loadedImages[idx];
 
           // Si no es default, arma la ruta desde /public
@@ -85,6 +86,8 @@ export default function PonentesCard({ programa = [], departamento = '', index, 
 
               <p className="text-sm font-bold text-[#977b27]">Tema:</p>
               <p className="text-sm text-[#977b27] mb-5">{actividad}</p>
+
+              <p className='mt-auto text-gray-500 focus:outline-none'>{horario}</p>
 
               {/* Botón "Ver más" */}
               <button
