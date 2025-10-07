@@ -10,9 +10,9 @@
     },
     {
       "src": "public/assets/principales/logo_congreso_33.png",
-      "sizes": "382x170",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
