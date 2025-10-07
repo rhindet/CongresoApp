@@ -1,6 +1,7 @@
 import { ApiRequestsResult } from '../models/ApiRequestResult';
 import { AvisosModel } from '../models/AvisosModel';
 import { MagistralesModelo } from '../models/magistralesModel';
+import { PresentacionesModelo } from '../models/presentacionesModelo';
 import { Simposio, Simposios } from '../models/simposiosModel';
 
 const methods = {
@@ -129,13 +130,13 @@ export class ApiCalls {
 
   async getAllOralPresentation() {
     var result = await this._buildFetch.fetch({ url: "/api/platicas/oralPresentations", method: methods.GET, headers: getHeaders() })
-    console.log("resultados:magistrales")
+    console.log("resultados:Presentaciones Orales")
 
     console.log(result)
 
     if (result != null && result.status == 200) {
-      const simposios = result.data.data.platicas_magistrales.map(item => new Simposios(item));
-      return simposios
+      const orales = result.data.data.presentaciones_orales.map(item => new PresentacionesModelo(item));
+      return orales
     }
     console.log("Llamada realizada sin exito")
     return []

@@ -11,3 +11,19 @@ createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </React.StrictMode>
 )
+
+// =========================================================================
+// 💡 CÓDIGO DE REGISTRO DEL SERVICE WORKER
+// =========================================================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    // La ruta debe ser relativa a la raíz de tu dominio (ya que el archivo está en /public)
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registrado con éxito:', registration);
+      })
+      .catch(error => {
+        console.error('Fallo el registro del Service Worker:', error);
+      });
+  });
+}
