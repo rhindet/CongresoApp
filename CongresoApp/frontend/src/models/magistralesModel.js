@@ -11,6 +11,7 @@ export class MagistralesModelo {
     this.salon = data.salon || "";
     this.link = data.link || "";
     this.tipo = data.tipo || "";
+    this.departamento = data.departamento || "";
   }
 }
 /**
