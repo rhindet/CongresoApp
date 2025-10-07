@@ -17,6 +17,7 @@ import S_306 from '../../public/assets/mapas/S_306.png';
 import S_307 from '../../public/assets/mapas/S_307.png';
 import S_308 from '../../public/assets/mapas/S_308.png';
 import S_309 from '../../public/assets/mapas/S_309.png';
+import S_308_309 from '../../public/assets/mapas/S_308_309.png';
 import S_Antartida from '../../public/assets/mapas/S_Antartida.png';
 import S_Canada from '../../public/assets/mapas/S_Canada.png';
 import S_EstadosUnidos from '../../public/assets/mapas/S_EstadosUnidos.png';
@@ -35,6 +36,7 @@ const salonMapas = {
     '307': S_307,
     '308': S_308,
     '309': S_309,
+    '308 y 309': S_308_309,
     'Antártida': S_Antartida,
     'Europa': S_Europa,
     'Canadá': S_Canada,
