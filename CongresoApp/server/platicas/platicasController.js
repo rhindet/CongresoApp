@@ -57,10 +57,10 @@ const allOralPresentations= async (req, res) => {
    try {
   const PO = await programaCompletoSchema.find().lean(); // lean NO altera los _id    console.log(simposio)
   //console.log(simposios[0].categorias[0])  
-  console.log(PO[0].categorias[1])
+  console.log(PO[0].categorias[2])
   res.json({
       status:true,
-      data:PO[0].categorias[1]
+      data:PO[0].categorias[2]
     });
   } catch (err) {
     console.error(err);
