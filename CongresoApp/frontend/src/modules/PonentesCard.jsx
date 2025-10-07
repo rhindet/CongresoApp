@@ -1,30 +1,32 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import DefaultImg from '../.././public/assets/ponentes/default.png';
 import PonenteModal from './PonenteModal';
 
-export default function PonentesCard({ programa, departamento, index, actividad1 }) {
+const DEFAULT_IMG = '/assets/ponentes/default.png';
+
+// encodea cada segmento para soportar espacios/acentos
+const safeSeg = (s) => encodeURIComponent(String(s || '').trim());
+
+export default function PonentesCard({ programa = [], departamento = '', index, actividad1 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [ponenteSeleccionado, setPonenteSeleccionado] = useState(null);
   const [loadedImages, setLoadedImages] = useState({});
 
-
   useEffect(() => {
-    console.log("Programa", programa[0]?.afiliacion);
-    console.log("Index", index);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // Si quieres debug:
+    // console.log('Programa ejemplo:', programa[0]);
+    // console.log('Departamento:', departamento);
+  }, []); // mount once
 
-  const handleImageLoad = (index) => {
-    setLoadedImages(prev => ({ ...prev, [index]: true }));
+  const handleImageLoad = (idx) => {
+    setLoadedImages((prev) => ({ ...prev, [idx]: true }));
   };
 
-  // Función para abrir el modal con la información del ponente
   const abrirModal = (ponenteData) => {
     setPonenteSeleccionado(ponenteData);
     setModalVisible(true);
   };
 
-  // Función para cerrar el modal
   const cerrarModal = () => {
     setModalVisible(false);
     setPonenteSeleccionado(null);
@@ -33,41 +35,45 @@ export default function PonentesCard({ programa, departamento, index, actividad1
   return (
     <>
       <div className="flex flex-wrap gap-4 justify-center">
-        {programa.map((p, idx) => {
-          const nombre = p.nombre ?? 'Sin dato';
-          const afiliacion = p.afiliacion ?? 'Ponente';
-          const imagen = p.imagen ?? 'default.png';
+        {(programa || []).map((p, idx) => {
+          const nombre = p?.nombre ?? 'Sin dato';
+          const afiliacion = p?.afiliacion ?? 'Ponente';
+          const imagen = p?.imagen ?? 'default.png';
           const actividad = actividad1 ?? '';
-          const descripcion = p.descripcion ?? 'Sin descripción disponible.';
-          const isImageLoaded = loadedImages[idx];
+          const descripcion = p?.descripcion ?? 'Sin descripción disponible.';
+          const isImageLoaded = !!loadedImages[idx];
 
-          const rutaFinal = imagen !== 'default.png'
-            ? `/assets/ponentes/Simposio/${departamento}/${imagen}`
-            : DefaultImg.src;
+          // Si no es default, arma la ruta desde /public
+          const rutaFinal =
+            imagen && imagen !== 'default.png'
+              ? `/assets/ponentes/Simposio/${safeSeg(departamento)}/${safeSeg(imagen)}`
+              : DEFAULT_IMG;
 
           return (
             <div
-              key={idx}
+              key={`${index ?? 'grp'}-${idx}`}
               className="flex flex-col items-center bg-white p-3 rounded-xl shadow-md w-48 text-center relative"
             >
               {/* Contenedor de la imagen */}
               <div className="w-24 h-24 mb-2 relative">
                 {!isImageLoaded && (
                   <img
-                    src={DefaultImg.src}
+                    src={DEFAULT_IMG}
                     alt="Cargando..."
-                    className="w-24 h-24 object-cover rounded-full absolute"
+                    className="w-24 h-24 object-cover rounded-full absolute opacity-50"
                   />
                 )}
+
                 <img
                   src={rutaFinal}
                   alt={`Foto de ${nombre}`}
-                  className={`w-24 h-24 object-cover rounded-full transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'
-                    }`}
+                  className={`w-24 h-24 object-cover rounded-full transition-opacity duration-500 ${
+                    isImageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
                   onLoad={() => handleImageLoad(idx)}
                   onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = DefaultImg.src;
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = DEFAULT_IMG;
                     handleImageLoad(idx);
                   }}
                 />
@@ -83,7 +89,8 @@ export default function PonentesCard({ programa, departamento, index, actividad1
               {/* Botón "Ver más" */}
               <button
                 onClick={() => abrirModal({ nombre, afiliacion, descripcion, rutaFinal, actividad })}
-                className="mt-auto text-sm font-semibold text-blue-600 hover:underline focus:outline-none" >
+                className="mt-auto text-sm font-semibold text-blue-600 hover:underline focus:outline-none"
+              >
                 Ver más
               </button>
             </div>
@@ -91,10 +98,8 @@ export default function PonentesCard({ programa, departamento, index, actividad1
         })}
       </div>
 
-      {/* El componente Modal se renderiza cuando modalVisible es true */}
-      {modalVisible && (
-        <PonenteModal ponente={ponenteSeleccionado} onClose={cerrarModal} />
-      )}
+      {/* Modal */}
+      {modalVisible && <PonenteModal ponente={ponenteSeleccionado} onClose={cerrarModal} />}
     </>
   );
 }
