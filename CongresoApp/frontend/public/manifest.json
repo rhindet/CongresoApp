@@ -1,18 +1,23 @@
 {
   "short_name": "Congreso Medicina App",
-  "name": "33° Congreso Nacional de Investigación e Innovación en Medicina", 
   "icons": [
     {
       "src": "assets/principales/favicon.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     },
     {
       "src": "assets/principales/favicon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "assets/principales/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "start_url": ".",
