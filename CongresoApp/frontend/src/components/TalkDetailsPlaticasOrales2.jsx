@@ -162,7 +162,7 @@ export default function TalkDetailOrales2() {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
 
-  const backLink = '/presentaciones';
+  const backLink = '/schedule';
 
 
   useEffect(() => {
@@ -206,6 +206,7 @@ export default function TalkDetailOrales2() {
   const rutaFinal = imagen && imagen !== 'default.png'
     ? `/assets/ponentes/Orales/${imagen}`
     : DefaultImg;
+    const sepColors = ['#F59E0B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6', '#14B8A6'];
 
   return (
     <div className="min-h-dvh w-full overflow-x-hidden">
