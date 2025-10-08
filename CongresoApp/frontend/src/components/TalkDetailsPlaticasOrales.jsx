@@ -56,7 +56,10 @@ function downloadICS({ nombre, salon, fechaISO, startTime, endTime }) {
     return;
   }
 
-  // Convierte "2025-10-09" + "08:00" a un objeto Date
+  // ✅ Forzar la fecha fija
+  fechaISO = "2025-10-09";
+
+  // Convierte "YYYY-MM-DD" + "HH:MM" a Date (hora local)
   const toDateTime = (fecha, hora) => {
     const [h, m] = hora.split(':').map(Number);
     const d = new Date(fecha);
@@ -67,46 +70,26 @@ function downloadICS({ nombre, salon, fechaISO, startTime, endTime }) {
   const startDate = toDateTime(fechaISO, startTime);
   const endDate = toDateTime(fechaISO, endTime);
 
-  const formatDate = (date) =>
-    date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+  // Formato local sin UTC (evita desfase por zona horaria)
+  const formatDateLocal = (date) => {
+    const pad = (n) => String(n).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    const mm = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const hh = pad(date.getHours());
+    const mi = pad(date.getMinutes());
+    const ss = pad(date.getSeconds());
+    return `${yyyy}${mm}${dd}T${hh}${mi}${ss}`;
+  };
 
-  // // ✅ Tomar la fecha actual (día en que se genera el recordatorio)
-  // const today = new Date();
-  // const yyyy = today.getFullYear();
-  // const mm = String(today.getMonth() + 1).padStart(2, '0');
-  // const dd = String(today.getDate()).padStart(2, '0');
-  // const fechaActual = `${yyyy}-${mm}-${dd}`; // ← Esta reemplaza la fecha del evento
-
-  // // Convierte "YYYY-MM-DD" + "HH:MM" a Date (hora local)
-  // const toDateTime = (fecha, hora) => {
-  //   const [h, m] = hora.split(':').map(Number);
-  //   const d = new Date(fecha);
-  //   d.setHours(h, m, 0, 0);
-  //   return d;
-  // };
-
-  // const startDate = toDateTime(fechaActual, startTime);
-  // const endDate = toDateTime(fechaActual, endTime);
-
-  // // Formato local sin UTC (sin la "Z")
-  // const formatDateLocal = (date) => {
-  //   const pad = (n) => String(n).padStart(2, '0');
-  //   const yyyy = date.getFullYear();
-  //   const mm = pad(date.getMonth() + 1);
-  //   const dd = pad(date.getDate());
-  //   const hh = pad(date.getHours());
-  //   const mi = pad(date.getMinutes());
-  //   const ss = pad(date.getSeconds());
-  //   return `${yyyy}${mm}${dd}T${hh}${mi}${ss}`;
-  // };
-
+  // Crear contenido del .ICS
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//CongresoMedicina//EN',
     'BEGIN:VEVENT',
-    `DTSTART:${formatDate(startDate)}`,
-    `DTEND:${formatDate(endDate)}`,
+    `DTSTART:${formatDateLocal(startDate)}`,
+    `DTEND:${formatDateLocal(endDate)}`,
     `SUMMARY:${nombre || 'Evento del Congreso'}`,
     `LOCATION:Cintermex ${salon || ''}`,
     'DESCRIPTION',
@@ -120,9 +103,9 @@ function downloadICS({ nombre, salon, fechaISO, startTime, endTime }) {
     'END:VCALENDAR',
   ].join('\r\n');
 
+  // Descargar archivo
   const encoded = encodeURIComponent(icsContent);
   const dataURI = `data:text/calendar;charset=utf-8,${encoded}`;
-
   const link = document.createElement('a');
   link.href = dataURI;
   link.download = `${nombre?.replace(/\s+/g, '_') || 'evento'}.ics`;
@@ -217,7 +200,8 @@ export default function TalkDetailOrales() {
               // 3. Llamar a la función con los datos correctos
               downloadICS({
                 nombre: nombreDelEvento,
-                fechaISO: fechaDelEvento,
+                // fechaISO: fechaDelEvento,
+                fechaISO,
                 startTime,
                 endTime,
                 salon: salonDelEvento,
