@@ -87,7 +87,10 @@ export default function Events() {
                 {/* Footer */}
                 <footer className="text-xs md:text-sm text-center text-[#014480] mt-10">
                     Todos los derechos reservados <br />
-                    <span className="text-firstblue font-bold">Subdirección de Investigación, Facultad de Medicina UANL</span>
+                    <span className="text-firstblue font-bold">Subdirección de Investigación</span>
+                    <br></br>
+                    <span className="text-firstblue font-bold">Facultad de Medicina UANL</span>
+
                 </footer>
             </main>
         </div>
