@@ -47,21 +47,23 @@ export default function TalkDetailOrales() {
   const renderDia = (_label, objDia) => {
     if (!objDia || typeof objDia !== 'object' || Object.keys(objDia).length === 0) {
       return (
-        <section className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+        <section className="rounded-2xl bg-white p-4 md:p-6">
           <p className="text-gray-500 text-sm">Sin presentaciones para este día.</p>
         </section>
       );
     }
 
     return (
-      <section className="rounded-2xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm">
+      // ⬇️ Quitamos `border border-gray-200` para evitar el borde doble
+      <section className="rounded-2xl bg-white p-4 md:p-6">
         <div className="grid grid-cols-1 gap-5">
           {Object.entries(objDia).map(([departamento, presentaciones]) => {
             const lista = Array.isArray(presentaciones) ? presentaciones : [];
             return (
+              // ⬇️ Quitamos el borde del artículo; dejamos sombra ligera al hacer hover
               <article
                 key={departamento}
-                className="rounded-xl border border-gray-200 bg-gradient-to-b from-white to-gray-50 p-4 md:p-5 shadow-sm"
+                className="rounded-xl bg-gradient-to-b from-white to-gray-50 p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md"
               >
                 {/* Encabezado del departamento */}
                 <header className="flex items-center justify-between gap-3">
@@ -76,9 +78,10 @@ export default function TalkDetailOrales() {
                 {/* Lista de ponencias */}
                 <div className="mt-3 space-y-3">
                   {lista.map((p) => (
+                    // ⬇️ También sin borde aquí para evitar “cajitas” con marco
                     <div
                       key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`}
-                      className="group rounded-lg border border-gray-200 bg-white hover:shadow-md transition-all duration-200"
+                      className="group rounded-lg bg-white/80 hover:bg-white transition-all duration-200"
                     >
                       <div className="flex gap-3 p-3">
                         {/* Acento */}
@@ -133,6 +136,7 @@ export default function TalkDetailOrales() {
       </div>
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
+        {/* ⬇️ Este es tu contenedor “único” con sombra (sin borde explícito) */}
         <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
           {/* TÍTULO */}
           <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">
