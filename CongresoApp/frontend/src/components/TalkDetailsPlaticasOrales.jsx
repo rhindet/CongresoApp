@@ -148,6 +148,8 @@ export default function TalkDetailOrales() {
   console.log("platicas[0].dia[0]")
   console.log(platicas)
 
+  console.log(state.modulo.dia)
+
   const fechaISO = getISODateFromDia(dia); // "2025-10-09"
   const { start, end, duracionMin } = parseHoraRango(hora);
   const modulo1 = nombre || '';
@@ -173,7 +175,7 @@ export default function TalkDetailOrales() {
               const nombreDelEvento = state.modulo.nombre;
               const salonDelEvento = state.modulo.salon;
               const horaGeneral = state.modulo?.hora_gnrl || hora; // Ej: "08:00 - 10:00"
-              const fechaDelEvento = getISODateFromDia(dia);
+              const fechaDelEvento = getISODateFromDia(state.modulo.dia);
 
               console.log(horaGeneral)
               console.log(nombreDelEvento)
@@ -202,9 +204,7 @@ export default function TalkDetailOrales() {
           {/* TÍTULO */}
           <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{state.modulo.nombre}</h2>
 
-
-
-          {/* FECHA Y HORARIO */}
+          {/* HORARIO */}
           <p className="text-sm md:text-base text-gray-600 mt-2">
             {state.modulo.hora_gnrl}
           </p>
