@@ -275,44 +275,50 @@ export default function TalkDetailOrales() {
             {/* Descripción / objetivo si llegó en state como "descripcion" */}
            {platicas && (
   <div className="mt-4 md:mt-0">
-    {(Array.isArray(platicas?.[0]?.dia) ? platicas[0].dia : []).map((diaObj, i) => {
-      const entries = Object.entries(diaObj ?? {});
-      if (entries.length === 0) return null;
+    {(() => {
+      // 1) Determina el día objetivo
+      const selectedDay =
+        state?.selectedDay ||
+        (String(dia).match(/\b(\d{1,2})\b/)?.[1] ?? '9'); // fallback por si no viene
 
-      // ["fecha_9", { Anatomía: [...], ... }]  o  ["fecha_10", {...}]
-      const [fechaKey, departamentos] = entries[0];
+      const targetKey = `fecha_${selectedDay}`;
 
-      // 🔒 Evita pasar objetos como child
-      if (!fechaKey || typeof departamentos !== 'object' || departamentos === null) {
-        return null;
+      // 2) Busca solo esa fecha dentro del arreglo "dia"
+      const entry = platicas?.[0]?.dia?.find(d => Object.prototype.hasOwnProperty.call(d, targetKey));
+      const departamentos = entry?.[targetKey];
+
+      if (!departamentos || typeof departamentos !== 'object') {
+        return (
+          <p className="text-gray-500">
+            Sin presentaciones para {targetKey}.
+          </p>
+        );
       }
 
+      // 3) Renderiza únicamente esa fecha
       return (
-        <div key={fechaKey || i} className="mb-8">
+        <div className="mb-8">
           <h3 className="text-lg font-bold text-red-700 mb-3">
-            {String(fechaKey).replace('fecha_', 'Fecha ')}
+            {`Fecha ${selectedDay}`}
           </h3>
 
-          {Object.entries(departamentos).map(([departamento, presentaciones]) => {
-            const lista = Array.isArray(presentaciones) ? presentaciones : [];
-            return (
-              <div key={departamento} className="mb-4">
-                <h4 className="font-semibold">{departamento}</h4>
-                <ul className="list-disc pl-6">
-                  {lista.map((p) => (
-                    <li key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`} className="mt-1">
-                      <span className="font-medium">{p.hora}</span>{' '}
-                      — {p.titulo}{' '}
-                      <em className="text-gray-600">({p.ponente})</em>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+          {Object.entries(departamentos).map(([departamento, presentaciones]) => (
+            <div key={departamento} className="mb-4">
+              <h4 className="font-semibold">{departamento}</h4>
+              <ul className="list-disc list-inside pl-0 ml-0">
+                {(Array.isArray(presentaciones) ? presentaciones : []).map((p) => (
+                  <li key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`} className="mt-1">
+                    <span className="font-medium">{p.hora}</span>{' '}
+                    — {p.titulo}{' '}
+                    <em className="text-gray-600">({p.ponente})</em>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       );
-    })}
+    })()}
   </div>
 )}
           </div>

@@ -168,14 +168,15 @@ function PO() {
 
 
                       navigate('/talk-details-Platicas-orales', {
-                        state: {
-                          from: 'presentaciones',
-                          ...talk,        // manda lo que ya aplanamos (titulo, ponente, hora, salon, dia, etc.)
-                          platicas,    // y si tu detalle necesita más
-                          descripcion: simposio?.objetivo ?? talk?.descripcion,
-                          salon: talk?.salon ?? simposio?.salon,
-                        },
-                      });
+                              state: {
+                                from: 'presentaciones',
+                                ...talk,
+                                platicas,
+                                descripcion: simposio?.objetivo ?? talk?.descripcion,
+                                salon: talk?.salon ?? simposio?.salon,
+                                selectedDay: day,           // 👈 agrega esto: '9' o '10'
+                              },
+});
                     } finally {
                       setLoader(false);
                     }
