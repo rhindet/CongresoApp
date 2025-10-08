@@ -166,7 +166,8 @@ export default function TalkDetailMagistrales() {
                                 descripcion: semblanza1,
                                 fecha,
                                 hora,
-                                duracionMin
+                                duracionMin,
+                                salon: salon1
                             });
                         }}
                         className="px-4 py-2 bg-secondyellow text-white font-semibold rounded-3xl hover:bg-firstyellow flex flex-row items-center gap-2"
