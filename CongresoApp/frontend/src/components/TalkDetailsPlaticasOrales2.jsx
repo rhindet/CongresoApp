@@ -157,7 +157,7 @@ function timeLabel(hhmm) {
   return hhmm || '';
 }
 
-export default function TalkDetailOrales() {
+export default function TalkDetailOrales2() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
@@ -191,11 +191,11 @@ export default function TalkDetailOrales() {
     // Opcionales:
     descripcion,        // si la mandaste desde el navigate (e.g., objetivo)
     imagen,
-    platicas        // si en el futuro agregas foto
+    talk        // si en el futuro agregas foto
   } = state;
 
-  console.log("platicas[0].dia[0]")
-  console.log(platicas ?? state.talk)
+  console.log("platicas[0].dia[0]2")
+  console.log(talk)
 
   const fechaISO = getISODateFromDia(dia); // "2025-10-09"
   const { start, end, duracionMin } = parseHoraRango(hora);
@@ -241,13 +241,13 @@ export default function TalkDetailOrales() {
 
         <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
           {/* TÍTULO */}
-          <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{state.modulo.nombre}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{talk.nombre}</h2>
 
 
 
           {/* FECHA Y HORARIO */}
           <p className="text-sm md:text-base text-gray-600 mt-2">
-            {state.modulo.hora_gnrl}
+            {talk.hora_gnrl}
           </p>
 
           {/* ETIQUETA */}
@@ -259,7 +259,7 @@ export default function TalkDetailOrales() {
             {/* Imagen */}
 
             {/* Descripción / objetivo si llegó en state como "descripcion" */}
-            {platicas && (
+            {talk && (
   <div className="mt-4 md:mt-0">
     {(() => {
       // Colores para las separaciones (rotan)
@@ -273,7 +273,7 @@ export default function TalkDetailOrales() {
       const targetKey = `fecha_${selectedDay}`;
 
       // 2) Busca solo esa fecha dentro del arreglo "dia"
-      const entry = platicas?.[0]?.dia?.find(d =>
+      const entry = talk?.dia?.find(d =>
         Object.prototype.hasOwnProperty.call(d, targetKey)
       );
       const departamentos = entry?.[targetKey];
@@ -367,7 +367,7 @@ export default function TalkDetailOrales() {
 
           {/* SALÓN */}
           <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Salón</h3>
-          <p className="text-sm md:text-base text-gray-700">{            state.modulo.salon
+          <p className="text-sm md:text-base text-gray-700">{            talk.salon
 }</p>
 
           {/* MAPA */}

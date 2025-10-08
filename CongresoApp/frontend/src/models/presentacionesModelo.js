@@ -10,6 +10,7 @@ export class PresentacionesModelo {
         this.hora_gnrl = data.hora_gnrl || data.hora_general || "08:00 - 18:00";
         this.salon = data.salon || "Ubicación no especificada";
         this.dia = data.dia || "Sin dia "
+        this.tipo = data.tipo || "Sin dia "
     }
 
     /**

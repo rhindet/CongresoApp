@@ -67,6 +67,7 @@ export class ApiCalls {
       // Tipos de eventos
       const eventTypes = ['simposio', 'magistral', 'presentaciones orales'];
       const eventGroups = result.data.data;
+      console.log(eventGroups)
 
       if (!Array.isArray(eventGroups)) {
         console.error("La estructura de datos de eventos no es un array de grupos.");
@@ -83,7 +84,12 @@ export class ApiCalls {
           // A diferencia del código anterior, aquí aseguramos que usamos el modelo correcto 
           // para cada tipo. Asumo que Simposios/Presentaciones Orales pueden usar Simposios 
           // y Magistrales usa MagistralesModelo.
-          const Model = tipo === 'magistral' ? MagistralesModelo : Simposios;
+          const Model = 
+              tipo === 'magistral'
+                ? MagistralesModelo 
+                : tipo === 'simposio'
+                  ? Simposios
+                  : PresentacionesModelo;
 
           // Añadimos el tipo
           item.tipo = tipo;

@@ -74,12 +74,14 @@ function PO() {
               const salon = modulo?.salon ?? '';
               const dias = Array.isArray(modulo?.dia) ? modulo.dia : [];
 
+
               // ✅ Unir departamentos de todas las fechas y eliminar duplicados
               const departamentosSet = new Set();
               for (const diaObj of dias) {
                 const [, departamentos] = Object.entries(diaObj || {})[0] || [];
                 if (!departamentos || typeof departamentos !== 'object') continue;
                 for (const depName of Object.keys(departamentos)) {
+  
                   departamentosSet.add(depName);
                 }
               }
@@ -116,7 +118,6 @@ function PO() {
 
                   {/* 🔲 Cuadro blanco con departamentos únicos (en columna) */}
                   <div className="mt-4 bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
-                    <p className="text-sm font-semibold text-[#014480] mb-2">Departamentos</p>
                     {departamentosUnicos.length === 0 ? (
                       <p className="text-sm text-gray-500">Sin departamentos.</p>
                     ) : (
