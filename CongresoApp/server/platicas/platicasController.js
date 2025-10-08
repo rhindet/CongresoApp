@@ -57,7 +57,7 @@ const allOralPresentations= async (req, res) => {
    try {
   const PO = await programaCompletoSchema.find().lean(); // lean NO altera los _id    console.log(simposio)
   //console.log(simposios[0].categorias[0])  
-  console.log(PO[0].categorias[2])
+  console.log(PO[0].categorias[2].presentaciones_orales[0].dia)
   res.json({
       status:true,
       data:PO[0].categorias[2]
@@ -229,7 +229,10 @@ const getOralPresentation = async (req, res) => {
     const documento = await programaCompletoSchema.findOne().lean();
 
     console.log("Entrooo")
-    console.log(documento?.categorias)
+        console.log(documento.categorias[2].presentaciones_orales)
+    console.log("Entrooo2")
+
+    console.log(documento?.categorias[2].presentaciones_orales[0])
     
     if (documento && documento?.categorias[0]) {
 
@@ -240,6 +243,10 @@ const getOralPresentation = async (req, res) => {
                    console.log("id:", id);
                   return cat.id=== id;
                 });
+
+
+      console.log("p_oral")
+       console.log(p_oral)
        
       if (!p_oral) {
         return res.json({

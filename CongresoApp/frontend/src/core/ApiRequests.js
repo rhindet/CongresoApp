@@ -43,6 +43,7 @@ export class ApiRequests {
 
     async getAllOralPresentation(){
          var result = await this._apiCall.getAllOralPresentation();
+         console.log("Result en ApiRequest", result)
          return result;
     }
 
@@ -70,6 +71,8 @@ export class ApiRequests {
 
      async getOralPresentation(id){
          var result = await this._apiCall.getOralPresentation(id);
+         console.log("resuult oral uno")
+         console.log(result)
      
          return result;
     }

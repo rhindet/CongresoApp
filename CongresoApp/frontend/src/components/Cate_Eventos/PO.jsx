@@ -4,19 +4,89 @@ import HeaderMobile from '../../modules/HeaderMobile';
 import HeaderDesktop from '../../modules/HeaderDesktop';
 import { ApiRequests } from '../../core/ApiRequests';
 import Loader from '../../modules/Loader';
-import { PresentacionesModelo } from '../../models/presentacionesModelo';
+// import { PresentacionesModelo } from '../../models/presentacionesModelo'; // no es necesario si ya te llega normalizado
 
 const tpColorStyles = {
-  presentaciones_orales: {
-    bg: '#85A899',
-    text: '#0b5345',
-  },
+  presentaciones_orales: { bg: '#85A899', text: '#0b5345' },
 };
+
+// --- helpers de hora/fecha ---
+const parseStartMinutes = (hora) => {
+  if (!hora) return Number.POSITIVE_INFINITY;
+  const m = String(hora).match(/(\d{1,2}):(\d{2})/);
+  if (!m) return Number.POSITIVE_INFINITY;
+  const h = Number(m[1]); const mm = Number(m[2]);
+  return h * 60 + mm;
+};
+const getStartHourLabel = (hora) => {
+  if (!hora) return '';
+  const m = String(hora).match(/(\d{1,2}:\d{2})/);
+  return m ? m[1] : String(hora);
+};
+
+// --- APLANA la estructura por día: devuelve { '9': [...], '10': [...] } ---
+function flattenByDay(models = []) {
+  const byDay = { '9': [], '10': [] };
+
+  for (const m of models) {
+    const nombre_modulo = m?.nombre ?? m?.nombre_modulo ?? 'Módulo';
+    const hora_gnrl = m?.hora_gnrl ?? m?.hora ?? '';
+    const salon_gnrl = m?.salon ?? '';
+    const dias = Array.isArray(m?.dia) ? m.dia : [];
+
+    for (const dayObj of dias) {
+      if (!dayObj || typeof dayObj !== 'object') continue;
+
+      // ejemplo keys: "fecha_9", "fecha_10"
+      const key = Object.keys(dayObj)[0];
+      if (!key) continue;
+      const dayNumMatch = key.match(/\d+/);
+      if (!dayNumMatch) continue;
+      const dayNum = dayNumMatch[0]; // '9' | '10'
+
+      const porDepto = dayObj[key]; // { 'Anatomía': [...], 'Odontología': [...] }
+      if (!porDepto || typeof porDepto !== 'object') continue;
+
+      for (const depto of Object.keys(porDepto)) {
+        const lista = porDepto[depto] || [];
+        // Cada item puede traer sus campos (id, hora, ponente, titulo, salon, etc.)
+        for (const item of lista) {
+          const registro = {
+            // prioridad a campos del item; fallback a los del contenedor
+            id: item?.id ?? cryptoRandomId(),
+            titulo: item?.titulo ?? item?.ponencia ?? 'Título no disponible',
+            nombre_modulo,
+            departamento: depto,
+            ponente: item?.ponente ?? 'Ponente no disponible',
+            hora: item?.hora ?? hora_gnrl,
+            salon: item?.salon ?? salon_gnrl,
+            dia: `Jueves ${dayNum} de octubre de 2025`, // etiqueta legible
+            _day: dayNum,                 // para filtrar rápido
+            _startMinutes: parseStartMinutes(item?.hora ?? hora_gnrl),
+            // puedes anexar lo que más tengas en el item:
+            ...item,
+          };
+          byDay[dayNum] = byDay[dayNum] ? [...byDay[dayNum], registro] : [registro];
+        }
+      }
+    }
+  }
+
+  // asegúrate de que existan aunque estén vacíos
+  return { '9': byDay['9'] || [], '10': byDay['10'] || [] };
+}
+
+function cryptoRandomId() {
+  // id simple por si algún item no trae id
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
+}
 
 function PO() {
   const [day, setDay] = useState('9'); // '9' | '10'
-  const [listDeSimposios, setListDeSimposios] = useState([]);
+  const [byDay, setByDay] = useState({ '9': [], '10': [] });
   const [loader, setLoader] = useState(true);
+    const [platicas, setPlaticas] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +97,11 @@ function PO() {
         const apiRequest = new ApiRequests();
         const allOralPresentation = await apiRequest.getAllOralPresentation();
 
-        // Normaliza a tu modelo (opcional pero recomendable)
-        const normalizados = (allOralPresentation || []).map(
-          (item) => new PresentacionesModelo(item)
-        );
-
-        setListDeSimposios(normalizados);
+        // allOralPresentation es un array con objetos que tienen .dia = [{fecha_9:{...}}, {fecha_10:{...}}]
+        const grouped = flattenByDay(allOralPresentation || []);
+        
+        setByDay(grouped);
+        setPlaticas(allOralPresentation)
       } catch (error) {
         console.error('Error al obtener presentaciones orales:', error);
       } finally {
@@ -42,51 +111,11 @@ function PO() {
     fetchSimposios();
   }, []);
 
-  // ---- Helpers robustos ----
-  const extractDayNumber = (value) => {
-    if (typeof value === 'number') return value;
-    const s = String(value || '');
-    // Busca el primer número de 1-2 dígitos; funciona con "Jueves 9 de octubre de 2025"
-    const m = s.match(/\b(\d{1,2})\b/);
-    return m ? Number(m[1]) : NaN;
-  };
-
-  const parseStartMinutes = (hora) => {
-    if (!hora) return NaN;
-    // hora como "08:20 - 08:40" o "08:20"
-    const m = String(hora).match(/(\d{1,2}):(\d{2})/);
-    if (!m) return NaN;
-    const h = Number(m[1]);
-    const mm = Number(m[2]);
-    if (Number.isNaN(h) || Number.isNaN(mm)) return NaN;
-    return h * 60 + mm;
-  };
-
-  const getStartHourLabel = (hora) => {
-    if (!hora) return '';
-    const m = String(hora).match(/(\d{1,2}:\d{2})/);
-    return m ? m[1] : String(hora);
-  };
-
-  // Filtro + ordenamiento memorizado (reacciona a cambios de 'day' y de la lista)
+  // lista filtrada y ordenada por hora
   const filteredTalks = useMemo(() => {
-    const target = extractDayNumber(day);
-    if (!Number.isFinite(target)) return [];
-
-    return (listDeSimposios || [])
-      .map((r) => ({
-        _orig: r,
-        _startMinutes: parseStartMinutes(r.hora),
-        _dayNum: extractDayNumber(r.dia),
-      }))
-      .filter((x) => Number.isFinite(x._dayNum) && x._dayNum === target)
-      .sort((a, b) => {
-        const A = Number.isFinite(a._startMinutes) ? a._startMinutes : Number.POSITIVE_INFINITY;
-        const B = Number.isFinite(b._startMinutes) ? b._startMinutes : Number.POSITIVE_INFINITY;
-        return A - B;
-      })
-      .map((x) => x._orig);
-  }, [listDeSimposios, day]);
+    const list = byDay[day] || [];
+    return [...list].sort((a, b) => (a._startMinutes || 1e9) - (b._startMinutes || 1e9));
+  }, [byDay, day]);
 
   const getSimposio = async (talk) => {
     const apiRequest = new ApiRequests();
@@ -118,7 +147,7 @@ function PO() {
           ))}
         </div>
 
-        {/* Lista de POs */}
+        {/* Lista */}
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
           {filteredTalks.length === 0 ? (
             <p className="text-center text-gray-600 col-span-full text-lg font-medium mt-10">
@@ -134,12 +163,17 @@ function PO() {
                     setLoader(true);
                     try {
                       const simposio = await getSimposio(talk);
+                      console.log(talk)
+                      console.log(platicas)
+
+
                       navigate('/talk-details-Platicas-orales', {
                         state: {
-                          from: 'po',
-                          ...simposio,
-                          descripcion: simposio.objetivo,
-                          salon: simposio.salon,
+                          from: 'presentaciones',
+                          ...talk,        // manda lo que ya aplanamos (titulo, ponente, hora, salon, dia, etc.)
+                          platicas,    // y si tu detalle necesita más
+                          descripcion: simposio?.objetivo ?? talk?.descripcion,
+                          salon: talk?.salon ?? simposio?.salon,
                         },
                       });
                     } finally {
@@ -161,7 +195,7 @@ function PO() {
                   {/* Info */}
                   <div className="flex-1 flex flex-col justify-center pl-2">
                     <span className="text-thirdblue font-bold text-xl leading-tight">
-                      {talk.nombre_modulo}
+                      {talk.nombre_modulo || talk.departamento || 'Presentación'}
                     </span>
                     <span className="text-gray-700 text-sm font-medium">
                       {talk.ponente}

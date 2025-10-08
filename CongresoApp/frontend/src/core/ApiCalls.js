@@ -136,6 +136,7 @@ export class ApiCalls {
 
     if (result != null && result.status == 200) {
       const orales = result.data.data.presentaciones_orales.map(item => new PresentacionesModelo(item));
+      console.log("orales", orales)
       return orales
     }
     console.log("Llamada realizada sin exito")
@@ -216,7 +217,8 @@ export class ApiCalls {
     var result = await this._buildFetch.fetch({ url: `/api/platicas/oralPresentation/${id}`, method: methods.GET, headers: getHeaders() })
     console.log(result)
     if (result != null && result.status == 200) {
-      const simposios = new Simposios(result.data.data)
+      const simposios = new PresentacionesModelo(result.data.data)
+      console.log(simposios)
       return simposios
     }
     console.log("Llamada realizada sin exito")
@@ -288,6 +290,7 @@ export class BuildFetch {
       console.log("Respuesta JSON:", data);
 
       return new ApiRequestsResult({ status: respuesta.status, data });
+
     } catch (error) {
       console.log(`Error en fetch: ${error}`);
     }

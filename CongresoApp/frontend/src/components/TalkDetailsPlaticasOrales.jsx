@@ -168,9 +168,15 @@ export default function TalkDetailOrales() {
   useEffect(() => {
     if (!state) navigate('/presentaciones');
     if (!state) navigate('/presentaciones');
+
   }, [state, navigate]);
 
+
   if (!state) return null;
+
+  console.log("state")
+   console.log(state)
+
 
   // ----- Campos esperados en Presentaciones Orales -----
   const {
@@ -184,8 +190,13 @@ export default function TalkDetailOrales() {
     titulo,             // Título de la ponencia
     // Opcionales:
     descripcion,        // si la mandaste desde el navigate (e.g., objetivo)
-    imagen,             // si en el futuro agregas foto
+    imagen,   
+    platicas          // si en el futuro agregas foto
   } = state;
+  
+  console.log("platicas[0].dia[0]")
+
+  console.log(platicas[0].dia[0].fecha_9[0])
 
   const fechaISO = getISODateFromDia(dia); // "2025-10-09"
   const { start, end, duracionMin } = parseHoraRango(hora);
@@ -236,7 +247,7 @@ export default function TalkDetailOrales() {
           {/* MÓDULO / ÁREA */}
           {modulo1 && (
             <p className="text-sm md:text-base text-gray-700 mt-1">
-              <strong>Módulo:</strong> {modulo1}
+              <strong>Módulo:</strong> {nombre_modulo}
             </p>
           )}
 
@@ -262,13 +273,48 @@ export default function TalkDetailOrales() {
             </div>
 
             {/* Descripción / objetivo si llegó en state como "descripcion" */}
-            {descripcion && (
-              <div className="mt-4 md:mt-0">
-                <p className="text-sm md:text-base mt-2 text-gray-700 text-justify">
-                  {descripcion}
-                </p>
+           {platicas && (
+  <div className="mt-4 md:mt-0">
+    {(Array.isArray(platicas?.[0]?.dia) ? platicas[0].dia : []).map((diaObj, i) => {
+      const entries = Object.entries(diaObj ?? {});
+      if (entries.length === 0) return null;
+
+      // ["fecha_9", { Anatomía: [...], ... }]  o  ["fecha_10", {...}]
+      const [fechaKey, departamentos] = entries[0];
+
+      // 🔒 Evita pasar objetos como child
+      if (!fechaKey || typeof departamentos !== 'object' || departamentos === null) {
+        return null;
+      }
+
+      return (
+        <div key={fechaKey || i} className="mb-8">
+          <h3 className="text-lg font-bold text-red-700 mb-3">
+            {String(fechaKey).replace('fecha_', 'Fecha ')}
+          </h3>
+
+          {Object.entries(departamentos).map(([departamento, presentaciones]) => {
+            const lista = Array.isArray(presentaciones) ? presentaciones : [];
+            return (
+              <div key={departamento} className="mb-4">
+                <h4 className="font-semibold">{departamento}</h4>
+                <ul className="list-disc pl-6">
+                  {lista.map((p) => (
+                    <li key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`} className="mt-1">
+                      <span className="font-medium">{p.hora}</span>{' '}
+                      — {p.titulo}{' '}
+                      <em className="text-gray-600">({p.ponente})</em>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            )}
+            );
+          })}
+        </div>
+      );
+    })}
+  </div>
+)}
           </div>
 
           {/* SALÓN */}
