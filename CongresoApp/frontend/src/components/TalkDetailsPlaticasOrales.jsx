@@ -4,61 +4,15 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import HeaderMobile from '../modules/HeaderMobile';
 import HeaderDesktop from '../modules/HeaderDesktop';
 import Loader from '../modules/Loader';
+import { timeFormat, formatDownloadICS } from './dateFormatt';
 import { CalendarIcon } from '@heroicons/react/24/solid';
-
-import S_201 from '../../public/assets/mapas/S_201.png';
-import S_202 from '../../public/assets/mapas/S_202.png';
-import S_203 from '../../public/assets/mapas/S_203.png';
-import S_204 from '../../public/assets/mapas/S_204.png';
-import S_205 from '../../public/assets/mapas/S_205.png';
-import S_206 from '../../public/assets/mapas/S_206.png';
-import S_306 from '../../public/assets/mapas/S_306.png';
-import S_307 from '../../public/assets/mapas/S_307.png';
-import S_308 from '../../public/assets/mapas/S_308.png';
-import S_309 from '../../public/assets/mapas/S_309.png';
-import S_Antartida from '../../public/assets/mapas/S_Antartida.png';
 import S_Canada from '../../public/assets/mapas/S_Canada.png';
-import S_EstadosUnidos from '../../public/assets/mapas/S_EstadosUnidos.png';
-import S_Europa from '../../public/assets/mapas/S_Europa.png';
 import planoMapa from '../../public/assets/mapas/Plano_Centro_de_Convenciones_1 (ZONACONGRESO).png';
 import DefaultImg from '../../public/assets/ponentes/default.png';
 
 // ---------- MAPEO DE SALONES A PLANOS ----------
 const salonMapas = {
-  '201': S_201,
-  '202': S_202,
-  '203': S_203,
-  '204': S_204,
-  '205': S_205,
-  '206': S_206,
-  '306': S_306,
-  '307': S_307,
-  '308': S_308,
-  '309': S_309,
-  'Antártida': S_Antartida,
-  'Europa': S_Europa,
   'Canadá': S_Canada,
-  'Estados Unidos': S_EstadosUnidos,
-};
-
-// ---------- HELPERS FECHA/HORA ----------
-const mesesES = {
-  enero: '01',
-  febrero: '02',
-  marzo: '03',
-  abril: '04',
-  mayo: '05',
-  junio: '06',
-  julio: '07',
-  agosto: '08',
-  septiembre: '09',
-  setiembre: '09',
-  oct: '10',
-  octubre: '10',
-  nov: '11',
-  noviembre: '11',
-  dic: '12',
-  diciembre: '12',
 };
 
 /**
@@ -66,85 +20,95 @@ const mesesES = {
  */
 function getISODateFromDia(diaStr) {
   if (!diaStr) return null;
+  const monthMap = {
+    enero: '01', febrero: '02', marzo: '03', abril: '04', mayo: '05', junio: '06',
+    julio: '07', agosto: '08', septiembre: '09', octubre: '10', noviembre: '11', diciembre: '12'
+  };
   const s = String(diaStr).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
-  // Busca "9 de octubre de 2025"
   const m = s.match(/(\d{1,2})\s+de\s+([a-z]+)\s+de\s+(\d{4})/);
   if (!m) return null;
   const [_, d, mesTxt, y] = m;
-  const mes = mesesES[mesTxt] || null;
+  const mes = monthMap[mesTxt];
   if (!mes) return null;
   const dd = String(d).padStart(2, '0');
-  return `${y}-${mes}-${dd}`; // YYYY-MM-DD
+  return `${y}-${mes}-${dd}`;
 }
 
 /**
  * De "08:20 - 08:40" obtiene { start:"08:20", end:"08:40", duracionMin }
  */
 function parseHoraRango(horaStr) {
-  if (!horaStr) return { start: null, end: null, duracionMin: null };
+  if (!horaStr) return { start: null, end: null };
   const m = String(horaStr).match(/(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})/);
   if (!m) {
-    // Si solo viene una hora, la usamos y ponemos 20 min por default
     const one = String(horaStr).match(/(\d{1,2}:\d{2})/);
-    const start = one ? one[1] : null;
-    return { start, end: null, duracionMin: start ? 20 : null };
+    return { start: one ? one[1] : null, end: null };
   }
-  const start = m[1];
-  const end = m[2];
-
-  const toMin = (hhmm) => {
-    const [h, mm] = hhmm.split(':').map(Number);
-    return h * 60 + mm;
-  };
-  const diff = toMin(end) - toMin(start);
-  const duracionMin = Number.isFinite(diff) && diff > 0 ? diff : 20;
-
-  return { start, end, duracionMin };
+  return { start: m[1], end: m[2] };
 }
 
 /**
  * Descarga un .ICS aceptando fecha YYYY-MM-DD, hora "HH:MM" y duración en minutos.
  */
-function downloadICS({ titulo, doctor, descripcion, fechaISO, hora, duracionMin = 60, ubicacion = 'Centro de Convenciones Cintermex' }) {
-  if (!fechaISO || !hora) return;
+function downloadICS({ nombre, salon, fechaISO, startTime, endTime }) {
+  if (!startTime || !endTime) {
+    console.error("Faltan datos (fecha/hora) para generar el evento del calendario.");
+    return;
+  }
 
-  const start = new Date(`${fechaISO}T${hora.padStart(5, '0')}:00`);
-  const end = new Date(start.getTime() + duracionMin * 60000);
+  // ✅ Forzar la fecha fija
+  fechaISO = "2025-10-09";
 
-  const formatDate = (date) =>
-    date
-      .toISOString()
-      .replace(/[-:]/g, '')
-      .split('.')[0] + 'Z';
+  // Convierte "YYYY-MM-DD" + "HH:MM" a Date (hora local)
+  const toDateTime = (fecha, hora) => {
+    const [h, m] = hora.split(':').map(Number);
+    const d = new Date(fecha);
+    d.setHours(h, m, 0, 0);
+    return d;
+  };
 
+  const startDate = toDateTime(fechaISO, startTime);
+  const endDate = toDateTime(fechaISO, endTime);
+
+  // Formato local sin UTC (evita desfase por zona horaria)
+  const formatDateLocal = (date) => {
+    const pad = (n) => String(n).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    const mm = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const hh = pad(date.getHours());
+    const mi = pad(date.getMinutes());
+    const ss = pad(date.getSeconds());
+    return `${yyyy}${mm}${dd}T${hh}${mi}${ss}`;
+  };
+
+  // Crear contenido del .ICS
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//CongresoMedico//EN',
-    'CALSCALE:GREGORIAN',
+    'PRODID:-//CongresoMedicina//EN',
     'BEGIN:VEVENT',
-    `DTSTART:${formatDate(start)}`,
-    `DTEND:${formatDate(end)}`,
-    `SUMMARY:${titulo || 'Presentación Oral'}`,
-    `DESCRIPTION:${descripcion || ''}\\nPonente: ${doctor || ''}`,
-    `LOCATION:${ubicacion}`,
+    `DTSTART:${formatDateLocal(startDate)}`,
+    `DTEND:${formatDateLocal(endDate)}`,
+    `SUMMARY:${nombre || 'Evento del Congreso'}`,
+    `LOCATION:Cintermex ${salon || ''}`,
+    'DESCRIPTION',
     'STATUS:CONFIRMED',
-    'SEQUENCE:0',
     'BEGIN:VALARM',
     'TRIGGER:-PT15M',
     'ACTION:DISPLAY',
-    'DESCRIPTION:Recordatorio',
+    'DESCRIPTION',
     'END:VALARM',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n');
 
+  // Descargar archivo
   const encoded = encodeURIComponent(icsContent);
   const dataURI = `data:text/calendar;charset=utf-8,${encoded}`;
-
   const link = document.createElement('a');
   link.href = dataURI;
-  link.download = `${(titulo || 'presentacion_oral').replace(/\s+/g, '_')}.ics`;
+  link.download = `${nombre?.replace(/\s+/g, '_') || 'evento'}.ics`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -197,10 +161,10 @@ export default function TalkDetailOrales() {
   console.log("platicas[0].dia[0]")
   console.log(platicas ?? state.talk)
 
-  const fechaISO = getISODateFromDia(dia); // "2025-10-09"
+  console.log(state.modulo.dia)
+
+  const fechaISO = getISODateFromDia(state.modulo.dia); // "2025-10-09"
   const { start, end, duracionMin } = parseHoraRango(hora);
-  const nombre1 = ponente || 'Ponente no disponible';
-  const titulo1 = titulo || 'Presentación Oral';
   const modulo1 = nombre || '';
   const salon1 = salon || 'Auditorio';
   const rutaFinal = imagen && imagen !== 'default.png'
@@ -217,35 +181,45 @@ export default function TalkDetailOrales() {
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
         {/* BOTÓN AGENDAR */}
-        <div className="mt-1 mb-6 justify-center">
+        {/* <div className="mt-1 mb-6 justify-center">
           <button
-            onClick={() =>
+            onClick={() => {
+              // 1. Extraer los datos GENERALES del módulo
+              const nombreDelEvento = state.modulo.nombre;
+              const salonDelEvento = state.modulo.salon;
+              const horaGeneral = state.modulo?.hora_gnrl || hora; // Ej: "08:00 - 10:00"
+              const fechaDelEvento = getISODateFromDia(state.modulo.dia);
+
+              console.log(horaGeneral)
+              console.log(nombreDelEvento)
+              console.log(salonDelEvento)
+              console.log(state.modulo.dia.fecha_9)
+
+              // 2. Procesar la hora para obtener inicio y fin
+              const { start: startTime, end: endTime } = parseHoraRango(horaGeneral);
+
+              // 3. Llamar a la función con los datos correctos
               downloadICS({
-                titulo: titulo1,
-                doctor: nombre1,
-                descripcion,
+                nombre: nombreDelEvento,
+                // fechaISO: fechaDelEvento,
                 fechaISO,
-                hora: start, // HH:MM
-                duracionMin: duracionMin || 20,
-                ubicacion: `Cintermex - Salón ${salon1}`,
-              })
-            }
+                startTime,
+                endTime,
+                salon: salonDelEvento,
+              });
+            }}
             className="px-4 py-2 bg-secondyellow text-white font-semibold rounded-3xl hover:bg-firstyellow flex flex-row items-center gap-2"
-            disabled={!fechaISO || !start}
-            title={!fechaISO || !start ? 'Falta información de fecha/hora' : 'Agregar al calendario'}
           >
             <CalendarIcon className="w-8" />
             Agendar
           </button>
-        </div>
+        </div> */}
 
         <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
           {/* TÍTULO */}
           <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{state.modulo.nombre}</h2>
 
-
-
-          {/* FECHA Y HORARIO */}
+          {/* HORARIO */}
           <p className="text-sm md:text-base text-gray-600 mt-2">
             {state.modulo.hora_gnrl}
           </p>
@@ -260,115 +234,115 @@ export default function TalkDetailOrales() {
 
             {/* Descripción / objetivo si llegó en state como "descripcion" */}
             {platicas && (
-  <div className="mt-4 md:mt-0">
-    {(() => {
-      // Colores para las separaciones (rotan)
-      const sepColors = ['#F59E0B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6', '#14B8A6'];
+              <div className="mt-4 md:mt-0">
+                {(() => {
+                  // Colores para las separaciones (rotan)
+                  const sepColors = ['#F59E0B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6', '#14B8A6'];
 
-      // 1) Día seleccionado
-      const selectedDay =
-        state?.selectedDay ||
-        (String(dia).match(/\b(\d{1,2})\b/)?.[1] ?? '9');
+                  // 1) Día seleccionado
+                  const selectedDay =
+                    state?.selectedDay ||
+                    (String(dia).match(/\b(\d{1,2})\b/)?.[1] ?? '9');
 
-      const targetKey = `fecha_${selectedDay}`;
+                  const targetKey = `fecha_${selectedDay}`;
 
-      // 2) Busca solo esa fecha dentro del arreglo "dia"
-      const entry = platicas?.[0]?.dia?.find(d =>
-        Object.prototype.hasOwnProperty.call(d, targetKey)
-      );
-      const departamentos = entry?.[targetKey];
+                  // 2) Busca solo esa fecha dentro del arreglo "dia"
+                  const entry = platicas?.[0]?.dia?.find(d =>
+                    Object.prototype.hasOwnProperty.call(d, targetKey)
+                  );
+                  const departamentos = entry?.[targetKey];
 
-      if (!departamentos || typeof departamentos !== 'object') {
-        return (
-          <p className="text-gray-500">
-            Sin presentaciones para {targetKey}.
-          </p>
-        );
-      }
+                  if (!departamentos || typeof departamentos !== 'object') {
+                    return (
+                      <p className="text-gray-500">
+                        Sin presentaciones para {targetKey}.
+                      </p>
+                    );
+                  }
 
-      // 3) Render bonito: tarjetas por departamento con separador colorido
-      return (
-        <div className="grid grid-cols-1 gap-5">
-          {Object.entries(departamentos).map(([departamento, presentaciones], i) => {
-            const lista = Array.isArray(presentaciones) ? presentaciones : [];
-            const color = sepColors[i % sepColors.length];
+                  // 3) Render bonito: tarjetas por departamento con separador colorido
+                  return (
+                    <div className="grid grid-cols-1 gap-5">
+                      {Object.entries(departamentos).map(([departamento, presentaciones], i) => {
+                        const lista = Array.isArray(presentaciones) ? presentaciones : [];
+                        const color = sepColors[i % sepColors.length];
 
-            return (
-              <section
-                key={departamento}
-                className="rounded-2xl border border-gray-200 bg-gradient-to-b from-white to-gray-50 p-4 md:p-6 shadow-sm"
-              >
-                {/* Línea separadora de color distinta por sección */}
-                <div
-                  className="h-1 w-full rounded-full mb-4"
-                  style={{ backgroundColor: color }}
-                />
+                        return (
+                          <section
+                            key={departamento}
+                            className="rounded-2xl border border-gray-200 bg-gradient-to-b from-white to-gray-50 p-4 md:p-6 shadow-sm"
+                          >
+                            {/* Línea separadora de color distinta por sección */}
+                            <div
+                              className="h-1 w-full rounded-full mb-4"
+                              style={{ backgroundColor: color }}
+                            />
 
-                {/* Header del departamento */}
-                <header className="flex items-center justify-between gap-3">
-                  <h4 className="text-lg md:text-xl font-extrabold tracking-tight text-[#014480]">
-                    {departamento}
-                  </h4>
-                  <span
-                    className="inline-flex items-center justify-center rounded-full text-xs font-semibold px-2.5 py-1"
-                    style={{ backgroundColor: `${color}1A`, color }}
-                  >
-                    {lista.length} {lista.length === 1 ? 'ponencia' : 'ponencias'}
-                  </span>
-                </header>
+                            {/* Header del departamento */}
+                            <header className="flex items-center justify-between gap-3">
+                              <h4 className="text-lg md:text-xl font-extrabold tracking-tight text-[#014480]">
+                                {departamento}
+                              </h4>
+                              <span
+                                className="inline-flex items-center justify-center rounded-full text-xs font-semibold px-2.5 py-1"
+                                style={{ backgroundColor: `${color}1A`, color }}
+                              >
+                                {lista.length} {lista.length === 1 ? 'ponencia' : 'ponencias'}
+                              </span>
+                            </header>
 
-                {/* Lista de ponencias */}
-                <div className="mt-4 space-y-3">
-                  {lista.map((p) => (
-                    <article
-                      key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`}
-                      className="group rounded-xl border border-gray-200 bg-white/80 hover:bg-white hover:shadow-md transition-all duration-200"
-                    >
-                      <div className="flex gap-3 p-3 md:p-4">
-                        {/* Barra/acento izquierda (mismo color del separador) */}
-                        <div
-                          className="w-1 rounded-lg transition-colors"
-                          style={{ backgroundColor: color }}
-                        />
+                            {/* Lista de ponencias */}
+                            <div className="mt-4 space-y-3">
+                              {lista.map((p) => (
+                                <article
+                                  key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`}
+                                  className="group rounded-xl border border-gray-200 bg-white/80 hover:bg-white hover:shadow-md transition-all duration-200"
+                                >
+                                  <div className="flex gap-3 p-3 md:p-4">
+                                    {/* Barra/acento izquierda (mismo color del separador) */}
+                                    <div
+                                      className="w-1 rounded-lg transition-colors"
+                                      style={{ backgroundColor: color }}
+                                    />
 
-                        {/* Contenido */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <span
-                              className="inline-flex items-center rounded-full text-[11px] md:text-xs font-bold px-2.5 py-1"
-                              style={{ backgroundColor: '#29568E1A', color: '#29568E' }}
-                            >
-                              {p.hora}
-                            </span>
-                            <h5 className="font-semibold text-gray-900 leading-tight break-words">
-                              {p.titulo}
-                            </h5>
-                          </div>
+                                    {/* Contenido */}
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                        <span
+                                          className="inline-flex items-center rounded-full text-[11px] md:text-xs font-bold px-2.5 py-1"
+                                          style={{ backgroundColor: '#29568E1A', color: '#29568E' }}
+                                        >
+                                          {p.hora}
+                                        </span>
+                                        <h5 className="font-semibold text-gray-900 leading-tight break-words">
+                                          {p.titulo}
+                                        </h5>
+                                      </div>
 
-                          {p.ponente && (
-                            <p className="mt-1 text-sm text-gray-600">
-                              <em>{p.ponente}</em>
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-            );
-          })}
-        </div>
-      );
-    })()}
-  </div>
-)}
+                                      {p.ponente && (
+                                        <p className="mt-1 text-sm text-gray-600">
+                                          <em>{p.ponente}</em>
+                                        </p>
+                                      )}
+                                    </div>
+                                  </div>
+                                </article>
+                              ))}
+                            </div>
+                          </section>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
           </div>
 
           {/* SALÓN */}
           <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Salón</h3>
-          <p className="text-sm md:text-base text-gray-700">{            state.modulo.salon
-}</p>
+          <p className="text-sm md:text-base text-gray-700">{state.modulo.salon
+          }</p>
 
           {/* MAPA */}
           <div className="mt-6">
