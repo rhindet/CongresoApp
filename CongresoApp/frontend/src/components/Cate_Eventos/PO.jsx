@@ -12,7 +12,7 @@ const tpColorStyles = {
 function PO() {
   const [loader, setLoader] = useState(true);
   const [platicas, setPlaticas] = useState([]);
-  const [day, setDay] = useState('9'); // solo visual, no filtra aún
+  const [day, setDay] = useState('9'); // '9' | '10'
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,12 +44,12 @@ function PO() {
       </div>
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
-        {/* Botones visuales de días */}
+        {/* Botones de días */}
         <div className="flex justify-center gap-4 mb-4">
           {['9', '10'].map((d) => (
             <button
               key={d}
-              onClick={() => setDay(d)} // solo cambia estado visual
+              onClick={() => setDay(d)}
               className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30 ${
                 day === d ? 'bg-secondyellow text-white' : 'bg-[#999999]'
               }`}
@@ -74,20 +74,17 @@ function PO() {
               const salon = modulo?.salon ?? '';
               const dias = Array.isArray(modulo?.dia) ? modulo.dia : [];
 
+              // ✅ Mostrar SOLO los departamentos del día seleccionado
+              const targetKey = `fecha_${day}`; // 'fecha_9' | 'fecha_10'
+              const diaObj =
+                Array.isArray(dias)
+                  ? (dias.find(d => d && Object.prototype.hasOwnProperty.call(d, targetKey))?.[targetKey] || null)
+                  : null;
 
-              // ✅ Unir departamentos de todas las fechas y eliminar duplicados
-              const departamentosSet = new Set();
-              for (const diaObj of dias) {
-                const [, departamentos] = Object.entries(diaObj || {})[0] || [];
-                if (!departamentos || typeof departamentos !== 'object') continue;
-                for (const depName of Object.keys(departamentos)) {
-  
-                  departamentosSet.add(depName);
-                }
-              }
-              const departamentosUnicos = Array.from(departamentosSet).sort((a, b) =>
-                a.localeCompare(b, 'es')
-              );
+              // Si existe el objeto de ese día, sus claves son los departamentos
+              const departamentosUnicos = diaObj
+                ? Object.keys(diaObj).sort((a, b) => a.localeCompare(b, 'es'))
+                : [];
 
               return (
                 <div
@@ -116,10 +113,12 @@ function PO() {
                     </p>
                   )}
 
-                  {/* 🔲 Cuadro blanco con departamentos únicos (en columna) */}
+                  {/* 🔲 Departamentos SOLO del día seleccionado */}
                   <div className="mt-4 bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
                     {departamentosUnicos.length === 0 ? (
-                      <p className="text-sm text-gray-500">Sin departamentos.</p>
+                      <p className="text-sm text-gray-500">
+                        Sin departamentos para el día {day}.
+                      </p>
                     ) : (
                       <div className="flex flex-col gap-1 text-sm text-gray-800">
                         {departamentosUnicos.map((dep) => (
@@ -143,7 +142,7 @@ function PO() {
                             from: 'presentaciones',
                             modulo,
                             platicas,
-                            selectedDay: day, // solo mantiene coherencia visual
+                            selectedDay: day, // 👈 se pasa para que el detalle muestre el mismo día
                           },
                         })
                       }

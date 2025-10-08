@@ -43,6 +43,9 @@ export default function TalkDetailOrales() {
     imagen,
   } = state;
 
+  // Paleta de colores para alternar por sección (departamento)
+  const sepColors = ['#F59E0B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6', '#14B8A6'];
+
   // ---------- Render helper de un día (SIN mostrar el label del día) ----------
   const renderDia = (_label, objDia) => {
     if (!objDia || typeof objDia !== 'object' || Object.keys(objDia).length === 0) {
@@ -54,42 +57,58 @@ export default function TalkDetailOrales() {
     }
 
     return (
-      // ⬇️ Quitamos `border border-gray-200` para evitar el borde doble
+      // Contenedor visual de las secciones (sin borde para evitar doble marco)
       <section className="rounded-2xl bg-white p-4 md:p-6">
         <div className="grid grid-cols-1 gap-5">
-          {Object.entries(objDia).map(([departamento, presentaciones]) => {
+          {Object.entries(objDia).map(([departamento, presentaciones], i) => {
             const lista = Array.isArray(presentaciones) ? presentaciones : [];
+            const color = sepColors[i % sepColors.length];
+
             return (
-              // ⬇️ Quitamos el borde del artículo; dejamos sombra ligera al hacer hover
+              // Tarjeta de departamento con separador superior y chip del mismo color
               <article
                 key={departamento}
                 className="rounded-xl bg-gradient-to-b from-white to-gray-50 p-4 md:p-5 shadow-sm transition-all duration-300 hover:shadow-md"
               >
+                {/* Línea separadora de color distinta por sección */}
+                <div
+                  className="h-1 w-full rounded-full mb-4"
+                  style={{ backgroundColor: color }}
+                />
+
                 {/* Encabezado del departamento */}
                 <header className="flex items-center justify-between gap-3">
                   <h5 className="text-base md:text-lg font-bold text-[#014480]">
                     {departamento}
                   </h5>
-                  <span className="inline-flex items-center justify-center rounded-full bg-[#014480]/10 text-[#014480] text-xs font-semibold px-2.5 py-1">
+                  <span
+                    className="inline-flex items-center justify-center rounded-full text-xs font-semibold px-2.5 py-1"
+                    style={{ backgroundColor: `${color}1A`, color }}
+                  >
                     {lista.length} {lista.length === 1 ? 'ponencia' : 'ponencias'}
                   </span>
                 </header>
 
                 {/* Lista de ponencias */}
-                <div className="mt-3 space-y-3">
+                <div className="mt-4 space-y-3">
                   {lista.map((p) => (
-                    // ⬇️ También sin borde aquí para evitar “cajitas” con marco
                     <div
                       key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`}
-                      className="group rounded-lg bg-white/80 hover:bg-white transition-all duration-200"
+                      className="group rounded-xl bg-white/80 hover:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
                     >
-                      <div className="flex gap-3 p-3">
-                        {/* Acento */}
-                        <div className="w-1 rounded-lg bg-secondyellow" />
+                      <div className="flex gap-3 p-3 md:p-4">
+                        {/* Acento lateral con el mismo color del separador */}
+                        <div
+                          className="w-1 rounded-lg"
+                          style={{ backgroundColor: color }}
+                        />
                         {/* Contenido */}
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <span className="inline-flex items-center rounded-full bg-[#29568E]/10 text-[#29568E] text-[11px] md:text-xs font-bold px-2.5 py-1">
+                            <span
+                              className="inline-flex items-center rounded-full text-[11px] md:text-xs font-bold px-2.5 py-1"
+                              style={{ backgroundColor: '#29568E1A', color: '#29568E' }}
+                            >
                               {p.hora}
                             </span>
                             <h6 className="font-semibold text-gray-900 leading-tight break-words">
@@ -124,7 +143,7 @@ export default function TalkDetailOrales() {
       ? (state.modulo.dia.find((d) => d && Object.prototype.hasOwnProperty.call(d, targetKey))?.[targetKey] || null)
       : null;
 
-  // (Se mantiene, aunque no se muestre)
+  // (Se mantiene, aunque no se muestra en UI)
   const labelPorDia = day === '10' ? 'Viernes 10 de octubre' : 'Jueves 9 de octubre';
 
   return (
@@ -136,7 +155,7 @@ export default function TalkDetailOrales() {
       </div>
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
-        {/* ⬇️ Este es tu contenedor “único” con sombra (sin borde explícito) */}
+        {/* Contenedor principal único con sombra (sin borde visible) */}
         <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
           {/* TÍTULO */}
           <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">
