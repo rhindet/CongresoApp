@@ -181,7 +181,7 @@ export default function TalkDetailOrales() {
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
         {/* BOTÓN AGENDAR */}
-        <div className="mt-1 mb-6 justify-center">
+        {/* <div className="mt-1 mb-6 justify-center">
           <button
             onClick={() => {
               // 1. Extraer los datos GENERALES del módulo
@@ -193,6 +193,7 @@ export default function TalkDetailOrales() {
               console.log(horaGeneral)
               console.log(nombreDelEvento)
               console.log(salonDelEvento)
+              console.log(state.modulo.dia.fecha_9)
 
               // 2. Procesar la hora para obtener inicio y fin
               const { start: startTime, end: endTime } = parseHoraRango(horaGeneral);
@@ -212,7 +213,7 @@ export default function TalkDetailOrales() {
             <CalendarIcon className="w-8" />
             Agendar
           </button>
-        </div>
+        </div> */}
 
         <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
           {/* TÍTULO */}
