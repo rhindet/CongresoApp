@@ -1,143 +1,55 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderMobile from '../../modules/HeaderMobile';
 import HeaderDesktop from '../../modules/HeaderDesktop';
 import { ApiRequests } from '../../core/ApiRequests';
 import Loader from '../../modules/Loader';
-// import { PresentacionesModelo } from '../../models/presentacionesModelo'; // no es necesario si ya te llega normalizado
 
 const tpColorStyles = {
   presentaciones_orales: { bg: '#85A899', text: '#0b5345' },
 };
 
-// --- helpers de hora/fecha ---
-const parseStartMinutes = (hora) => {
-  if (!hora) return Number.POSITIVE_INFINITY;
-  const m = String(hora).match(/(\d{1,2}):(\d{2})/);
-  if (!m) return Number.POSITIVE_INFINITY;
-  const h = Number(m[1]); const mm = Number(m[2]);
-  return h * 60 + mm;
-};
-const getStartHourLabel = (hora) => {
-  if (!hora) return '';
-  const m = String(hora).match(/(\d{1,2}:\d{2})/);
-  return m ? m[1] : String(hora);
-};
-
-// --- APLANA la estructura por día: devuelve { '9': [...], '10': [...] } ---
-function flattenByDay(models = []) {
-  const byDay = { '9': [], '10': [] };
-
-  for (const m of models) {
-    const nombre_modulo = m?.nombre ?? m?.nombre_modulo ?? 'Módulo';
-    const hora_gnrl = m?.hora_gnrl ?? m?.hora ?? '';
-    const salon_gnrl = m?.salon ?? '';
-    const dias = Array.isArray(m?.dia) ? m.dia : [];
-
-    for (const dayObj of dias) {
-      if (!dayObj || typeof dayObj !== 'object') continue;
-
-      // ejemplo keys: "fecha_9", "fecha_10"
-      const key = Object.keys(dayObj)[0];
-      if (!key) continue;
-      const dayNumMatch = key.match(/\d+/);
-      if (!dayNumMatch) continue;
-      const dayNum = dayNumMatch[0]; // '9' | '10'
-
-      const porDepto = dayObj[key]; // { 'Anatomía': [...], 'Odontología': [...] }
-      if (!porDepto || typeof porDepto !== 'object') continue;
-
-      for (const depto of Object.keys(porDepto)) {
-        const lista = porDepto[depto] || [];
-        // Cada item puede traer sus campos (id, hora, ponente, titulo, salon, etc.)
-        for (const item of lista) {
-          const registro = {
-            // prioridad a campos del item; fallback a los del contenedor
-            id: item?.id ?? cryptoRandomId(),
-            titulo: item?.titulo ?? item?.ponencia ?? 'Título no disponible',
-            nombre_modulo,
-            departamento: depto,
-            ponente: item?.ponente ?? 'Ponente no disponible',
-            hora: item?.hora ?? hora_gnrl,
-            salon: item?.salon ?? salon_gnrl,
-            dia: `Jueves ${dayNum} de octubre de 2025`, // etiqueta legible
-            _day: dayNum,                 // para filtrar rápido
-            _startMinutes: parseStartMinutes(item?.hora ?? hora_gnrl),
-            // puedes anexar lo que más tengas en el item:
-            ...item,
-          };
-          byDay[dayNum] = byDay[dayNum] ? [...byDay[dayNum], registro] : [registro];
-        }
-      }
-    }
-  }
-
-  // asegúrate de que existan aunque estén vacíos
-  return { '9': byDay['9'] || [], '10': byDay['10'] || [] };
-}
-
-function cryptoRandomId() {
-  // id simple por si algún item no trae id
-  return Math.random().toString(36).slice(2) + Date.now().toString(36);
-}
-
 function PO() {
-  const [day, setDay] = useState('9'); // '9' | '10'
-  const [byDay, setByDay] = useState({ '9': [], '10': [] });
   const [loader, setLoader] = useState(true);
-    const [platicas, setPlaticas] = useState();
-
+  const [platicas, setPlaticas] = useState([]);
+  const [day, setDay] = useState('9'); // solo visual, no filtra aún
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchSimposios = async () => {
+    const fetchData = async () => {
       window.scrollTo(0, 0);
       setLoader(true);
       try {
         const apiRequest = new ApiRequests();
         const allOralPresentation = await apiRequest.getAllOralPresentation();
-
-        // allOralPresentation es un array con objetos que tienen .dia = [{fecha_9:{...}}, {fecha_10:{...}}]
-        const grouped = flattenByDay(allOralPresentation || []);
-        
-        setByDay(grouped);
-        setPlaticas(allOralPresentation)
-      } catch (error) {
-        console.error('Error al obtener presentaciones orales:', error);
+        setPlaticas(allOralPresentation || []);
+        console.log('allOralPresentation:', allOralPresentation);
+      } catch (e) {
+        console.error('Error al obtener presentaciones orales:', e);
       } finally {
         setLoader(false);
       }
     };
-    fetchSimposios();
+    fetchData();
   }, []);
-
-  // lista filtrada y ordenada por hora
-  const filteredTalks = useMemo(() => {
-    const list = byDay[day] || [];
-    return [...list].sort((a, b) => (a._startMinutes || 1e9) - (b._startMinutes || 1e9));
-  }, [byDay, day]);
-
-  const getSimposio = async (talk) => {
-    const apiRequest = new ApiRequests();
-    return await apiRequest.getOralPresentation(talk.id);
-  };
 
   return loader ? (
     <Loader />
   ) : (
     <div className="min-h-dvh w-full overflow-x-hidden">
+      {/* Header móvil y desktop */}
       <HeaderMobile backLink="/events" title="Presentaciones Orales" />
       <div className="hidden md:block">
         <HeaderDesktop backLink="/events" />
       </div>
 
       <main className="pt-20 pb-20 min-h-screen flex flex-col items-center w-full px-4">
-        {/* Selector de día */}
+        {/* Botones visuales de días */}
         <div className="flex justify-center gap-4 mb-4">
           {['9', '10'].map((d) => (
             <button
               key={d}
-              onClick={() => setDay(d)}
+              onClick={() => setDay(d)} // solo cambia estado visual
               className={`px-10 py-3 rounded-full font-semibold text-white transition md:px-30 ${
                 day === d ? 'bg-secondyellow text-white' : 'bg-[#999999]'
               }`}
@@ -147,66 +59,97 @@ function PO() {
           ))}
         </div>
 
-        {/* Lista */}
+        {/* GRID de módulos */}
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
-          {filteredTalks.length === 0 ? (
+          {(!platicas || platicas.length === 0) ? (
             <p className="text-center text-gray-600 col-span-full text-lg font-medium mt-10">
-              No hay presentaciones orales para este día.
+              No hay elementos para mostrar.
             </p>
           ) : (
-            filteredTalks.map((talk, index) => {
+            platicas.map((modulo, idx) => {
               const badge = tpColorStyles.presentaciones_orales;
+
+              const nombre = modulo?.nombre ?? 'Módulo';
+              const hora_gnrl = modulo?.hora_gnrl ?? '';
+              const salon = modulo?.salon ?? '';
+              const dias = Array.isArray(modulo?.dia) ? modulo.dia : [];
+
+              // ✅ Unir departamentos de todas las fechas y eliminar duplicados
+              const departamentosSet = new Set();
+              for (const diaObj of dias) {
+                const [, departamentos] = Object.entries(diaObj || {})[0] || [];
+                if (!departamentos || typeof departamentos !== 'object') continue;
+                for (const depName of Object.keys(departamentos)) {
+                  departamentosSet.add(depName);
+                }
+              }
+              const departamentosUnicos = Array.from(departamentosSet).sort((a, b) =>
+                a.localeCompare(b, 'es')
+              );
+
               return (
                 <div
-                  key={talk.id || index}
-                  onClick={async () => {
-                    setLoader(true);
-                    try {
-                      const simposio = await getSimposio(talk);
-                      console.log(talk)
-                      console.log(platicas)
-
-
-                      navigate('/talk-details-Platicas-orales', {
-                              state: {
-                                from: 'presentaciones',
-                                ...talk,
-                                platicas,
-                                descripcion: simposio?.objetivo ?? talk?.descripcion,
-                                salon: talk?.salon ?? simposio?.salon,
-                                selectedDay: day,           // 👈 agrega esto: '9' o '10'
-                              },
-});
-                    } finally {
-                      setLoader(false);
-                    }
-                  }}
-                  className="cursor-pointer rounded-xl px-5 py-4 w-full shadow-md flex items-center gap-4 mt-4 bg-[#E6E6E6]"
+                  key={idx}
+                  className="rounded-xl px-5 py-4 w-full shadow-md bg-[#E6E6E6] flex flex-col"
                 >
-                  {/* Hora */}
-                  <div className="w-16 text-right pr-1">
-                    <span className="text-[#29568E] font-extrabold text-2xl">
-                      {getStartHourLabel(talk.hora)}
-                    </span>
-                  </div>
-
-                  {/* Línea vertical */}
-                  <div className="w-1 h-12 bg-secondyellow rounded-sm" />
-
-                  {/* Info */}
-                  <div className="flex-1 flex flex-col justify-center pl-2">
-                    <span className="text-thirdblue font-bold text-xl leading-tight">
-                      {talk.nombre_modulo || talk.departamento || 'Presentación'}
-                    </span>
-                    <span className="text-gray-700 text-sm font-medium">
-                      {talk.ponente}
-                    </span>
+                  {/* Encabezado del módulo */}
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-xl font-bold text-thirdblue leading-tight">
+                      {nombre}
+                    </h3>
                     <span
-                      className="text-white text-xs font-semibold px-2 py-1 rounded-full mt-2 self-end"
+                      className="text-white text-xs font-semibold px-2 py-1 rounded-full shrink-0"
                       style={{ backgroundColor: badge.bg, color: badge.text }}
                     >
                       Presentaciones Orales
                     </span>
+                  </div>
+
+                  {/* Horario y salón */}
+                  {(hora_gnrl || salon) && (
+                    <p className="text-sm text-gray-700 mt-1">
+                      {hora_gnrl && <><strong>Horario:</strong> {hora_gnrl}</>}
+                      {hora_gnrl && salon && ' · '}
+                      {salon && <><strong>Salón:</strong> {salon}</>}
+                    </p>
+                  )}
+
+                  {/* 🔲 Cuadro blanco con departamentos únicos (en columna) */}
+                  <div className="mt-4 bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
+                    <p className="text-sm font-semibold text-[#014480] mb-2">Departamentos</p>
+                    {departamentosUnicos.length === 0 ? (
+                      <p className="text-sm text-gray-500">Sin departamentos.</p>
+                    ) : (
+                      <div className="flex flex-col gap-1 text-sm text-gray-800">
+                        {departamentosUnicos.map((dep) => (
+                          <span
+                            key={dep}
+                            className="border-b border-gray-100 py-1"
+                          >
+                            {dep}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Botón ver detalle */}
+                  <div className="mt-4">
+                    <button
+                      onClick={() =>
+                        navigate('/talk-details-Platicas-orales', {
+                          state: {
+                            from: 'presentaciones',
+                            modulo,
+                            platicas,
+                            selectedDay: day, // solo mantiene coherencia visual
+                          },
+                        })
+                      }
+                      className="px-3 py-2 rounded-md bg-secondyellow text-white text-sm font-semibold hover:opacity-90"
+                    >
+                      Ver detalle
+                    </button>
                   </div>
                 </div>
               );

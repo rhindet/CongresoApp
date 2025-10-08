@@ -162,7 +162,7 @@ export default function TalkDetailOrales() {
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
 
-    const backLink = '/presentaciones';
+  const backLink = '/presentaciones';
 
 
   useEffect(() => {
@@ -175,7 +175,7 @@ export default function TalkDetailOrales() {
   if (!state) return null;
 
   console.log("state")
-   console.log(state)
+  console.log(state)
 
 
   // ----- Campos esperados en Presentaciones Orales -----
@@ -184,25 +184,25 @@ export default function TalkDetailOrales() {
     departamento,
     dia,                // "Jueves 9 de octubre de 2025"
     hora,               // "08:20 - 08:40"
-    nombre_modulo,
+    nombre,
     ponente,
     salon,              // p.ej. "Canada-1" -> podría no mapear exacto; cae a plano general
     titulo,             // Título de la ponencia
     // Opcionales:
     descripcion,        // si la mandaste desde el navigate (e.g., objetivo)
-    imagen,   
+    imagen,
     platicas          // si en el futuro agregas foto
   } = state;
-  
+
   console.log("platicas[0].dia[0]")
 
-  console.log(platicas[0].dia[0].fecha_9[0])
+  console.log(platicas)
 
   const fechaISO = getISODateFromDia(dia); // "2025-10-09"
   const { start, end, duracionMin } = parseHoraRango(hora);
   const nombre1 = ponente || 'Ponente no disponible';
-  const titulo1 = titulo || nombre_modulo || 'Presentación Oral';
-  const modulo1 = nombre_modulo || departamento || '';
+  const titulo1 = titulo || 'Presentación Oral';
+  const modulo1 = nombre || '';
   const salon1 = salon || 'Auditorio';
   const rutaFinal = imagen && imagen !== 'default.png'
     ? `/assets/ponentes/Orales/${imagen}`
@@ -242,49 +242,41 @@ export default function TalkDetailOrales() {
 
         <div className="bg-white p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl shadow-md w-full max-w-3xl">
           {/* TÍTULO */}
-          <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{titulo1}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#014480]">{state.modulo.nombre}</h2>
 
-          {/* MÓDULO / ÁREA */}
-          {modulo1 && (
-            <p className="text-sm md:text-base text-gray-700 mt-1">
-              <strong>Módulo:</strong> {nombre_modulo}
-            </p>
-          )}
+
 
           {/* FECHA Y HORARIO */}
           <p className="text-sm md:text-base text-gray-600 mt-2">
-            {dia || ''} {hora ? `· ${timeLabel(start)}${end ? ` – ${timeLabel(end)}` : ''}` : ''}
+            {state.modulo.hora_gnrl}
           </p>
 
           {/* ETIQUETA */}
-          <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Presentación Oral</h3>
+          <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Contenido</h3>
 
-          {/* PONENTE */}
-          {nombre1 && (
-            <p className="text-sm md:text-base mt-2 text-gray-700">
-              <strong>Ponente:</strong> {nombre1}
-            </p>
-          )}
 
           {/* IMAGEN + DESCRIPCIÓN/OBJETIVO (si existe) */}
-          <div className="mt-5 flex flex-col md:flex-row md:items-center md:gap-5">
+          <div className=" flex flex-col md:flex-row md:items-center md:gap-5">
             {/* Imagen */}
-            <div className="w-full md:w-48 flex-shrink-0">
-            </div>
 
             {/* Descripción / objetivo si llegó en state como "descripcion" */}
-           {platicas && (
+            {platicas && (
   <div className="mt-4 md:mt-0">
     {(() => {
-      // 1) Determina el día objetivo
+      // Colores para las separaciones (rotan)
+      const sepColors = ['#F59E0B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6', '#14B8A6'];
+
+      // 1) Día seleccionado
       const selectedDay =
         state?.selectedDay ||
-        (String(dia).match(/\b(\d{1,2})\b/)?.[1] ?? '9'); // fallback por si no viene
+        (String(dia).match(/\b(\d{1,2})\b/)?.[1] ?? '9');
 
       const targetKey = `fecha_${selectedDay}`;
 
       // 2) Busca solo esa fecha dentro del arreglo "dia"
-      const entry = platicas?.[0]?.dia?.find(d => Object.prototype.hasOwnProperty.call(d, targetKey));
+      const entry = platicas?.[0]?.dia?.find(d =>
+        Object.prototype.hasOwnProperty.call(d, targetKey)
+      );
       const departamentos = entry?.[targetKey];
 
       if (!departamentos || typeof departamentos !== 'object') {
@@ -295,27 +287,78 @@ export default function TalkDetailOrales() {
         );
       }
 
-      // 3) Renderiza únicamente esa fecha
+      // 3) Render bonito: tarjetas por departamento con separador colorido
       return (
-        <div className="mb-8">
-          <h3 className="text-lg font-bold text-red-700 mb-3">
-            {`Fecha ${selectedDay}`}
-          </h3>
+        <div className="grid grid-cols-1 gap-5">
+          {Object.entries(departamentos).map(([departamento, presentaciones], i) => {
+            const lista = Array.isArray(presentaciones) ? presentaciones : [];
+            const color = sepColors[i % sepColors.length];
 
-          {Object.entries(departamentos).map(([departamento, presentaciones]) => (
-            <div key={departamento} className="mb-4">
-              <h4 className="font-semibold">{departamento}</h4>
-              <ul className="list-disc list-inside pl-0 ml-0">
-                {(Array.isArray(presentaciones) ? presentaciones : []).map((p) => (
-                  <li key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`} className="mt-1">
-                    <span className="font-medium">{p.hora}</span>{' '}
-                    — {p.titulo}{' '}
-                    <em className="text-gray-600">({p.ponente})</em>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            return (
+              <section
+                key={departamento}
+                className="rounded-2xl border border-gray-200 bg-gradient-to-b from-white to-gray-50 p-4 md:p-6 shadow-sm"
+              >
+                {/* Línea separadora de color distinta por sección */}
+                <div
+                  className="h-1 w-full rounded-full mb-4"
+                  style={{ backgroundColor: color }}
+                />
+
+                {/* Header del departamento */}
+                <header className="flex items-center justify-between gap-3">
+                  <h4 className="text-lg md:text-xl font-extrabold tracking-tight text-[#014480]">
+                    {departamento}
+                  </h4>
+                  <span
+                    className="inline-flex items-center justify-center rounded-full text-xs font-semibold px-2.5 py-1"
+                    style={{ backgroundColor: `${color}1A`, color }}
+                  >
+                    {lista.length} {lista.length === 1 ? 'ponencia' : 'ponencias'}
+                  </span>
+                </header>
+
+                {/* Lista de ponencias */}
+                <div className="mt-4 space-y-3">
+                  {lista.map((p) => (
+                    <article
+                      key={p.id ?? `${departamento}-${p.hora}-${p.titulo}`}
+                      className="group rounded-xl border border-gray-200 bg-white/80 hover:bg-white hover:shadow-md transition-all duration-200"
+                    >
+                      <div className="flex gap-3 p-3 md:p-4">
+                        {/* Barra/acento izquierda (mismo color del separador) */}
+                        <div
+                          className="w-1 rounded-lg transition-colors"
+                          style={{ backgroundColor: color }}
+                        />
+
+                        {/* Contenido */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <span
+                              className="inline-flex items-center rounded-full text-[11px] md:text-xs font-bold px-2.5 py-1"
+                              style={{ backgroundColor: '#29568E1A', color: '#29568E' }}
+                            >
+                              {p.hora}
+                            </span>
+                            <h5 className="font-semibold text-gray-900 leading-tight break-words">
+                              {p.titulo}
+                            </h5>
+                          </div>
+
+                          {p.ponente && (
+                            <p className="mt-1 text-sm text-gray-600">
+                              <em>{p.ponente}</em>
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
         </div>
       );
     })()}
@@ -325,7 +368,8 @@ export default function TalkDetailOrales() {
 
           {/* SALÓN */}
           <h3 className="mt-5 text-lg md:text-xl font-semibold text-firstyellow">Salón</h3>
-          <p className="text-sm md:text-base text-gray-700">{salon1}</p>
+          <p className="text-sm md:text-base text-gray-700">{            state.modulo.salon
+}</p>
 
           {/* MAPA */}
           <div className="mt-6">
